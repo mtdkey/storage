@@ -1,4 +1,4 @@
-# MTDKey Storage
+# MTDKey Storage  <img alt="GitHub" src="https://img.shields.io/badge/licence-MIT-green"> <img alt="GitHub" src="https://img.shields.io/badge/platform-.Net%206.0-blue"> <img alt="GitHub" src="https://img.shields.io/badge/database-MySql%20|%20MSSQL-blue">
 
 MTDKey Storage is a backend solution designed to speed up the development of forms-based applications. For example, web applications for order management.
 Explore this code, you`ll find many useful features such as:

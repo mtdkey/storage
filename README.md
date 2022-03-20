@@ -11,20 +11,19 @@ Explore this code, you`ll find many useful features such as:
 <p>
   <strong>Main approach is creating database only once.</strong>
 </p>
-You can create application forms to enter information in any quantity without changing the structure of the database. Just create a form template and save it to the database. You can use the types of form fields – Text (unlimited size), Numeric, Boolean, Date time and List when one form is linked to another form.
+
+> You can create application forms to enter information in any quantity without changing the structure of the database. Just create a form template and save  it to the database. You can use the types of form fields – Text (unlimited size), Numeric, Boolean, Date time and List when one form is linked to another >  form.
+
 <p align="center">
   <img src="./img/schema.png" />
   </p>
 
 ### Database queries
 
-The RequestProvider class is the primary gateway for database queries. Use the ContextProperty class to specify connection parameters such as access tokens, connection string, etc. 
+> The RequestProvider class is the primary gateway for database queries. Use the ContextProperty class to specify connection parameters such as access tokens, connection string, etc. 
 You can use two options for connecting to the database.
 The first way is to directly specify the connection string and database type (MySQL or MSSQL). For example, if you store the connection string for each user.
-
-<p>
-  The second way is to use the storage.json file, which should be in the same folder as the project.
-</p>
+The second way is to use the **storage.json** file, ⚠️ which should be in the same folder as the project.
 
     {
       "ConnectionStrings": {
@@ -33,10 +32,10 @@ The first way is to directly specify the connection string and database type (My
       }
     }
 
-This way can be used if you store unique database IDs for each user, for example: ["user1","ID1"]
+> This way can be used if you store unique database IDs for each user, for example: ["user1","ID1"]
 The storage.json file can store any quantity of connection strings. Each line must be prefixed to indicate that the database type is "mysql_" or "mssql_".
 
-You can create a flexible application in which the user creates the databases himself. For example, from the user's personal account. At the same time, there is no need to create a complicated infrastructure.
+> You can create a flexible application in which the user creates the databases himself. For example, from the user's personal account. At the same time, there is no need to create a complicated infrastructure.
 
 <p>
 Use the Request Provider by specifying a connection string  
@@ -60,7 +59,7 @@ Use the Request Provider by specifying a connection string
         contextProperty.ConnectionString = connectionString;
     });
 
-Methods of the RequestProvider class have incoming and out coming arguments as of special Schema collections, such as Form Schema, Field Schema, Node Schema. 
+> Methods of the RequestProvider class have incoming and out coming arguments as of special Schema collections, such as Form Schema, Field Schema, Node Schema. 
 
 <p>
   Use the Save method to create or update data. If no identifier is specified in the Schema as an incoming parameter, a new record will be created.
@@ -90,7 +89,7 @@ Methods of the RequestProvider class have incoming and out coming arguments as o
     var firstNode = receivedNodes.DataSet.FirstOrDefault();
     var fields = first.Node.Items;
     
-Explore the test code for more examples.
+ℹ️ Explore the test code for more examples. To run tests create storage.json file.
 
 ## License    
 Copyright (c) – presented by [Oleg Bruev](https://github.com/olegbruev/).  

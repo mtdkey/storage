@@ -12,7 +12,7 @@ Explore this code, you`ll find many useful features such as:
   <strong>Main approach is creating database only once.</strong>
 </p>
 
-> You can create application forms to enter information in any quantity without changing the structure of the database. Just create a form template and save  it to the database. You can use the types of form fields – Text (unlimited size), Numeric, Boolean, Date time and List when one form is linked to another >  form.
+> You can create application forms to enter information in any quantity without changing the structure of the database. Just create a form template and save  it to the database. You can use the types of form fields – Text (unlimited size), Numeric, Boolean, Date time and List when one form is linked to another form.
 
 <p align="center">
   <img src="./img/schema.png" />

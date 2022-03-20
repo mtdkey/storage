@@ -1,0 +1,3 @@
+﻿This chapter describes the entire process of setting up and using a database. If you are interested only in accessing an existing database, 
+you may want to skip the sections that describe how to create the database and the tables it contains. Because this chapter is tutorial in nature, 
+many details are necessarily omitted. Consult the relevant sections of the manual for more inbunchation on the topics covered here.

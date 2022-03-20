@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MtdKey.Storage", "src\MtdKey.Storage.csproj", "{76D60423-4480-4769-82D5-21ECE87A84BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MtdKey.Storage.Tests", "tests\MtdKey.Storage.Tests.csproj", "{0968B3A4-B3E9-4B28-B778-B10AFFE8FB59}"
+	ProjectSection(ProjectDependencies) = postProject
+		{76D60423-4480-4769-82D5-21ECE87A84BD} = {76D60423-4480-4769-82D5-21ECE87A84BD}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76D60423-4480-4769-82D5-21ECE87A84BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76D60423-4480-4769-82D5-21ECE87A84BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76D60423-4480-4769-82D5-21ECE87A84BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76D60423-4480-4769-82D5-21ECE87A84BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0968B3A4-B3E9-4B28-B778-B10AFFE8FB59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0968B3A4-B3E9-4B28-B778-B10AFFE8FB59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0968B3A4-B3E9-4B28-B778-B10AFFE8FB59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0968B3A4-B3E9-4B28-B778-B10AFFE8FB59}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3EFBDE0B-137A-4B7C-BED8-A6A42C55B203}
+	EndGlobalSection
+EndGlobal

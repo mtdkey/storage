@@ -1,0 +1,1 @@
+﻿select * from stack where id in (select max(id) as id from stack group by node_id,field_id)

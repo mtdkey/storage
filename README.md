@@ -5,7 +5,7 @@ Explore this code, you`ll find many useful features such as:
 -	Switching between different databases in real time mode using Entity Framework
 -	Using multiple database systems in one application (MSSQL and MySQL)
 -	Row Level Security based on Access Token 
--	Control Save, Edit, and Delete Operations with a User Access Token
+-	Control Save, Edit, and Delete operations with a User Access Token
 -	Using sql script files and raw requests in an Entity Framework application
 
 <p>

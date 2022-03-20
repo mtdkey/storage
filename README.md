@@ -90,6 +90,8 @@ Methods of the RequestProvider class have incoming and out coming arguments as o
     var firstNode = receivedNodes.DataSet.FirstOrDefault();
     var fields = first.Node.Items;
     
+Explore the test code for more examples.
+
 ## License    
 Copyright (c) – presented by [Oleg Bruev](https://github.com/olegbruev/).  
 MTD Key Storage is free and open-source software licensed under the MIT License.

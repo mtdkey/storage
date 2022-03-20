@@ -28,8 +28,8 @@ The first way is to directly specify the connection string and database type (My
 
     {
       "ConnectionStrings": {
-        "mssql_ID1": "Server=127.0.0.1;Database=test_storage; User ID=sa;Password=password",
-        "mysql_ID2": "Server=127.0.0.1;Database=test_new_storage;User Id=root;Password=password;SslMode=none;"
+        "mssql_ID1": "Server=127.0.0.1;Database=name; User ID=sa;Password=pwd",
+        "mysql_ID2": "Server=127.0.0.1;Database=name;User Id=root;Password=pwd;SslMode=none;"
       }
     }
 

@@ -47,7 +47,7 @@ Use the Request Provider by specifying a connection string
         contextProperty.ConnectionString = "connection string to your MSSQL database";
     });
 <p>
-  Use the Request Provider by specifying a Unique Database Name and storage.json file
+  Use the query provider by providing a unique database name from storage.json file.
   </p>
   
     var dataBaseID = "ID1";
@@ -59,13 +59,13 @@ Use the Request Provider by specifying a connection string
         contextProperty.ConnectionString = connectionString;
     });
 
-> Methods of the RequestProvider class have incoming and out coming arguments as of special Schema collections, such as Form Schema, Field Schema, Node Schema. 
+> Methods of the RequestProvider class have incoming and out coming arguments as of special Schema collections, such as Bunch Schema, Field Schema, Node Schema. 
 
 <p>
   Use the Save method to create or update data. If no identifier is specified in the Schema as an incoming parameter, a new record will be created.
 </p>
 
-    var createdForm = await requestProvider.FormSaveAsync(schema => {
+    var createdForm = await requestProvider.BunchSaveAsync(schema => {
                     schema.Name = "Form template name";
                     schema.Description = "Form description";
                     schema.ArchiveFlag = false;

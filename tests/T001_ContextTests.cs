@@ -14,22 +14,6 @@ namespace MtdKey.Storage.Tests
         [Fact]
         public void A_Create_Context()
         {
-            // Use the Request Provider by specifying a connection string
-            //using RequestProvider requestProvider = new(contextProperty =>
-            //{
-            //    contextProperty.DatabaseType = DatabaseType.MSSQL;
-            //    contextProperty.ConnectionString = "connection string to your MSSQL database";
-            //});
-
-            // Use the Request Provider by specifying the storage.json file
-            //var dataBaseID = "ID1";
-            //var contextProperty = ContextConfig.GetConnectionString(dataBaseID);
-            //var databaseType = ContextConfig.GetDatabaseType(dataBaseID);
-            //using RequestProvider requestProvider = new(contextProperty =>
-            //{
-            //    contextProperty.DatabaseType = databaseType;
-            //    contextProperty.ConnectionString = connectionString;
-            //});
 
             var configuration = ContextConfig.GetConfiguration();
             var connections = configuration.GetSection("ConnectionStrings").AsEnumerable().Where(x=>x.Value is not null).ToList();

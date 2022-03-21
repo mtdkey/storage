@@ -27,7 +27,7 @@ The second way is to use the **storage.json** file, ⚠️ which should be in th
 
     {
       "ConnectionStrings": {
-        "mssql_ID1": "Server=127.0.0.1;Database=name; User ID=sa;Password=pwd",
+        "mssql_ID1": "Server=.\\SQLEXPRESS;Database=name;User ID=sa;Password=pwd;",
         "mysql_ID2": "Server=127.0.0.1;Database=name;User Id=root;Password=pwd;SslMode=none;"
       }
     }
@@ -59,22 +59,22 @@ Use the Request Provider by specifying a connection string
         contextProperty.ConnectionString = connectionString;
     });
 
-> Methods of the RequestProvider class have incoming and out coming arguments as of special Schema collections, such as Form Schema, Field Schema, Node Schema. 
+> Methods of the RequestProvider class have incoming and out coming arguments as of special Schema collections, such as Bunch Schema, Field Schema, Node Schema. 
 
 <p>
   Use the Save method to create or update data. If no identifier is specified in the Schema as an incoming parameter, a new record will be created.
 </p>
 
-    var createdForm = await requestProvider.FormSaveAsync(schema => {
+    var createdForm = await requestProvider.BunchSaveAsync(schema => {
                     schema.Name = "Form template name";
                     schema.Description = "Form description";
                     schema.ArchiveFlag = false;
                 });
-    //DataSet is List<FormSchema> because the RequestProvider may return many forms.
-    var newID = createdForm.DataSet[0].FormId;
+    //DataSet is List<BunchSchema> because the RequestProvider may return many forms.
+    var newID = createdForm.DataSet[0].BunchId;
 
 <p>
-  Use the Query method by specifying Request Filter to find some data 
+  Use NodeQuery with a filter to find some data. 
 </p>
 
     var receivedNodes = await requestProvider.NodeQueryAsync(filter =>
@@ -84,16 +84,15 @@ Use the Request Provider by specifying a connection string
         filter.PageSize = 50;
         filter.IncludeArchive = true;
     });
-
-    // You can use linq to search 
+   
     var firstNode = receivedNodes.DataSet.FirstOrDefault();
-    var fields = first.Node.Items;
+    var fields = firstNode.Items;
     
 ℹ️ Explore the test code for more examples. To run tests create storage.json file.
 
 ## License    
 Copyright (c) – presented by [Oleg Bruev](https://github.com/olegbruev/).  
-MTD Key Storage is free and open-source software licensed under the MIT License.
+MTDKey Storage is free and open-source software licensed under the MIT License.
 
 
 

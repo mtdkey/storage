@@ -47,7 +47,7 @@ Use the Request Provider by specifying a connection string
         contextProperty.ConnectionString = "connection string to your MSSQL database";
     });
 <p>
-  Use the Request Provider by specifying a Unique Database Name and storage.json file
+  Use the query provider by providing a unique database name from storage.json file.
   </p>
   
     var dataBaseID = "ID1";

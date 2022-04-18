@@ -1,6 +1,6 @@
 # MTDKey Storage  <img alt="GitHub" src="https://img.shields.io/badge/licence-MIT-green"> <img alt="GitHub" src="https://img.shields.io/badge/platform-.Net%206.0-blue"> <img alt="GitHub" src="https://img.shields.io/badge/database-MySql%20|%20MSSQL-blue">
 
-MTDKey Storage is a backend solution designed to speed up the development of forms-based applications. For example, web applications for order management.
+MTDKey Storage is a backend solution designed to speed up the development of web-applications. For example, web applications for order management.
 Explore this code, you`ll find many useful features such as:
 -	Switching between different databases in real time mode using Entity Framework
 -	Using multiple database systems in one application (MSSQL and MySQL)
@@ -25,12 +25,14 @@ You can use two options for connecting to the database.
 The first way is to directly specify the connection string and database type (MySQL or MSSQL). For example, if you store the connection string for each user.
 The second way is to use the **storage.json** file, ⚠️ which should be in the same folder as the project.
 
+```json
     {
       "ConnectionStrings": {
         "mssql_ID1": "Server=.\\SQLEXPRESS;Database=name;User ID=sa;Password=pwd;",
         "mysql_ID2": "Server=127.0.0.1;Database=name;User Id=root;Password=pwd;SslMode=none;"
       }
     }
+```
 
 > This way can be used if you store unique database IDs for each user, for example: ["user1","ID1"]
 The storage.json file can store any quantity of connection strings. Each line must be prefixed to indicate that the database type is "mysql_" or "mssql_".

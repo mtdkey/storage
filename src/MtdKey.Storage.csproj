@@ -3,6 +3,14 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AnalysisLevel>latest</AnalysisLevel>
+    <Copyright>Oleg Bruev</Copyright>
+    <PackageIcon>MTDKey-128.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType></RepositoryType>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Description>MTDKey Storage is a backend solution designed to speed up the development of web-applications.</Description>
+    <RepositoryUrl>https://github.com/mtdkey/storage</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +54,17 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\MySQL_DropDatabase.sql" CopyToPublishDirectory="Never" />
     <EmbeddedResource Include="Scripts\MSSQL_DropDatabase.sql" CopyToPublishDirectory="Never" />          
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\Logo\MTDKey-128.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

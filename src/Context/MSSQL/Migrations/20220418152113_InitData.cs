@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace MtdKey.Storage.Context.MSSQL.Migrations
 {
     public partial class InitData : Migration
@@ -15,25 +17,14 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(128)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(256)", nullable: false),
+                    version = table.Column<double>(type: "float", nullable: false),
+                    schema_id = table.Column<string>(type: "char(36)", nullable: false),
                     archive_flag = table.Column<byte>(type: "tinyint", nullable: false),
                     deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_bunch", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "register",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(128)", nullable: false),
-                    vlue = table.Column<string>(type: "nvarchar(256)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_register", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -302,9 +293,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "node_token");
-
-            migrationBuilder.DropTable(
-                name: "register");
 
             migrationBuilder.DropTable(
                 name: "stack_digital");

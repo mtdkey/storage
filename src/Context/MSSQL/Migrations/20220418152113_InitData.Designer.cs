@@ -2,22 +2,27 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MtdKey.Storage.Context.MySQL;
+using MtdKey.Storage.Context.MSSQL;
 
-namespace MtdKey.Storage.Context.MySQL.Migrations
+#nullable disable
+
+namespace MtdKey.Storage.Context.MSSQL.Migrations
 {
-    [DbContext(typeof(MySQLContext))]
-    [Migration("20210728173112_InitData")]
+    [DbContext(typeof(MSSQLContext))]
+    [Migration("20220418152113_InitData")]
     partial class InitData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.6");
+                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Bunch", b =>
                 {
@@ -26,12 +31,14 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
                     b.Property<byte>("ArchiveFlag")
-                        .HasColumnType("tinyint(2)")
+                        .HasColumnType("tinyint")
                         .HasColumnName("archive_flag");
 
                     b.Property<byte>("DeletedFlag")
-                        .HasColumnType("tinyint(2)")
+                        .HasColumnType("tinyint")
                         .HasColumnName("deleted_flag");
 
                     b.Property<string>("Description")
@@ -44,9 +51,18 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnType("nvarchar(128)")
                         .HasColumnName("name");
 
+                    b.Property<string>("SchemaId")
+                        .IsRequired()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("schema_id");
+
+                    b.Property<double>("Version")
+                        .HasColumnType("float")
+                        .HasColumnName("version");
+
                     b.HasKey("Id");
 
-                    b.ToTable("bunch");
+                    b.ToTable("bunch", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.BunchExt", b =>
@@ -56,12 +72,12 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnName("bunch_id");
 
                     b.Property<int>("Counter")
-                        .HasColumnType("int(10)")
+                        .HasColumnType("int")
                         .HasColumnName("counter");
 
                     b.HasKey("BunchId");
 
-                    b.ToTable("bunch_ext");
+                    b.ToTable("bunch_ext", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.BunchToken", b =>
@@ -87,7 +103,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
 
                     b.HasKey("BunchId");
 
-                    b.ToTable("bunch_token");
+                    b.ToTable("bunch_token", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Field", b =>
@@ -97,12 +113,14 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
                     b.Property<byte>("ArchiveFlag")
-                        .HasColumnType("tinyint(2)")
+                        .HasColumnType("tinyint")
                         .HasColumnName("archive_flag");
 
                     b.Property<byte>("DeletedFlag")
-                        .HasColumnType("tinyint(2)")
+                        .HasColumnType("tinyint")
                         .HasColumnName("deleted_flag");
 
                     b.Property<string>("Description")
@@ -128,7 +146,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasIndex("ParentId")
                         .HasDatabaseName("fk_field_bunch_idx");
 
-                    b.ToTable("field");
+                    b.ToTable("field", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Node", b =>
@@ -138,12 +156,14 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
                     b.Property<byte>("ArchiveFlag")
-                        .HasColumnType("tinyint(2)")
+                        .HasColumnType("tinyint")
                         .HasColumnName("archive_flag");
 
                     b.Property<byte>("DeletedFlag")
-                        .HasColumnType("tinyint(2)")
+                        .HasColumnType("tinyint")
                         .HasColumnName("deleted_flag");
 
                     b.Property<long>("ParentId")
@@ -155,7 +175,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasIndex("ParentId")
                         .HasDatabaseName("fk_node_bunch_idx");
 
-                    b.ToTable("node");
+                    b.ToTable("node", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.NodeExt", b =>
@@ -165,12 +185,12 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnName("node_id");
 
                     b.Property<int>("Number")
-                        .HasColumnType("int(10)")
+                        .HasColumnType("int")
                         .HasColumnName("number");
 
                     b.HasKey("NodeId");
 
-                    b.ToTable("node_ext");
+                    b.ToTable("node_ext", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.NodeToken", b =>
@@ -189,28 +209,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasIndex("ForRLS")
                         .HasDatabaseName("idx_rls_token");
 
-                    b.ToTable("node_token");
-                });
-
-            modelBuilder.Entity("MtdKey.Storage.DataModels.Register", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(256)")
-                        .HasColumnName("vlue");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("register");
+                    b.ToTable("node_token", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>
@@ -219,6 +218,8 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("CreatorInfo")
                         .IsRequired()
@@ -245,7 +246,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasIndex("NodeId")
                         .HasDatabaseName("fk_stack_node_idx");
 
-                    b.ToTable("stack");
+                    b.ToTable("stack", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackDigital", b =>
@@ -263,7 +264,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasIndex("Value")
                         .HasDatabaseName("idx_stack_digital_value");
 
-                    b.ToTable("stack_digital");
+                    b.ToTable("stack_digital", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackList", b =>
@@ -281,7 +282,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasIndex("NodeId")
                         .HasDatabaseName("fk_node_stack_list_idx");
 
-                    b.ToTable("stack_list");
+                    b.ToTable("stack_list", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackText", b =>
@@ -290,6 +291,8 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long>("StackId")
                         .HasColumnType("bigint")
@@ -308,7 +311,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasIndex("Value")
                         .HasDatabaseName("idx_stack_text_value");
 
-                    b.ToTable("stack_text");
+                    b.ToTable("stack_text", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.BunchExt", b =>
@@ -316,9 +319,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
                         .WithOne("BunchExt")
                         .HasForeignKey("MtdKey.Storage.DataModels.BunchExt", "BunchId")
-                        .HasConstraintName("fk_bunch_bunch_ext")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_bunch_bunch_ext");
 
                     b.Navigation("Bunch");
                 });
@@ -328,9 +331,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
                         .WithOne("BunchToken")
                         .HasForeignKey("MtdKey.Storage.DataModels.BunchToken", "BunchId")
-                        .HasConstraintName("fk_bunch_token")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_bunch_token");
 
                     b.Navigation("Bunch");
                 });
@@ -340,9 +343,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
                         .WithMany("Fields")
                         .HasForeignKey("ParentId")
-                        .HasConstraintName("fk_field_bunch")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_field_bunch");
 
                     b.Navigation("Bunch");
                 });
@@ -352,9 +355,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
                         .WithMany("Nodes")
                         .HasForeignKey("ParentId")
-                        .HasConstraintName("fk_node_bunch")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_node_bunch");
 
                     b.Navigation("Bunch");
                 });
@@ -364,9 +367,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Node", "Node")
                         .WithOne("NodeExt")
                         .HasForeignKey("MtdKey.Storage.DataModels.NodeExt", "NodeId")
-                        .HasConstraintName("fk_node_node_ext")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_node_node_ext");
 
                     b.Navigation("Node");
                 });
@@ -376,9 +379,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Node", "Node")
                         .WithOne("NodeToken")
                         .HasForeignKey("MtdKey.Storage.DataModels.NodeToken", "NodeId")
-                        .HasConstraintName("fk_node_token_for_rls")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_node_token_for_rls");
 
                     b.Navigation("Node");
                 });
@@ -388,16 +391,16 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Field", "Field")
                         .WithMany("Stacks")
                         .HasForeignKey("FieldId")
-                        .HasConstraintName("fk_stack_field")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_stack_field");
 
                     b.HasOne("MtdKey.Storage.DataModels.Node", "Node")
                         .WithMany("Stacks")
                         .HasForeignKey("NodeId")
-                        .HasConstraintName("fk_stack_node")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_stack_node");
 
                     b.Navigation("Field");
 
@@ -409,9 +412,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Stack", "Stack")
                         .WithOne("StackDigital")
                         .HasForeignKey("MtdKey.Storage.DataModels.StackDigital", "StackId")
-                        .HasConstraintName("fk_stack_digital")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_stack_digital");
 
                     b.Navigation("Stack");
                 });
@@ -421,16 +424,16 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Node", "Node")
                         .WithMany("StackLists")
                         .HasForeignKey("NodeId")
-                        .HasConstraintName("fk_node_stack_list")
                         .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_node_stack_list");
 
                     b.HasOne("MtdKey.Storage.DataModels.Stack", "Stack")
                         .WithOne("StackList")
                         .HasForeignKey("MtdKey.Storage.DataModels.StackList", "StackId")
-                        .HasConstraintName("fk_stack_list")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_stack_list");
 
                     b.Navigation("Node");
 
@@ -442,9 +445,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Stack", "Stack")
                         .WithMany("StackTexts")
                         .HasForeignKey("StackId")
-                        .HasConstraintName("fk_stack_text")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_stack_text");
 
                     b.Navigation("Stack");
                 });

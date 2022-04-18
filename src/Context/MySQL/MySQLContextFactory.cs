@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
 
 namespace MtdKey.Storage.Context.MySQL
@@ -26,7 +27,8 @@ namespace MtdKey.Storage.Context.MySQL
         public static MySQLContext CreateDbContext(ContextProperty contextProperty)
         {
             DbContextOptionsBuilder<MySQLContext> optionsBuilder = new();
-            optionsBuilder.UseMySQL(contextProperty.ConnectionString);
+            var serverVersion = new MySqlServerVersion(new Version(8, 0));
+            optionsBuilder.UseMySql(contextProperty.ConnectionString, serverVersion);
 #if DEBUG            
             optionsBuilder.EnableSensitiveDataLogging();
 #endif            

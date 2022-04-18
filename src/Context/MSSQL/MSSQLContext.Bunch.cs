@@ -33,6 +33,16 @@ namespace MtdKey.Storage.Context.MSSQL
                     .HasColumnName("description")
                     .HasColumnType("nvarchar(256)");
 
+                entity.Property(e => e.Version)
+                    .IsRequired()
+                    .HasColumnName("version")
+                    .HasColumnType("float");
+
+                entity.Property(e => e.SchemaId)
+                    .IsRequired()
+                    .HasColumnName("schema_id")
+                    .HasColumnType("char(36)");
+
                 entity.Property(e => e.ArchiveFlag)
                     .IsRequired()
                     .HasColumnName("archive_flag")
@@ -44,7 +54,8 @@ namespace MtdKey.Storage.Context.MSSQL
                     .HasColumnType("tinyint");
             });
 
-            modelBuilder.Entity<Bunch>().HasQueryFilter(p =>p.DeletedFlag == 0);
+            modelBuilder.Entity<Bunch>().HasQueryFilter(p => p.DeletedFlag == 0);
+
         }
     }
 }

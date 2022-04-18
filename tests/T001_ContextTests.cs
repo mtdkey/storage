@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MtdKey.Storage.Tests.HelperFunctions;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;

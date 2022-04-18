@@ -63,6 +63,7 @@ namespace MtdKey.Storage.Context.MSSQL
             });
 
             modelBuilder.Entity<Field>().HasQueryFilter(p => p.DeletedFlag == 0);
+
         }
     }
 }

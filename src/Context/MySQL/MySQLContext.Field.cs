@@ -58,7 +58,7 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasConstraintName("fk_field_bunch");
             });
 
-            modelBuilder.Entity<Field>().HasQueryFilter(field => field.DeletedFlag == 0);
+            modelBuilder.Entity<Field>().HasQueryFilter(p => p.DeletedFlag == 0);
 
         }
     }

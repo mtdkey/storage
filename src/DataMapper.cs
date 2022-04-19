@@ -5,19 +5,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace MtdKey.Storage
 {
     public class DataMapper
-    {
-        public void ReadFile() {
-            var assembly = Assembly.GetExecutingAssembly();           
-            string resourceName = typeof(DataMapper).Namespace + $"./DataSchema/BunchSchema.xml";         
+    {        
+        public static string ReadDataFromFile()
+        {            
+            var assembly = Assembly.GetCallingAssembly();          
+            string resourceName = assembly.GetName().Name + $".DataSchema.BunchesSchema.xml";         
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
-            ReadFile(stream);
-        }
-
-        public string ReadFile(Stream stream) {
             using StreamReader reader = new(stream);
             string fileText = reader.ReadToEnd();
             return fileText;

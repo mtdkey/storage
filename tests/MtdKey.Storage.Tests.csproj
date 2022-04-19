@@ -29,9 +29,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="DataSchema\BunchesSchema.t4">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BunchesSchema.xml</LastGenOutput>
+    </None>
+    <None Update="DataSchema\BunchesSchema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BunchesSchema.t4</DependentUpon>
+    </None>
     <None Update="storage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   
 </Project>

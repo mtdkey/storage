@@ -16,7 +16,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Bunch", b =>
@@ -44,15 +44,16 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnType("nvarchar(128)")
                         .HasColumnName("name");
 
-                    b.Property<Guid>("SchemaId")
-                        .HasColumnType("char(36)")
+                    b.Property<string>("SchemaId")
+                        .IsRequired()
+                        .HasColumnType("varchar(36)")
                         .HasColumnName("schema_id");
 
-                    b.Property<float>("Version")
-                        .HasColumnType("float")
-                        .HasColumnName("version");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("SchemaId")
+                        .IsUnique()
+                        .HasDatabaseName("idx_schema_id");
 
                     b.ToTable("bunch", (string)null);
                 });
@@ -198,6 +199,23 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasDatabaseName("idx_rls_token");
 
                     b.ToTable("node_token", (string)null);
+                });
+
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaVersion", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    b.Property<string>("XMLData")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("xml_data");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("schema_version", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>

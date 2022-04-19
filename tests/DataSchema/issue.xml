@@ -1,0 +1,9 @@
+﻿<bunch id="issue">
+	<name>Issue</name>
+	<description>Storage of issues</description>
+	<field type="text">Description</field>
+	<field type="link" list="company" >Company</field>
+	<field type="link" list="issueStatus" >Status</field>
+	<field type="link" list="issueSubject" >Subject</field>
+	<field type="link" list="companyUser" >Subject</field>
+</bunch>

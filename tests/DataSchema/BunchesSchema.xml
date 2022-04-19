@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<bunches version="637859718406984701">
+	<bunch id="company">
+		<name>Company</name>
+		<description>Table of companies</description>
+		<field type="text">TIN</field>
+		<field type="text">Name</field>
+	</bunch>
+
+	<bunch id="companyUser">
+		<name>Company User</name>
+		<description>Users of company with profile ID</description>
+		<field type="text">Name</field>
+		<field type="text">Email</field>
+		<field type="text">Profile ID</field>
+	</bunch>
+
+	<bunch id="issue">
+		<name>Issue</name>
+		<description>Storage of issues</description>
+		<field type="text">Description</field>
+		<field type="link" list="company" >Company</field>
+		<field type="link" list="issueStatus" >Status</field>
+		<field type="link" list="issueSubject" >Subject</field>
+		<field type="link" list="companyUser" >Subject</field>
+	</bunch>
+
+	<bunch id="issueStatus">
+		<name>Issue Status</name>
+		<description>Status for issues</description>
+		<field type="text">Name</field>
+	</bunch>
+
+	<bunch id="issueSubject">
+		<name>Issue Subject</name>
+		<description>Subject for issues</description>
+		<field type="text">Name</field>
+	</bunch>
+
+</bunches>

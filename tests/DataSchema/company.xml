@@ -1,0 +1,6 @@
+﻿<bunch id="company">
+	<name>Company</name>
+	<description>Table of companies</description>
+	<field type="text">TIN</field>
+	<field type="text">Name</field>
+</bunch>

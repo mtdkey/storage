@@ -10,6 +10,7 @@ namespace MtdKey.Storage
     {
         public long BunchId {get;set;}
         public string Name { get; set; }
+        public string SchemaId { get; set; }
         public string Description { get; set; }
         public bool ArchiveFlag { get; set; }
 

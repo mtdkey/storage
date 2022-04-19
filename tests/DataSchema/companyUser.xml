@@ -1,0 +1,7 @@
+﻿<bunch id="companyUser">
+	<name>Company User</name>
+	<description>Users of company with profile ID</description>
+	<field type="text">Name</field>
+	<field type="text">Email</field>
+	<field type="text">Profile ID</field>
+</bunch>

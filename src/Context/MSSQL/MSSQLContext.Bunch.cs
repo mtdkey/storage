@@ -33,15 +33,10 @@ namespace MtdKey.Storage.Context.MSSQL
                     .HasColumnName("description")
                     .HasColumnType("nvarchar(256)");
 
-                entity.Property(e => e.Version)
-                    .IsRequired()
-                    .HasColumnName("version")
-                    .HasColumnType("float");
-
                 entity.Property(e => e.SchemaId)
                     .IsRequired()
                     .HasColumnName("schema_id")
-                    .HasColumnType("char(36)");
+                    .HasColumnType("varchar(36)");
 
                 entity.Property(e => e.ArchiveFlag)
                     .IsRequired()

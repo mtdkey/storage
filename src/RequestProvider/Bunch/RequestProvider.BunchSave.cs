@@ -26,7 +26,7 @@ namespace MtdKey.Storage
             {
                 Name = bunchSchema.Name ?? string.Empty,
                 Description = bunchSchema.Description ?? string.Empty,
-                ArchiveFlag = bunchSchema.ArchiveFlag.AsFlagSign(),
+                ArchiveFlag = bunchSchema.ArchiveFlag.AsFlagSign(),                
                 DeletedFlag = FlagSign.False,
                 BunchExt = new BunchExt(),
                 BunchToken = new BunchToken()

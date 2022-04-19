@@ -17,8 +17,7 @@ namespace MtdKey.Storage.DataModels
         public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public float Version { get; set; }
-        public Guid SchemaId { get; set; }
+        public string SchemaId { get; set; } = Guid.NewGuid().ToString();
         public byte ArchiveFlag { get; set; }
         public byte DeletedFlag { get; set; }
 

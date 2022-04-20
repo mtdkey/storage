@@ -28,6 +28,7 @@ namespace MtdKey.Storage.Context.MySQL
             StackTextModelCreating(modelBuilder);
             StackListModelCreating(modelBuilder);
             SchemaVersionModelCreating(modelBuilder);
+            FieldLinkModelCreating(modelBuilder);
         }
     }
 }

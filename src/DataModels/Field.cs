@@ -22,6 +22,8 @@ namespace MtdKey.Storage.DataModels
         public byte DeletedFlag { get; set; }
 
         public virtual Bunch Bunch { get; set; }
+        public virtual FieldLink FieldLink { get; set; }
         public virtual ICollection<Stack> Stacks { get; set; }
+        
     }
 }

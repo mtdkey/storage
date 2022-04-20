@@ -10,6 +10,7 @@ namespace MtdKey.Storage.DataModels
         public Bunch()
         {
             Fields = new HashSet<Field>();
+            FieldLinks = new HashSet<FieldLink>();
             Nodes = new HashSet<Node>();
         }
 
@@ -17,7 +18,6 @@ namespace MtdKey.Storage.DataModels
         public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string SchemaId { get; set; } = Guid.NewGuid().ToString();
         public byte ArchiveFlag { get; set; }
         public byte DeletedFlag { get; set; }
 
@@ -25,5 +25,6 @@ namespace MtdKey.Storage.DataModels
         public virtual BunchToken BunchToken { get; set; }
         public virtual ICollection<Field> Fields { get; set; }
         public virtual ICollection<Node> Nodes { get; set; }
+        public virtual ICollection<FieldLink> FieldLinks { get; set; }
     }
 }

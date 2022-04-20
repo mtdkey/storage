@@ -21,8 +21,6 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "nvarchar(128)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(256)", nullable: false),
-                    schema_id = table.Column<string>(type: "varchar(36)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     archive_flag = table.Column<sbyte>(type: "tinyint(2)", nullable: false),
                     deleted_flag = table.Column<sbyte>(type: "tinyint(2)", nullable: false)
                 },
@@ -131,6 +129,30 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "bunch",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "field_link",
+                columns: table => new
+                {
+                    field_id = table.Column<long>(type: "bigint", nullable: false),
+                    bunch_id = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_field_link", x => x.field_id);
+                    table.ForeignKey(
+                        name: "fk_field_link_bunch",
+                        column: x => x.bunch_id,
+                        principalTable: "bunch",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_field_link_field",
+                        column: x => x.field_id,
+                        principalTable: "field",
+                        principalColumn: "id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -265,15 +287,19 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "idx_schema_id",
-                table: "bunch",
-                column: "schema_id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "fk_field_bunch_idx",
                 table: "field",
                 column: "bunch_id");
+
+            migrationBuilder.CreateIndex(
+                name: "fk_field_link_bunch_idx",
+                table: "field_link",
+                column: "bunch_id");
+
+            migrationBuilder.CreateIndex(
+                name: "fk_field_link_field_idx",
+                table: "field_link",
+                column: "field_id");
 
             migrationBuilder.CreateIndex(
                 name: "fk_node_bunch_idx",
@@ -323,6 +349,9 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "bunch_token");
+
+            migrationBuilder.DropTable(
+                name: "field_link");
 
             migrationBuilder.DropTable(
                 name: "node_ext");

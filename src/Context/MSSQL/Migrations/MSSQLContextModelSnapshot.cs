@@ -49,11 +49,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("nvarchar(128)")
                         .HasColumnName("name");
 
-                    b.Property<string>("SchemaId")
-                        .IsRequired()
-                        .HasColumnType("varchar(36)")
-                        .HasColumnName("schema_id");
-
                     b.HasKey("Id");
 
                     b.ToTable("bunch", (string)null);
@@ -141,6 +136,27 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasDatabaseName("fk_field_bunch_idx");
 
                     b.ToTable("field", (string)null);
+                });
+
+            modelBuilder.Entity("MtdKey.Storage.DataModels.FieldLink", b =>
+                {
+                    b.Property<long>("FieldId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("field_id");
+
+                    b.Property<long>("BunchId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("bunch_id");
+
+                    b.HasKey("FieldId");
+
+                    b.HasIndex("BunchId")
+                        .HasDatabaseName("fk_field_link_bunch_idx");
+
+                    b.HasIndex("FieldId")
+                        .HasDatabaseName("fk_field_link_field_idx");
+
+                    b.ToTable("field_link", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Node", b =>
@@ -363,6 +379,27 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     b.Navigation("Bunch");
                 });
 
+            modelBuilder.Entity("MtdKey.Storage.DataModels.FieldLink", b =>
+                {
+                    b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
+                        .WithMany("FieldLinks")
+                        .HasForeignKey("BunchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_field_link_bunch");
+
+                    b.HasOne("MtdKey.Storage.DataModels.Field", "Field")
+                        .WithOne("FieldLink")
+                        .HasForeignKey("MtdKey.Storage.DataModels.FieldLink", "FieldId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("fk_field_link_field");
+
+                    b.Navigation("Bunch");
+
+                    b.Navigation("Field");
+                });
+
             modelBuilder.Entity("MtdKey.Storage.DataModels.Node", b =>
                 {
                     b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
@@ -471,6 +508,8 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
                     b.Navigation("BunchToken");
 
+                    b.Navigation("FieldLinks");
+
                     b.Navigation("Fields");
 
                     b.Navigation("Nodes");
@@ -478,6 +517,8 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Field", b =>
                 {
+                    b.Navigation("FieldLink");
+
                     b.Navigation("Stacks");
                 });
 

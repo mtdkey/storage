@@ -29,15 +29,6 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnName("description")
                     .HasColumnType("nvarchar(256)");                
 
-                entity.Property(e => e.SchemaId)
-                    .IsRequired()
-                    .HasColumnName("schema_id")
-                    .HasColumnType("varchar(36)");
-
-                entity.HasIndex(e => e.SchemaId)
-                    .IsUnique()
-                    .HasDatabaseName("idx_schema_id");
-
                 entity.Property(e => e.ArchiveFlag)
                     .IsRequired()
                     .HasColumnName("archive_flag")

@@ -17,7 +17,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(128)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(256)", nullable: false),
-                    schema_id = table.Column<string>(type: "varchar(36)", nullable: false),
                     archive_flag = table.Column<byte>(type: "tinyint", nullable: false),
                     deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
@@ -120,6 +119,29 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         principalTable: "bunch",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "field_link",
+                columns: table => new
+                {
+                    field_id = table.Column<long>(type: "bigint", nullable: false),
+                    bunch_id = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_field_link", x => x.field_id);
+                    table.ForeignKey(
+                        name: "fk_field_link_bunch",
+                        column: x => x.bunch_id,
+                        principalTable: "bunch",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_field_link_field",
+                        column: x => x.field_id,
+                        principalTable: "field",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -252,6 +274,16 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 column: "bunch_id");
 
             migrationBuilder.CreateIndex(
+                name: "fk_field_link_bunch_idx",
+                table: "field_link",
+                column: "bunch_id");
+
+            migrationBuilder.CreateIndex(
+                name: "fk_field_link_field_idx",
+                table: "field_link",
+                column: "field_id");
+
+            migrationBuilder.CreateIndex(
                 name: "fk_node_bunch_idx",
                 table: "node",
                 column: "bunch_id");
@@ -299,6 +331,9 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "bunch_token");
+
+            migrationBuilder.DropTable(
+                name: "field_link");
 
             migrationBuilder.DropTable(
                 name: "node_ext");

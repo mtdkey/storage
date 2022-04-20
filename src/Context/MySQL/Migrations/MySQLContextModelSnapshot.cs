@@ -369,14 +369,14 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
                         .WithMany("FieldLinks")
                         .HasForeignKey("BunchId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("fk_field_link_bunch");
 
                     b.HasOne("MtdKey.Storage.DataModels.Field", "Field")
                         .WithOne("FieldLink")
                         .HasForeignKey("MtdKey.Storage.DataModels.FieldLink", "FieldId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_field_link_field");
 

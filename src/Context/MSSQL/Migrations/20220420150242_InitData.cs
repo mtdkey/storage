@@ -135,13 +135,13 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         name: "fk_field_link_bunch",
                         column: x => x.bunch_id,
                         principalTable: "bunch",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                     table.ForeignKey(
                         name: "fk_field_link_field",
                         column: x => x.field_id,
                         principalTable: "field",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

@@ -174,7 +174,7 @@ namespace MtdKey.Storage
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value ? 1 : 0 };
             }
 
-            if (nodeItem.FieldType == FieldType.List)
+            if (nodeItem.FieldType == FieldType.Link)
             {
                 var value = (NodeSchema)nodeItem.Data;
                 stack.StackList = new StackList { StackId = stack.Id, NodeId = value.NodeId };

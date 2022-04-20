@@ -146,13 +146,13 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         name: "fk_field_link_bunch",
                         column: x => x.bunch_id,
                         principalTable: "bunch",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                     table.ForeignKey(
                         name: "fk_field_link_field",
                         column: x => x.field_id,
                         principalTable: "field",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

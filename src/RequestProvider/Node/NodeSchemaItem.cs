@@ -61,7 +61,7 @@ namespace MtdKey.Storage
             FieldId = fieldId;
             Data = value;
             SystemType = typeof(NodeSchema);
-            FieldType = FieldType.List;
+            FieldType = FieldType.Link;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;
         }

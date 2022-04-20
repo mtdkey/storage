@@ -32,6 +32,15 @@ namespace MtdKey.Storage
                 DeletedFlag = FlagSign.False,
             };
 
+            if (fieldSchema.FieldType == FieldType.Link)
+            {
+                var fieldLink = new FieldLink
+                {
+                    BunchId = fieldSchema.LinkId
+                };
+                field.FieldLink = fieldLink;
+            }
+
             try
             {
                 await context.AddAsync(field);

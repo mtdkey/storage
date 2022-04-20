@@ -32,13 +32,13 @@ namespace MtdKey.Storage.Context.MSSQL
                 entity.HasOne(fieldLink => fieldLink.Bunch)
                     .WithMany(bunch => bunch.FieldLinks)
                     .HasForeignKey(fieldLink => fieldLink.BunchId)
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("fk_field_link_bunch");
 
                 entity.HasOne(fieldLink => fieldLink.Field)
                     .WithOne(field => field.FieldLink)
                     .HasForeignKey<FieldLink>(field => field.FieldId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_field_link_field");
 
             });

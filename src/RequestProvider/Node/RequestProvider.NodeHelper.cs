@@ -63,7 +63,7 @@ namespace MtdKey.Storage
                     nodeItems.Add(nodeItem);
                 }
 
-                if (fieldType == (int)FieldType.List)
+                if (fieldType == (int)FieldType.Link)
                 {
                     await context.Entry(stack).Reference(x => x.StackList).LoadAsync();
                     await context.Entry(stack.StackList).Reference(x => x.Node).LoadAsync();

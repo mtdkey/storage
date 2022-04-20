@@ -1,5 +1,8 @@
 ﻿<bunch id="issueSubject">
 	<name>Issue Subject</name>
 	<description>Subject for issues</description>
-	<field type="text">Name</field>
+	<field type="text">		
+		<name>Name</name>
+		<description>Subject title</description>
+	</field>
 </bunch>

@@ -1,40 +1,76 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<bunches version="637859718406984701">
+<bunches version="637860620425422991">
 	<bunch id="company">
-		<name>Company</name>
-		<description>Table of companies</description>
-		<field type="text"></field>
-		<field type="text">Name</field>
-	</bunch>
+	<name>Company</name>
+	<description>Table of companies</description>
+	<field type="text">
+		<name>TIN</name>
+		<description>TAX ID</description>
+	</field>
+	<field type="text">
+		<name>Name</name>
+		<description>Company name</description>
+	</field>
+</bunch>
 
 	<bunch id="companyUser">
-		<name>Company User</name>
-		<description>Users of company with profile ID</description>
-		<field type="text">Name</field>
-		<field type="text">Email</field>
-		<field type="text">Profile ID</field>
-	</bunch>
+	<name>Company User</name>
+	<description>Users of company with profile ID</description>
+	<field type="text">
+		<name>Name</name>
+		<description>User name</description>
+	</field>
+	<field type="text">
+		<name>Email</name>
+		<description>User Email</description>
+	</field>
+	<field type="text">		
+		<name>Profile ID</name>
+		<description>System field is link to user Id</description>
+	</field>
+</bunch>
 
 	<bunch id="issue">
-		<name>Issue</name>
-		<description>Storage of issues</description>
-		<field type="text">Description</field>
-		<field type="link" list="company" >Company</field>
-		<field type="link" list="issueStatus" >Status</field>
-		<field type="link" list="issueSubject" >Subject</field>
-		<field type="link" list="companyUser" >Subject</field>
-	</bunch>
+	<name>Issue</name>
+	<description>Storage of issues</description>
+	<field type="text">
+		<name>Description</name>
+		<description>Information about issue</description>
+	</field>
+	<field type="link" list="company" >
+		<name>Company</name>
+		<description>Link to company table</description>		
+	</field>
+	<field type="link" list="issueStatus" >
+		<name>Status</name>
+		<description>Link to status dictionary</description>				
+	</field>
+	<field type="link" list="issueSubject" >
+		<name>Subject</name>
+		<description>Link to subject dictionary</description>
+	</field>
+	<field type="link" list="companyUser">
+		<name>Assigned to</name>
+		<description>Responsible user to resolving</description>
+	</field>
+</bunch>
 
 	<bunch id="issueStatus">
-		<name>Issue Status</name>
-		<description>Status for issues</description>
-		<field type="text">Name</field>
-	</bunch>
+	<name>Issue Status</name>
+	<description>Status for issues</description>
+	<field type="text">
+		<name>Name</name>
+		<description>Status title</description>
+	</field>
+</bunch>
 
 	<bunch id="issueSubject">
-		<name>Issue Subject</name>
-		<description>Subject for issues</description>
-		<field type="text">Name</field>
-	</bunch>
+	<name>Issue Subject</name>
+	<description>Subject for issues</description>
+	<field type="text">		
+		<name>Name</name>
+		<description>Subject title</description>
+	</field>
+</bunch>
 
 </bunches>

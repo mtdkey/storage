@@ -75,10 +75,5 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Context\MSSQL\Migrations\" />
-    <Folder Include="Context\MySQL\Migrations\" />
-  </ItemGroup>
   
 </Project>

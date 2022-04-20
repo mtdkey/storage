@@ -17,15 +17,15 @@ namespace MtdKey.Storage.Context.MySQL
             {
                 entity.ToTable("node");
 
-                entity.HasIndex(e => e.ParentId)
+                entity.HasIndex(e => e.BunchId)
                     .HasDatabaseName("fk_node_bunch_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("bigint");
 
-                entity.Property(e => e.ParentId)
-                    .HasColumnName("parent_id")
+                entity.Property(e => e.BunchId)
+                    .HasColumnName("bunch_id")
                     .HasColumnType("bigint");
 
                 entity.Property(e => e.ArchiveFlag)
@@ -40,7 +40,7 @@ namespace MtdKey.Storage.Context.MySQL
 
                 entity.HasOne(node => node.Bunch)
                     .WithMany(bunch => bunch.Nodes)
-                    .HasForeignKey(node => node.ParentId)
+                    .HasForeignKey(node => node.BunchId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_node_bunch");
             });

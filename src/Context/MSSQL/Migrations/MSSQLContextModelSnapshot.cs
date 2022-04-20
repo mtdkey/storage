@@ -113,6 +113,10 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("tinyint")
                         .HasColumnName("archive_flag");
 
+                    b.Property<long>("BunchId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("bunch_id");
+
                     b.Property<byte>("DeletedFlag")
                         .HasColumnType("tinyint")
                         .HasColumnName("deleted_flag");
@@ -131,13 +135,9 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("nvarchar(128)")
                         .HasColumnName("name");
 
-                    b.Property<long>("ParentId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("parent_id");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId")
+                    b.HasIndex("BunchId")
                         .HasDatabaseName("fk_field_bunch_idx");
 
                     b.ToTable("field", (string)null);
@@ -156,17 +156,17 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("tinyint")
                         .HasColumnName("archive_flag");
 
+                    b.Property<long>("BunchId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("bunch_id");
+
                     b.Property<byte>("DeletedFlag")
                         .HasColumnType("tinyint")
                         .HasColumnName("deleted_flag");
 
-                    b.Property<long>("ParentId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("parent_id");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId")
+                    b.HasIndex("BunchId")
                         .HasDatabaseName("fk_node_bunch_idx");
 
                     b.ToTable("node", (string)null);
@@ -355,7 +355,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 {
                     b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
                         .WithMany("Fields")
-                        .HasForeignKey("ParentId")
+                        .HasForeignKey("BunchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_field_bunch");
@@ -367,7 +367,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 {
                     b.HasOne("MtdKey.Storage.DataModels.Bunch", "Bunch")
                         .WithMany("Nodes")
-                        .HasForeignKey("ParentId")
+                        .HasForeignKey("BunchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_node_bunch");

@@ -43,7 +43,6 @@ namespace MtdKey.Storage
                     return requestResult;
                 }
 
-
                 node = creatingNode ? await CreateNodeAsync(nodeSchema) : await UpdateNodeAsync(nodeSchema);
 
                 nodeSchema.NodeId = node.Id;
@@ -77,7 +76,7 @@ namespace MtdKey.Storage
             node.NodeExt = new() { Number = bunchExt.Counter };
             node.NodeToken = new() { ForRLS = contextProperty.MasterToken };
 
-            node.ParentId = nodeSchema.BunchId;
+            node.BunchId = nodeSchema.BunchId;
             node.DeletedFlag = FlagSign.False;
             node.ArchiveFlag = nodeSchema.ArchiveFlag.AsFlagSign();
 
@@ -91,7 +90,7 @@ namespace MtdKey.Storage
         private async Task<Node> UpdateNodeAsync(NodeSchema nodeSchema)
         {
             Node node = await context.Set<Node>().FindAsync(nodeSchema.NodeId);
-            node.ParentId = nodeSchema.BunchId;
+            node.BunchId = nodeSchema.BunchId;
             node.DeletedFlag = FlagSign.False;
             node.ArchiveFlag = nodeSchema.ArchiveFlag.AsFlagSign();
             await context.SaveChangesAsync();

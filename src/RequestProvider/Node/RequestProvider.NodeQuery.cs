@@ -35,7 +35,7 @@ namespace MtdKey.Storage
                     .Select(node => new NodeSchema
                     {
                         NodeId = node.Id,
-                        BunchId = node.ParentId,
+                        BunchId = node.BunchId,
                         Number = node.NodeExt.Number,
                         ArchiveFlag = node.ArchiveFlag.AsBoolean(),
                         Items = new List<NodeSchemaItem>()

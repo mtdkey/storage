@@ -8,7 +8,7 @@ namespace MtdKey.Storage.Context
 {
     internal interface IFilterChild
     {
-        public long ParentId { get; set; }
+        public long BunchId { get; set; }
 
     }
 }

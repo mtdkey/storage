@@ -15,7 +15,7 @@ namespace MtdKey.Storage
                 Node node = await context.FindAsync<Node>(id);
 
                 ///Check access via token
-                BunchToken bunchToken = await context.Set<BunchToken>().FindAsync(node.ParentId);
+                BunchToken bunchToken = await context.Set<BunchToken>().FindAsync(node.BunchId);
                 bool deletingAllowed = contextProperty.AccessTokens.Contains(bunchToken.TokenoDelete);     
 
                 if (deletingAllowed is not true)

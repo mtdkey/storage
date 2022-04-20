@@ -78,7 +78,7 @@ namespace MtdKey.Storage
                     NodeSchema nodeSchema = new()
                     {
                         NodeId = listNode.Id,
-                        BunchId = listNode.ParentId,
+                        BunchId = listNode.BunchId,
                         ArchiveFlag = listNode.ArchiveFlag.AsBoolean(),
                         Number = listNode.NodeExt.Number,
                         Items = nodeSchemaItems

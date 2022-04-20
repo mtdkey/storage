@@ -39,18 +39,9 @@ namespace MtdKey.Storage.Tests
             var createdNode = await NodeHelper.CreateAsync(requestProvider);
             var nodeBasis = createdNode.DataSet.FirstOrDefault();
 
-            //var receivedNode = await requestProvider.NodeQueryAsync(filter =>
-            //{
-            //    filter.SearchText = "search word";
-            //    filter.Page = 2;
-            //    filter.PageSize = 50;
-            //    filter.IncludeArchive = true;
-            //    filter.ParentIds.Add(List<long> bunchIds);
-            //});
-
             var receivedNode = await requestProvider.NodeQueryAsync(filter =>
             {
-                filter.ParentIds.Add(nodeBasis.BunchId);
+                filter.BunchIds.Add(nodeBasis.BunchId);
                 filter.SearchText = Common.SplitedWordValue;
             });
 
@@ -133,7 +124,6 @@ namespace MtdKey.Storage.Tests
                 node.Items = nodeItems2;
             });
 
-
             //Create data items for the bunch selector
             List<NodeSchemaItem> selectedNode = new()
             {
@@ -152,7 +142,7 @@ namespace MtdKey.Storage.Tests
             //Get data from database
             var bunchReceiver = await requestProvider.NodeQueryAsync(filter =>
             {
-                filter.ParentIds.Add(bunchSelector.BunchId);
+                filter.BunchIds.Add(bunchSelector.BunchId);
             });
 
             //Get a complete copy of the List node      

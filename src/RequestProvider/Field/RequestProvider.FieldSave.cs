@@ -24,7 +24,7 @@ namespace MtdKey.Storage
 
             var field = new Field
             {
-                ParentId = fieldSchema.BunchId,
+                BunchId = fieldSchema.BunchId,
                 Name = fieldSchema.Name ?? string.Empty,
                 Description = fieldSchema.Description ?? string.Empty,
                 FieldType = (int)fieldSchema.FieldType,

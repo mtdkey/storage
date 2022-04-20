@@ -35,9 +35,9 @@ namespace MtdKey.Storage
         public static IQueryable<T> FilterChild<T>(this IQueryable<T> query, RequestFilter requestFilter) where T : IFilterChild
         {
 
-            if (requestFilter.ParentIds.Count > 0)
+            if (requestFilter.BunchIds.Count > 0)
             {
-                query = query.Where(entity => requestFilter.ParentIds.Contains(entity.ParentId));
+                query = query.Where(entity => requestFilter.BunchIds.Contains(entity.BunchId));
             }
 
             return query;

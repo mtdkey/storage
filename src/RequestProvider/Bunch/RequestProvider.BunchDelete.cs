@@ -19,7 +19,7 @@ namespace MtdKey.Storage
                 Bunch bunch = await context.FindAsync<Bunch>(id);
                 bunch.DeletedFlag = FlagSign.True;
 
-                IList<Field> childFields = await context.Set<Field>().Where(x => x.ParentId == id).ToListAsync();
+                IList<Field> childFields = await context.Set<Field>().Where(x => x.BunchId == id).ToListAsync();
                 foreach (var childField in childFields)
                 {
                     childField.DeletedFlag = FlagSign.True;

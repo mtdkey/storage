@@ -14,15 +14,15 @@ namespace MtdKey.Storage.Context.MSSQL
             {
                 entity.ToTable("node");
 
-                entity.HasIndex(e => e.ParentId)
+                entity.HasIndex(e => e.BunchId)
                     .HasDatabaseName("fk_node_bunch_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("bigint");
 
-                entity.Property(e => e.ParentId)
-                    .HasColumnName("parent_id")
+                entity.Property(e => e.BunchId)
+                    .HasColumnName("bunch_id")
                     .HasColumnType("bigint");
 
                 entity.Property(e => e.ArchiveFlag)
@@ -37,7 +37,7 @@ namespace MtdKey.Storage.Context.MSSQL
 
                 entity.HasOne(d => d.Bunch)
                     .WithMany(p => p.Nodes)
-                    .HasForeignKey(d => d.ParentId)
+                    .HasForeignKey(d => d.BunchId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_node_bunch");
             });

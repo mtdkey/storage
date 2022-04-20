@@ -24,13 +24,22 @@ namespace MtdKey.Storage
 
             var field = new Field
             {
-                ParentId = fieldSchema.BunchId,
+                BunchId = fieldSchema.BunchId,
                 Name = fieldSchema.Name ?? string.Empty,
                 Description = fieldSchema.Description ?? string.Empty,
                 FieldType = (int)fieldSchema.FieldType,
                 ArchiveFlag = fieldSchema.ArchiveFlag.AsFlagSign(),
                 DeletedFlag = FlagSign.False,
             };
+
+            if (fieldSchema.FieldType == FieldType.Link)
+            {
+                var fieldLink = new FieldLink
+                {
+                    BunchId = fieldSchema.LinkId
+                };
+                field.FieldLink = fieldLink;
+            }
 
             try
             {

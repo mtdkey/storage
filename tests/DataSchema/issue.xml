@@ -1,0 +1,24 @@
+﻿<bunch id="issue">
+	<name>Issue</name>
+	<description>Storage of issues</description>
+	<field type="text">
+		<name>Description</name>
+		<description>Information about issue</description>
+	</field>
+	<field type="link" list="company" >
+		<name>Company</name>
+		<description>Link to company table</description>		
+	</field>
+	<field type="link" list="issueStatus" >
+		<name>Status</name>
+		<description>Link to status dictionary</description>				
+	</field>
+	<field type="link" list="issueSubject" >
+		<name>Subject</name>
+		<description>Link to subject dictionary</description>
+	</field>
+	<field type="link" list="companyUser">
+		<name>Assigned to</name>
+		<description>Responsible user to resolving</description>
+	</field>
+</bunch>

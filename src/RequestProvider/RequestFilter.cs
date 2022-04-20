@@ -9,7 +9,7 @@ namespace MtdKey.Storage
     public class RequestFilter
     {
         public List<long> Ids { get; set; }
-        public List<long> ParentIds { get; set; }
+        public List<long> BunchIds { get; set; }
         public string SearchText { get; set; }
         public bool IncludeArchive { get; set; }
         public int Page { get; set; }
@@ -20,7 +20,7 @@ namespace MtdKey.Storage
             Page = 1;
             Ids = new();
             PageSize = 10;
-            ParentIds = new();                        
+            BunchIds = new();                        
         }
     }
 }

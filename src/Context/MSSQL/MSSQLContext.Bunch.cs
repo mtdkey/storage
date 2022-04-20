@@ -44,7 +44,8 @@ namespace MtdKey.Storage.Context.MSSQL
                     .HasColumnType("tinyint");
             });
 
-            modelBuilder.Entity<Bunch>().HasQueryFilter(p =>p.DeletedFlag == 0);
+            modelBuilder.Entity<Bunch>().HasQueryFilter(p => p.DeletedFlag == 0);
+
         }
     }
 }

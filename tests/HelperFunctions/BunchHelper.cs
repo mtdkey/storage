@@ -17,7 +17,7 @@ namespace MtdKey.Storage.Tests.HelperFunctions
 
             return await requestProvider.BunchSaveAsync(schema => {
                 schema.Name = $"Bunch name is {name}";
-                schema.Description = $"Bunch description is {name}";
+                schema.Description = $"Bunch description is {name}";       
             });
         }
 

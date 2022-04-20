@@ -1,4 +1,4 @@
-# MTDKey Storage  <img alt="GitHub" src="https://img.shields.io/badge/licence-MIT-green"> <img alt="GitHub" src="https://img.shields.io/badge/platform-.Net%206.0-blue"> <img alt="GitHub" src="https://img.shields.io/badge/database-MySql%20|%20MSSQL-blue">
+# MTDKey Storage [<img alt="NuGet" src="https://img.shields.io/nuget/v/MtdKey.Storage"/>](https://www.nuget.org/packages/mtdkey.storage/) <img alt="Licence MIT" src="https://img.shields.io/badge/licence-MIT-green"> <img alt="Platform" src="https://img.shields.io/badge/platform-.Net%206.0-blue"> <img alt="Database" src="https://img.shields.io/badge/database-MySql%20|%20MSSQL-blue">
 
 MTDKey Storage is a backend solution designed to speed up the development of web-applications. For example, web applications for order management.
 Explore this code, you`ll find many useful features such as:

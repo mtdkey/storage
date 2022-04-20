@@ -36,7 +36,7 @@ namespace MtdKey.Storage
                     .Select(field => new FieldSchema
                     {
                         FieldId = field.Id,
-                        BunchId = field.ParentId,
+                        BunchId = field.BunchId,
                         Name = field.Name,
                         FieldType = field.FieldType,
                         Description = field.Description,                        

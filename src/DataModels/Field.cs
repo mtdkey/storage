@@ -14,10 +14,7 @@ namespace MtdKey.Storage.DataModels
 
         [Key]
         public long Id { get; set; }
-        /// <summary>
-        /// Bunch ID value
-        /// </summary>
-        public long ParentId { get; set; }
+        public long BunchId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int FieldType { get; set; }        
@@ -25,6 +22,8 @@ namespace MtdKey.Storage.DataModels
         public byte DeletedFlag { get; set; }
 
         public virtual Bunch Bunch { get; set; }
+        public virtual FieldLink FieldLink { get; set; }
         public virtual ICollection<Stack> Stacks { get; set; }
+        
     }
 }

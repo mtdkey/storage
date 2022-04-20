@@ -18,7 +18,7 @@ namespace MtdKey.Storage.DataModels
         /// <summary>
         /// Bunch ID value
         /// </summary>
-        public long ParentId { get; set; }        
+        public long BunchId { get; set; }        
         public byte ArchiveFlag { get; set; }
         public byte DeletedFlag { get; set; }
 

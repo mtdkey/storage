@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace MtdKey.Storage.Context.MSSQL.Migrations
 {
     public partial class InitData : Migration
@@ -24,16 +26,16 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "register",
+                name: "schema_version",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(128)", nullable: false),
-                    vlue = table.Column<string>(type: "nvarchar(256)", nullable: true)
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    xml_data = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_register", x => x.id);
+                    table.PrimaryKey("PK_schema_version", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,7 +82,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    parent_id = table.Column<long>(type: "bigint", nullable: false),
+                    bunch_id = table.Column<long>(type: "bigint", nullable: false),
                     name = table.Column<string>(type: "nvarchar(128)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(256)", nullable: false),
                     field_type = table.Column<short>(type: "smallint", nullable: false),
@@ -92,7 +94,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     table.PrimaryKey("PK_field", x => x.id);
                     table.ForeignKey(
                         name: "fk_field_bunch",
-                        column: x => x.parent_id,
+                        column: x => x.bunch_id,
                         principalTable: "bunch",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -104,7 +106,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    parent_id = table.Column<long>(type: "bigint", nullable: false),
+                    bunch_id = table.Column<long>(type: "bigint", nullable: false),
                     archive_flag = table.Column<byte>(type: "tinyint", nullable: false),
                     deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
@@ -113,8 +115,31 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     table.PrimaryKey("PK_node", x => x.id);
                     table.ForeignKey(
                         name: "fk_node_bunch",
-                        column: x => x.parent_id,
+                        column: x => x.bunch_id,
                         principalTable: "bunch",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "field_link",
+                columns: table => new
+                {
+                    field_id = table.Column<long>(type: "bigint", nullable: false),
+                    bunch_id = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_field_link", x => x.field_id);
+                    table.ForeignKey(
+                        name: "fk_field_link_bunch",
+                        column: x => x.bunch_id,
+                        principalTable: "bunch",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "fk_field_link_field",
+                        column: x => x.field_id,
+                        principalTable: "field",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -246,12 +271,22 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
             migrationBuilder.CreateIndex(
                 name: "fk_field_bunch_idx",
                 table: "field",
-                column: "parent_id");
+                column: "bunch_id");
+
+            migrationBuilder.CreateIndex(
+                name: "fk_field_link_bunch_idx",
+                table: "field_link",
+                column: "bunch_id");
+
+            migrationBuilder.CreateIndex(
+                name: "fk_field_link_field_idx",
+                table: "field_link",
+                column: "field_id");
 
             migrationBuilder.CreateIndex(
                 name: "fk_node_bunch_idx",
                 table: "node",
-                column: "parent_id");
+                column: "bunch_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_rls_token",
@@ -298,13 +333,16 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 name: "bunch_token");
 
             migrationBuilder.DropTable(
+                name: "field_link");
+
+            migrationBuilder.DropTable(
                 name: "node_ext");
 
             migrationBuilder.DropTable(
                 name: "node_token");
 
             migrationBuilder.DropTable(
-                name: "register");
+                name: "schema_version");
 
             migrationBuilder.DropTable(
                 name: "stack_digital");

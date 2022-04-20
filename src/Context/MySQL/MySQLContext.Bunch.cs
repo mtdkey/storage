@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MtdKey.Storage.DataModels;
-
+using System;
 
 namespace MtdKey.Storage.Context.MySQL
 {
@@ -27,7 +27,7 @@ namespace MtdKey.Storage.Context.MySQL
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasColumnName("description")
-                    .HasColumnType("nvarchar(256)");
+                    .HasColumnType("nvarchar(256)");                
 
                 entity.Property(e => e.ArchiveFlag)
                     .IsRequired()
@@ -39,9 +39,7 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnName("deleted_flag")
                     .HasColumnType("tinyint(2)");
             });
-            
-            modelBuilder.Entity<Bunch>().HasQueryFilter(bunch=>bunch.DeletedFlag == 0);
-            
+            modelBuilder.Entity<Bunch>().HasQueryFilter(p => p.DeletedFlag == 0);
         }
     }
 }

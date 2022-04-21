@@ -11,7 +11,7 @@ using MtdKey.Storage.Context.MySQL;
 namespace MtdKey.Storage.Context.MySQL.Migrations
 {
     [DbContext(typeof(MySQLContext))]
-    [Migration("20220421154718_InitData")]
+    [Migration("20220421164746_InitData")]
     partial class InitData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -254,11 +254,41 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.ToTable("stack_digital", (string)null);
                 });
 
+            modelBuilder.Entity("MtdKey.Storage.DataModels.StackFile", b =>
+                {
+                    b.Property<long>("StackId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("stack_id");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("file_name");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint")
+                        .HasColumnName("file_size");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("file_type");
+
+                    b.Property<byte[]>("Value")
+                        .IsRequired()
+                        .HasColumnType("longblob")
+                        .HasColumnName("value");
+
+                    b.HasKey("StackId");
+
+                    b.ToTable("stack_file", (string)null);
+                });
+
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackList", b =>
                 {
                     b.Property<long>("StackId")
                         .HasColumnType("bigint")
-                        .HasColumnName("number");
+                        .HasColumnName("stack_id");
 
                     b.Property<long>("NodeId")
                         .HasColumnType("bigint")
@@ -425,6 +455,18 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.Navigation("Stack");
                 });
 
+            modelBuilder.Entity("MtdKey.Storage.DataModels.StackFile", b =>
+                {
+                    b.HasOne("MtdKey.Storage.DataModels.Stack", "Stack")
+                        .WithOne("StackFile")
+                        .HasForeignKey("MtdKey.Storage.DataModels.StackFile", "StackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_stack_file");
+
+                    b.Navigation("Stack");
+                });
+
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackList", b =>
                 {
                     b.HasOne("MtdKey.Storage.DataModels.Node", "Node")
@@ -492,6 +534,8 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
             modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>
                 {
                     b.Navigation("StackDigital");
+
+                    b.Navigation("StackFile");
 
                     b.Navigation("StackList");
 

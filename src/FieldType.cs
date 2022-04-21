@@ -29,6 +29,7 @@ namespace MtdKey.Storage
         public readonly static FieldType DateTime = new(3);
         public readonly static FieldType Boolean = new(4);
         public readonly static FieldType Link = new(5);
+        public readonly static FieldType File = new(6);
 
         public static string GetName(FieldType fieldType)
         {
@@ -39,6 +40,7 @@ namespace MtdKey.Storage
                 case 3: { return nameof(DateTime); }
                 case 4: { return nameof(Boolean); }
                 case 5: { return nameof(Link); }
+                case 6: { return nameof(File); }
                 default: return null;
             }
         }
@@ -53,6 +55,7 @@ namespace MtdKey.Storage
                 case "datetime": { return DateTime; }
                 case "boolean": { return Boolean; }
                 case "link": { return Link; }
+                case "file": { return File; }
                 default: return null;
             }
         }

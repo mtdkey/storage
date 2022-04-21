@@ -208,15 +208,36 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "stack_file",
+                columns: table => new
+                {
+                    stack_id = table.Column<long>(type: "bigint", nullable: false),
+                    file_name = table.Column<string>(type: "nvarchar(256)", nullable: false),
+                    file_size = table.Column<long>(type: "bigint", nullable: false),
+                    file_type = table.Column<string>(type: "varchar(256)", nullable: false),
+                    value = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_stack_file", x => x.stack_id);
+                    table.ForeignKey(
+                        name: "fk_stack_file",
+                        column: x => x.stack_id,
+                        principalTable: "stack",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "stack_list",
                 columns: table => new
                 {
-                    number = table.Column<long>(type: "bigint", nullable: false),
+                    stack_id = table.Column<long>(type: "bigint", nullable: false),
                     node_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_stack_list", x => x.number);
+                    table.PrimaryKey("PK_stack_list", x => x.stack_id);
                     table.ForeignKey(
                         name: "fk_node_stack_list",
                         column: x => x.node_id,
@@ -224,7 +245,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         principalColumn: "id");
                     table.ForeignKey(
                         name: "fk_stack_list",
-                        column: x => x.number,
+                        column: x => x.stack_id,
                         principalTable: "stack",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -337,6 +358,9 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "stack_digital");
+
+            migrationBuilder.DropTable(
+                name: "stack_file");
 
             migrationBuilder.DropTable(
                 name: "stack_list");

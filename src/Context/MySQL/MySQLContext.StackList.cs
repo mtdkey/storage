@@ -22,7 +22,7 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasDatabaseName("fk_node_stack_list_idx");
 
                 entity.Property(e => e.StackId)
-                    .HasColumnName("number")
+                    .HasColumnName("stack_id")
                     .HasColumnType("bigint");
 
                 entity.Property(e => e.NodeId)

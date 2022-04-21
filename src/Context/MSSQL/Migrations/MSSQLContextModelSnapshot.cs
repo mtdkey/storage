@@ -158,10 +158,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<byte>("ArchiveFlag")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("archive_flag");
-
                     b.Property<long>("BunchId")
                         .HasColumnType("bigint")
                         .HasColumnName("bunch_id");

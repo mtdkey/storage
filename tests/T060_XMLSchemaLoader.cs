@@ -21,10 +21,10 @@ namespace MtdKey.Storage.Tests
             var xmlDoc = xmlSchema.GetXmlDocument();
 
             var bunchTags = xmlSchema.GetBunches();
-            var uploadBunches = await requestProvider.UpLoadBunches(bunchTags);
+            var uploadBunches = await requestProvider.UpLoadSchena(bunchTags);
             
             var fieldTags = xmlSchema.GetFields();
-            var uploadFields = await requestProvider.UpLoadFields(fieldTags);
+            var uploadFields = await requestProvider.UpLoadSchena(fieldTags);
 
             await requestProvider.CommitTransactionAsync();
             

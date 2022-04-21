@@ -149,10 +149,6 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    b.Property<sbyte>("ArchiveFlag")
-                        .HasColumnType("tinyint(2)")
-                        .HasColumnName("archive_flag");
-
                     b.Property<long>("BunchId")
                         .HasColumnType("bigint")
                         .HasColumnName("bunch_id");

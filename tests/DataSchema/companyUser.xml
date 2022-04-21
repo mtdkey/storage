@@ -1,3 +1,4 @@
 ﻿<bunch name="CompanyUser">
+	<field type="link" list="Company" name="Company" />
 	<field type="text" name="ProfileID" />				
 </bunch>

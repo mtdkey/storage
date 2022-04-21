@@ -78,13 +78,11 @@ namespace MtdKey.Storage
 
             node.BunchId = nodeSchema.BunchId;
             node.DeletedFlag = FlagSign.False;
-            node.ArchiveFlag = nodeSchema.ArchiveFlag.AsFlagSign();
 
             await context.AddAsync(node);
             await context.SaveChangesAsync();
 
             return node;
-
         }
 
         private async Task<Node> UpdateNodeAsync(NodeSchema nodeSchema)
@@ -92,7 +90,6 @@ namespace MtdKey.Storage
             Node node = await context.Set<Node>().FindAsync(nodeSchema.NodeId);
             node.BunchId = nodeSchema.BunchId;
             node.DeletedFlag = FlagSign.False;
-            node.ArchiveFlag = nodeSchema.ArchiveFlag.AsFlagSign();
             await context.SaveChangesAsync();
 
             return node;

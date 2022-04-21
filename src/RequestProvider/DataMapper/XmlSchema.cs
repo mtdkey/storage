@@ -79,13 +79,13 @@ namespace MtdKey.Storage
                 var fieldSchema = new FieldSchema()
                 {
                     FieldType = FieldType.GetByName(fieldType),
-                    Name = field.Attributes["name"].InnerText,
+                    Name = field.Attributes["name"].Value,
                 };
 
                 result.Add(new()
                 {
                     BunchName = bunchName,
-                    ListBunch = bunchList,
+                    BunchList = bunchList,
                     FieldSchema = fieldSchema
                 });
             }

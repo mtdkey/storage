@@ -8,7 +8,39 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<IRequestResult> UpLoadFields(List<FieldTag> fieldTags)
+        public async Task<IRequestResult> UpLoadSchena(List<BunchSchema> bunchTags)
+        {
+            try
+            {
+                await ParsingTBunchags(bunchTags);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return new RequestResult<IRequestResult>(false, ex);
+            }
+
+            return new RequestResult<IRequestResult>(true);
+        }
+
+        private async Task ParsingTBunchags(List<BunchSchema> bunchTags)
+        {
+            var query = context.Set<Bunch>();
+
+            foreach (var bunchTag in bunchTags)
+            {
+                var bunchExists = query
+                    .Where(bunch => bunch.Name.ToLower() == bunchTag.Name.ToLower())
+                    .Any();
+                if (bunchExists) continue;
+
+                var bunch = new Bunch { Name = bunchTag.Name };
+                await context.AddAsync(bunch);
+            }
+        }
+
+
+        public async Task<IRequestResult> UpLoadSchena(List<FieldTag> fieldTags)
         {
             try
             {
@@ -26,14 +58,14 @@ namespace MtdKey.Storage
         private async Task ParsingFieldTags(List<FieldTag> fieldTags)
         {
             var bunchQuery = context.Set<Bunch>();
-            var fieldQuery = context.Set<Field>();            
+            var fieldQuery = context.Set<Field>();
 
             foreach (var fieldTag in fieldTags)
             {
                 long bunchId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.BunchName)).Id;
 
                 var fieldExists = fieldQuery
-                    .Where(field => field.Name.ToLower() == fieldTag.FieldSchema.Name.ToLower() 
+                    .Where(field => field.Name.ToLower() == fieldTag.FieldSchema.Name.ToLower()
                         && field.BunchId == bunchId)
                     .Any();
                 if (fieldExists) continue;
@@ -42,18 +74,19 @@ namespace MtdKey.Storage
                 {
                     BunchId = bunchId,
                     Name = fieldTag.FieldSchema.Name,
-                    FieldType = (int)fieldTag.FieldSchema.FieldType,                    
+                    FieldType = (int)fieldTag.FieldSchema.FieldType,
                 };
 
                 if (fieldTag.FieldSchema.FieldType == FieldType.Link)
                 {
-                    var linkId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.ListBunch)).Id;
-                    var fieldLink = new FieldLink{ BunchId = linkId };
+                    var linkId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.BunchList)).Id;
+                    var fieldLink = new FieldLink { BunchId = linkId };
                     field.FieldLink = fieldLink;
                 }
 
                 await context.AddAsync(field);
             }
         }
+
     }
 }

@@ -79,7 +79,6 @@ namespace MtdKey.Storage
                     {
                         NodeId = listNode.Id,
                         BunchId = listNode.BunchId,
-                        ArchiveFlag = listNode.ArchiveFlag.AsBoolean(),
                         Number = listNode.NodeExt.Number,
                         Items = nodeSchemaItems
                     };

@@ -28,11 +28,6 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnName("bunch_id")
                     .HasColumnType("bigint");
 
-                entity.Property(e => e.ArchiveFlag)
-                    .IsRequired()
-                    .HasColumnName("archive_flag")
-                    .HasColumnType("tinyint(2)");
-
                 entity.Property(e => e.DeletedFlag)
                     .IsRequired()
                     .HasColumnName("deleted_flag")

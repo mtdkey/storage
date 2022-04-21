@@ -9,7 +9,7 @@ namespace MtdKey.Storage
     public class FieldTag
     {
         public string BunchName { get; set; }
-        public string ListBunch { get; set; }
+        public string BunchList { get; set; }
         public FieldSchema FieldSchema { get; set; }
     }
 }

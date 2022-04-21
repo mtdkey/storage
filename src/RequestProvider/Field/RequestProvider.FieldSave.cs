@@ -15,7 +15,7 @@ namespace MtdKey.Storage
 
         public async Task<RequestResult<FieldSchema>> FieldSaveAsync(FieldSchema fieldSchema)
         {
-            return fieldSchema.FieldId>0 ? await FieldUpdatedAsync(fieldSchema) : await FieldCreateAsync(fieldSchema);
+            return fieldSchema.FieldId > 0 ? await FieldUpdatedAsync(fieldSchema) : await FieldCreateAsync(fieldSchema);
         }
 
         private async Task<RequestResult<FieldSchema>> FieldCreateAsync(FieldSchema fieldSchema)
@@ -25,10 +25,8 @@ namespace MtdKey.Storage
             var field = new Field
             {
                 BunchId = fieldSchema.BunchId,
-                Name = fieldSchema.Name ?? string.Empty,
-                Description = fieldSchema.Description ?? string.Empty,
+                Name = fieldSchema.Name ?? string.Empty,                
                 FieldType = (int)fieldSchema.FieldType,
-                ArchiveFlag = fieldSchema.ArchiveFlag.AsFlagSign(),
                 DeletedFlag = FlagSign.False,
             };
 
@@ -45,7 +43,7 @@ namespace MtdKey.Storage
             {
                 await context.AddAsync(field);
                 await context.SaveChangesAsync();
-                
+
                 fieldSchema.FieldId = field.Id;
                 requestResult.FillDataSet(new() { fieldSchema });
             }
@@ -64,11 +62,13 @@ namespace MtdKey.Storage
         {
             var requestResult = new RequestResult<FieldSchema>(true);
             Field field = await context.FindAsync<Field>(fieldSchema.FieldId);
-            if (field == null || field.DeletedFlag == FlagSign.True) { requestResult.SetResultInfo(false, new Exception("Bad Request.")); return requestResult; }
-            
+            if (field == null || field.DeletedFlag == FlagSign.True)
+            {
+                requestResult.SetResultInfo(false, new Exception("Bad Request."));
+                return requestResult;
+            }
+
             field.Name = fieldSchema.Name ?? field.Name;
-            field.Description = fieldSchema.Description ?? field.Description;
-            field.ArchiveFlag = fieldSchema.ArchiveFlag.AsFlagSign();
             field.DeletedFlag = FlagSign.False;
 
             try
@@ -86,6 +86,6 @@ namespace MtdKey.Storage
 
             return requestResult;
         }
-               
+
     }
 }

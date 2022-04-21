@@ -16,26 +16,11 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(128)", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(256)", nullable: false),
-                    archive_flag = table.Column<byte>(type: "tinyint", nullable: false),
                     deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_bunch", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "schema_version",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    xml_data = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_schema_version", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,9 +69,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     bunch_id = table.Column<long>(type: "bigint", nullable: false),
                     name = table.Column<string>(type: "nvarchar(128)", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(256)", nullable: false),
                     field_type = table.Column<short>(type: "smallint", nullable: false),
-                    archive_flag = table.Column<byte>(type: "tinyint", nullable: false),
                     deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
@@ -269,9 +252,21 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "idx_bunch_name",
+                table: "bunch",
+                column: "name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "fk_field_bunch_idx",
                 table: "field",
                 column: "bunch_id");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_field_name",
+                table: "field",
+                columns: new[] { "name", "bunch_id" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "fk_field_link_bunch_idx",
@@ -340,9 +335,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "node_token");
-
-            migrationBuilder.DropTable(
-                name: "schema_version");
 
             migrationBuilder.DropTable(
                 name: "stack_digital");

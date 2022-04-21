@@ -20,8 +20,10 @@ namespace MtdKey.Storage
             try
             {
                 var query = context.Set<Node>()
-                    .Where(node => node.DeletedFlag == 0 && contextProperty.AccessTokens.Contains(node.NodeToken.ForRLS))
-                    .FilterBasic(requestFilter).FilterChild(requestFilter).FilterPages(requestFilter.Page, requestFilter.PageSize);
+                    .Where(node => node.DeletedFlag == FlagSign.False
+                        && contextProperty.AccessTokens.Contains(node.NodeToken.ForRLS))
+                    .FilterBasic(requestFilter)
+                    .FilterChild(requestFilter);                
 
                 if (string.IsNullOrEmpty(requestFilter.SearchText) is not true)
                 {
@@ -40,7 +42,9 @@ namespace MtdKey.Storage
                         ArchiveFlag = node.ArchiveFlag.AsBoolean(),
                         Items = new List<NodeSchemaItem>()
 
-                    }).ToListAsync();
+                    })
+                    .FilterPages(requestFilter.Page, requestFilter.PageSize)
+                    .ToListAsync();
 
                 var scriptGetMaxIds = SqlScript.StackMaxIds(contextProperty.DatabaseType);
                 List<long> nodeIds = dataSet.GroupBy(x => x.NodeId).Select(x => x.Key).ToList();

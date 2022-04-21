@@ -67,30 +67,6 @@ namespace MtdKey.Storage.Tests
             Assert.True(receiveFieldB.Success);
             Assert.True(receiveFieldB.DataSet.Count == 1);
             Assert.True(receiveFieldB.DataSet[0].FieldId == fieldB.FieldId);
-
-            //Get all fields with archive
-            var receivedAllFields = await requestProvider.FieldQueryAsync(filter =>
-            {
-                filter.Ids.Add(fieldA.FieldId);
-                filter.Ids.Add(fieldB.FieldId);
-                filter.Ids.Add(fieldArchive.FieldId);
-                filter.IncludeArchive = true;
-            });
-
-            Assert.True(receivedAllFields.Success);
-            Assert.True(receivedAllFields.DataSet.Count == 3);
-
-            //Get all fields without archive
-            var receivedActiveFields = await requestProvider.FieldQueryAsync(filter =>
-            {
-                filter.Ids.Add(fieldA.FieldId);
-                filter.Ids.Add(fieldB.FieldId);
-                filter.Ids.Add(fieldArchive.FieldId);
-                filter.IncludeArchive = false;
-            });
-
-            Assert.True(receivedActiveFields.Success);
-            Assert.True(receivedActiveFields.DataSet.Count == 2);
         }
 
 

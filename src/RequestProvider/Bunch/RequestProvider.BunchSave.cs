@@ -24,9 +24,7 @@ namespace MtdKey.Storage
 
             var bunch = new Bunch
             {
-                Name = bunchSchema.Name ?? string.Empty,
-                Description = bunchSchema.Description ?? string.Empty,
-                ArchiveFlag = bunchSchema.ArchiveFlag.AsFlagSign(),                
+                Name = bunchSchema.Name ?? string.Empty,             
                 DeletedFlag = FlagSign.False,
                 BunchExt = new BunchExt(),
                 BunchToken = new BunchToken()
@@ -44,7 +42,6 @@ namespace MtdKey.Storage
 
                 bunchSchema.BunchId = bunch.Id;
                 requestResult.FillDataSet(new() { bunchSchema });         
-
             }
             catch (Exception exception)
             {
@@ -64,8 +61,6 @@ namespace MtdKey.Storage
             if (bunch == null || bunch.DeletedFlag == FlagSign.True) { requestResult.SetResultInfo(false, new Exception("Bad Request.")); return requestResult; }
 
             bunch.Name = bunchSchema.Name ?? bunch.Name;
-            bunch.Description = bunchSchema.Description ?? bunch.Description;
-            bunch.ArchiveFlag = bunchSchema.ArchiveFlag.AsFlagSign();
             bunch.DeletedFlag = FlagSign.False;
 
             try

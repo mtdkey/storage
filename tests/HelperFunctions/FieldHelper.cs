@@ -17,12 +17,11 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         {
             string name = Common.GetRandomName();
 
-            return await requestProvider.FieldSaveAsync(schema => {
-                schema.LinkId = linkId;
-                schema.BunchId = bunchId;
-                schema.FieldType = fieldType;
-                schema.Name = $"Field name is {name} {FieldType.GetName(fieldType)}";
-                schema.Description = $"Field description is {name}";
+            return await requestProvider.FieldSaveAsync(field => {
+                field.LinkId = linkId;
+                field.BunchId = bunchId;
+                field.FieldType = fieldType;
+                field.Name = $"Field name is {name} {FieldType.GetName(fieldType)}";
             });
         }
 
@@ -30,13 +29,11 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         {
             string name = Common.GetRandomName();
 
-            return await requestProvider.FieldSaveAsync(schema => {
-                schema.LinkId = linkId;
-                schema.BunchId = bunchId;
-                schema.FieldType = fieldType;
-                schema.Name = $"Field name is {name} {FieldType.GetName(fieldType)}";
-                schema.Description = $"Field description is {name}";
-                schema.ArchiveFlag = true;
+            return await requestProvider.FieldSaveAsync(field => {
+                field.LinkId = linkId;
+                field.BunchId = bunchId;
+                field.FieldType = fieldType;
+                field.Name = $"Field name is {name} {FieldType.GetName(fieldType)}";
             });
         }
 

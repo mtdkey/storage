@@ -15,8 +15,6 @@ namespace MtdKey.Storage
         /// </summary>
         public long LinkId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public FieldType FieldType { get; set; }
-        public bool ArchiveFlag { get; set; }
     }
 }

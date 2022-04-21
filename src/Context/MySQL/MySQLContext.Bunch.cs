@@ -19,27 +19,20 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnName("id")
                     .HasColumnType("bigint");
 
+                entity.HasIndex(e => e.Name)
+                    .IsUnique()
+                    .HasDatabaseName("idx_bunch_name");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasColumnType("nvarchar(128)");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnName("description")
-                    .HasColumnType("nvarchar(256)");                
-
-                entity.Property(e => e.ArchiveFlag)
-                    .IsRequired()
-                    .HasColumnName("archive_flag")
-                    .HasColumnType("tinyint(2)");                    
+                    .HasColumnType("nvarchar(128)");                  
 
                 entity.Property(e => e.DeletedFlag)
                     .IsRequired()
                     .HasColumnName("deleted_flag")
                     .HasColumnType("tinyint(2)");
             });
-            modelBuilder.Entity<Bunch>().HasQueryFilter(p => p.DeletedFlag == 0);
         }
     }
 }

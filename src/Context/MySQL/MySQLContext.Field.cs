@@ -26,25 +26,20 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnName("bunch_id")
                     .HasColumnType("bigint");
 
+                entity.HasIndex(e => new { e.Name, e.BunchId })
+                    .IsUnique()
+                    .HasDatabaseName("idx_field_name");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
                     .HasColumnType("nvarchar(128)");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnName("description")
-                    .HasColumnType("nvarchar(256)");
 
                 entity.Property(e => e.FieldType)
                     .IsRequired()
                     .HasColumnName("field_type")
                     .HasColumnType("smallint");
 
-                entity.Property(e => e.ArchiveFlag)
-                    .IsRequired()
-                    .HasColumnName("archive_flag")
-                    .HasColumnType("tinyint(2)");
 
                 entity.Property(e => e.DeletedFlag)
                     .IsRequired()
@@ -57,9 +52,6 @@ namespace MtdKey.Storage.Context.MySQL
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_field_bunch");
             });
-
-            modelBuilder.Entity<Field>().HasQueryFilter(p => p.DeletedFlag == 0);
-
         }
     }
 }

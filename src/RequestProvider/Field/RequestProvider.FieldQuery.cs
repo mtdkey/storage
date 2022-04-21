@@ -22,14 +22,15 @@ namespace MtdKey.Storage
             try
             {
                 var query = context.Set<Field>()
+                    .Where(field => field.DeletedFlag == FlagSign.False)
                     .FilterBasic(filter)
-                    .FilterChild(filter)
-                    .FilterPages(filter.Page, filter.PageSize);
+                    .FilterChild(filter);
+
 
                 if (string.IsNullOrEmpty(filter.SearchText) is not true)
                 {
                     var text = filter.SearchText.ToUpper();
-                    query = query.Where(x => x.Name.ToUpper().Contains(text) || x.Description.ToUpper().Contains(text));
+                    query = query.Where(x => x.Name.ToUpper().Contains(text));
                 }
 
                 var dataSet = await query                    
@@ -39,9 +40,9 @@ namespace MtdKey.Storage
                         BunchId = field.BunchId,
                         Name = field.Name,
                         FieldType = field.FieldType,
-                        Description = field.Description,                        
-                        ArchiveFlag = field.ArchiveFlag.AsBoolean()
-                    }).ToListAsync();
+                    })
+                    .FilterPages(filter.Page, filter.PageSize)
+                    .ToListAsync();
 
                 requestResult.FillDataSet(dataSet);
             }

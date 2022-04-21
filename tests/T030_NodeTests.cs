@@ -154,7 +154,6 @@ namespace MtdKey.Storage.Tests
             Assert.True((string)nodeReceiver.Items.FirstOrDefault().Data == "Catalog Item one");
         }
 
-
         [Theory]
         [InlineData("mssql_test")]
         [InlineData("mysql_test")]

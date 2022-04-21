@@ -100,29 +100,6 @@ namespace MtdKey.Storage.Tests
             Assert.True(receivedBunchB.Success);
             Assert.True(receivedBunchB.DataSet.Count == 1);
 
-            //Get all bunches with archive
-            var receivedAllBunches = await requestProvider.BunchQueryAsync(filter =>
-            {
-                filter.Ids.Add(createdBunchA.DataSet[0].BunchId);
-                filter.Ids.Add(createdBunchB.DataSet[0].BunchId);
-                filter.Ids.Add(createdArchive.DataSet[0].BunchId);
-                filter.IncludeArchive = true;
-            });
-
-            Assert.True(receivedAllBunches.Success);
-            Assert.True(receivedAllBunches.DataSet.Count == 3);
-
-            //Get all bunches without archive
-            var receivedActiveBunches = await requestProvider.BunchQueryAsync(filter =>
-            {
-                filter.Ids.Add(createdBunchA.DataSet[0].BunchId);
-                filter.Ids.Add(createdBunchB.DataSet[0].BunchId);
-                filter.Ids.Add(createdArchive.DataSet[0].BunchId);
-                filter.IncludeArchive = false;
-            });
-
-            Assert.True(receivedActiveBunches.Success);
-            Assert.True(receivedActiveBunches.DataSet.Count == 2);
         }
 
         [Theory]

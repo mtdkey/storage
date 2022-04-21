@@ -1,12 +1,9 @@
-﻿using MtdKey.Storage.DataModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Xml;
 
-namespace MtdKey.Storage.DataMapper
+namespace MtdKey.Storage
 {
     /// <summary>
     ///  Data mapper for xml schema 
@@ -28,6 +25,12 @@ namespace MtdKey.Storage.DataMapper
 
         public XmlSchema() { }
 
+        public long GetVersion()
+        {
+            var version = xmlDocument?.DocumentElement.Attributes["version"].Value;
+            return long.Parse(version);
+        }
+
         /// <summary>
         /// Read the schema from DataSchema folder form file BunchesSchema.xml on the solution near MtdKey.Storage.dll
         /// The BunchesSchema.xml file must be an embedded resource
@@ -47,49 +50,42 @@ namespace MtdKey.Storage.DataMapper
             return xmlDocument;
         }
 
-        public Dictionary<string, BunchSchema> GetBunches()
+        public List<BunchSchema> GetBunches()
         {
-            var result = new Dictionary<string, BunchSchema>();
-
+            var result = new List<BunchSchema>();
             XmlElement root = xmlDocument.DocumentElement;
             var bunches = root.GetElementsByTagName("bunch");
             foreach (XmlNode bunch in bunches)
             {
-                var id = bunch.Attributes["id"].Value;
-                var bunchSchema = new BunchSchema()
+                result.Add(new()
                 {
-                    Name = bunch["name"].InnerText,
-                    Description = bunch["description"].InnerText
-                };
-
-                result.Add(id, bunchSchema);
+                    Name = bunch.Attributes["name"].Value
+                });                
             }
             return result;
         }
 
-        public List<FieldXmlTag> GetFields()
+        public List<FieldTag> GetFields()
         {
-            var result = new List<FieldXmlTag>();
-
+            var result = new List<FieldTag>();
             XmlElement root = xmlDocument.DocumentElement;
             var fields = root.GetElementsByTagName("field");
             foreach (XmlNode field in fields)
             {
-                var bunchId = field.ParentNode.Attributes["id"].Value;
+                var bunchName = field.ParentNode.Attributes["name"].Value;
                 var fieldType = field.Attributes["type"].Value;
-                var xmlLinkId = field.Attributes["list"]?.Value;
+                var bunchList = field.Attributes["list"]?.Value;
 
                 var fieldSchema = new FieldSchema()
                 {
                     FieldType = FieldType.GetByName(fieldType),
-                    Name = field["name"].InnerText,
-                    Description = field["description"].InnerText
+                    Name = field.Attributes["name"].InnerText,
                 };
 
-                result.Add(new FieldXmlTag
+                result.Add(new()
                 {
-                    XmlBunchId = bunchId,
-                    XmlLinkId = xmlLinkId,
+                    BunchName = bunchName,
+                    ListBunch = bunchList,
                     FieldSchema = fieldSchema
                 });
             }

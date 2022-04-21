@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MtdKey.Storage.DataMapper
+namespace MtdKey.Storage
 {
-    public class FieldXmlTag
+    public class FieldTag
     {
-        public string XmlBunchId { get; set; }
-        public string XmlLinkId { get; set; }
+        public string BunchName { get; set; }
+        public string ListBunch { get; set; }
         public FieldSchema FieldSchema { get; set; }
     }
 }

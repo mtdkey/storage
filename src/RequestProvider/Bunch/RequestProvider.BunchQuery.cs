@@ -21,15 +21,15 @@ namespace MtdKey.Storage
             var schemaResult = new RequestResult<BunchSchema>(true);
             
             try
-            {                
+            {
                 var query = context.Set<Bunch>()
-                    .FilterBasic(filter)
-                    .FilterPages(filter.Page, filter.PageSize);
+                    .Where(bunch => bunch.DeletedFlag == FlagSign.False)
+                    .FilterBasic(filter);                    
 
                 if (string.IsNullOrEmpty(filter.SearchText) is not true)
                 {
                     var text = filter.SearchText.ToUpper();
-                    query = query.Where(bunch => bunch.Name.ToUpper().Contains(text) || bunch.Description.ToUpper().Contains(text));
+                    query = query.Where(bunch => bunch.Name.ToUpper().Contains(text));
                 }
 
                 var dataSet = await query                    
@@ -37,10 +37,9 @@ namespace MtdKey.Storage
                     {
                         BunchId = bunch.Id,
                         Name = bunch.Name,
-                        Description = bunch.Description,
-                        ArchiveFlag = bunch.ArchiveFlag.AsBoolean()
-
-                    }).ToListAsync();
+                    })
+                    .FilterPages(filter.Page, filter.PageSize)
+                    .ToListAsync();
 
                 schemaResult.FillDataSet(dataSet);
             }
@@ -54,7 +53,5 @@ namespace MtdKey.Storage
 
             return schemaResult;
         }
-
-
     }
 }

@@ -7,14 +7,14 @@ using Xunit;
 namespace MtdKey.Storage.Tests
 {
     [Collection("Sequential")]
-    public class T020_FieldTests
+    public class T920_FieldTests
     {
         [Theory]
         [InlineData("mssql_test")]
         [InlineData("mysql_test")]
         public async Task A_Create_Field(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var createdBunch = await BunchHelper.CreateAsync(requestProvider);
@@ -33,7 +33,7 @@ namespace MtdKey.Storage.Tests
         public async Task B_Receive_Field(string guidDatabase)
         {
             string testString = $"search test {DateTime.UtcNow}";
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var createdBunch = await BunchHelper.CreateAsync(requestProvider);
@@ -76,7 +76,7 @@ namespace MtdKey.Storage.Tests
         public async Task C_Update_Field(string guidDatabase)
         {
             string testFieldName = $"New field unique name - {Common.GetRandomName()}";
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var createdBunch = await BunchHelper.CreateAsync(requestProvider);
@@ -105,7 +105,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task D_Delete_Field(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var createdBunch = await BunchHelper.CreateAsync(requestProvider);

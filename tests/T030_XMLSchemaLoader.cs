@@ -1,22 +1,24 @@
-﻿using MtdKey.Storage.Tests.HelperFunctions;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 
 namespace MtdKey.Storage.Tests
 {
     [Collection("Sequential")]
-    public class T060_XMLSchemaLoader
+    public class T030_XMLSchemaLoader
     {
         [Theory]
         [InlineData("mssql_test")]
         [InlineData("mysql_test")]
-        public async Task A_UploadData(string guidDatabase)
+        public async Task UploadDataFromXmlSchema(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);            
+            var result = await ContextHandler.CreateNewDatabaseAsync(guidDatabase);
+            Assert.True(result.Success, result.Exception?.Message);
+
+            ContextProperty contextProperty =  ContextHandler.GetContextProperty(guidDatabase);            
             using RequestProvider requestProvider = new(contextProperty);
 
             await requestProvider.BeginTransactionAsync();
-            var xmlSchema = new XmlSchema<T060_XMLSchemaLoader>();
+            var xmlSchema = new XmlSchema<T030_XMLSchemaLoader>();
             xmlSchema.LoadSchemaFromServer();
             var xmlDoc = xmlSchema.GetXmlDocument();
 

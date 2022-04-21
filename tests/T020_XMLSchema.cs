@@ -4,12 +4,12 @@ using Xunit;
 namespace MtdKey.Storage.Tests
 {
     [Collection("Sequential")]
-    public class T050_XMLSchema
+    public class T020_XMLSchema
     {
         [Fact]
         public void A_ReadDataFromFile()
         {                       
-            var dataMapper = new XmlSchema<T050_XMLSchema>();
+            var dataMapper = new XmlSchema<T020_XMLSchema>();
             var data = dataMapper.ReadDataFromFile();
             Assert.NotNull(data);
         }
@@ -17,7 +17,7 @@ namespace MtdKey.Storage.Tests
         [Fact]
         public void B_LoadSchemaFromServer()
         {            
-            var dataMapper = new XmlSchema<T050_XMLSchema>();
+            var dataMapper = new XmlSchema<T020_XMLSchema>();
             dataMapper.LoadSchemaFromServer();
             var xmlDoc = dataMapper.GetXmlDocument();
             Assert.NotNull(xmlDoc);
@@ -26,7 +26,7 @@ namespace MtdKey.Storage.Tests
         [Fact]
         public void C_GetBunches()
         {
-            var dataMapper = new XmlSchema<T050_XMLSchema>();
+            var dataMapper = new XmlSchema<T020_XMLSchema>();
             dataMapper.LoadSchemaFromServer();
             var bunches = dataMapper.GetBunches();                    
             Assert.True(bunches.Where(x => x.Name.Equals("Company")).Any());
@@ -36,7 +36,7 @@ namespace MtdKey.Storage.Tests
         [Fact]
         public void C_GetFields()
         {
-            var dataMapper = new XmlSchema<T050_XMLSchema>();
+            var dataMapper = new XmlSchema<T020_XMLSchema>();
             dataMapper.LoadSchemaFromServer();
             var fields = dataMapper.GetFields();
             Assert.True(fields.Where(x => x.BunchName.Equals("Company")).Any());

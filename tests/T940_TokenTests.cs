@@ -6,7 +6,7 @@ using Xunit;
 namespace MtdKey.Storage.Tests
 {
     [Collection("Sequential")]
-    public class T040_TokenTests
+    public class T940_TokenTests
     {
         [Theory]
         [InlineData("mssql_test")]
@@ -17,7 +17,7 @@ namespace MtdKey.Storage.Tests
             var tokenEdit = Guid.NewGuid().ToString();
             var tokenDelete = Guid.NewGuid().ToString();
 
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);            
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);            
             using RequestProvider requestProvider = new(contextProperty);
             var bunch = await requestProvider.CreateBunchAsync();
                         

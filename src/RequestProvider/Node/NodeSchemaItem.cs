@@ -66,5 +66,15 @@ namespace MtdKey.Storage
             DateCreated = dateTime;
         }
 
+        public NodeSchemaItem(byte[] value, long fieldId, string creatorInfo, DateTime dateTime)
+        {
+            FieldId = fieldId;
+            Data = value;
+            SystemType = typeof(NodeSchema);
+            FieldType = FieldType.File;
+            CreatorInfo = creatorInfo;
+            DateCreated = dateTime;
+        }
+
     }
 }

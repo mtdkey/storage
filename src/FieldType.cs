@@ -60,5 +60,10 @@ namespace MtdKey.Storage
             }
         }
 
+        public static List<FieldType> AllTypes => new()
+        {
+            Numeric,Text, DateTime, Boolean, Link, File
+        };
+
     }
 }

@@ -8,14 +8,14 @@ using Xunit;
 namespace MtdKey.Storage.Tests
 {
     [Collection("Sequential")]
-    public class T030_NodeTests
+    public class T930_NodeTests
     {
         [Theory]
         [InlineData("mssql_test")]
         [InlineData("mysql_test")]
         public async Task A_Add_Node(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
             var createdNode = await NodeHelper.CreateAsync(requestProvider);
             Assert.True(createdNode.Success);
@@ -33,7 +33,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task B_Query_Node(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var createdNode = await NodeHelper.CreateAsync(requestProvider);
@@ -69,7 +69,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task C_Delete_Node(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
             var createdNode = await NodeHelper.CreateAsync(requestProvider);
             var node = createdNode.DataSet.FirstOrDefault();
@@ -87,7 +87,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task D_List_Node(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             //Create a catalog bunch
@@ -159,7 +159,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task E_Change_RLS_Token(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
 
             contextProperty.MasterToken = Guid.NewGuid().ToString();
             contextProperty.AccessTokens = new List<string> { string.Empty, contextProperty.MasterToken };

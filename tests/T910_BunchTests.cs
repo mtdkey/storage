@@ -6,7 +6,7 @@ using Xunit;
 namespace MtdKey.Storage.Tests
 {
     [Collection("Sequential")]
-    public class T010_BunchTests
+    public class T910_BunchTests
     {
 
         [Theory]
@@ -14,7 +14,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task Context(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var requestResult = await BunchHelper.CreateAsync(requestProvider);
@@ -28,7 +28,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task A_Create_Bunch(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var requestResult = await BunchHelper.CreateAsync(requestProvider);
@@ -43,7 +43,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task A1_Create_And_Recieve_Bunch(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var requestResult = await BunchHelper.CreateAsync(requestProvider);
@@ -67,7 +67,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task B_Receive_Bunch(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             //Create BunchA
@@ -108,7 +108,7 @@ namespace MtdKey.Storage.Tests
         public async Task C_Update_Bunch(string guidDatabase)
         {
             string testBunchName = $"New bunch unique name - {Common.GetRandomName()}";
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var createdBunch = await BunchHelper.CreateAsync(requestProvider);
@@ -133,7 +133,7 @@ namespace MtdKey.Storage.Tests
         [InlineData("mysql_test")]
         public async Task D_Delete_Bunch(string guidDatabase)
         {
-            ContextProperty contextProperty = ContextHelper.CreateContextProperty(guidDatabase);
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
             var createdBunch = await BunchHelper.CreateAsync(requestProvider);

@@ -96,8 +96,8 @@ Use the Request Provider by specifying a connection string
 ```json
 {
   "ConnectionStrings": {
-    "mssql_test": "Server=.\\SQLEXPRESS;Database=test_new_storage;User ID=[USER];Password=[PWD];Trusted_Connection=false;",
-    "mysql_test": "Server=127.0.0.1;Database=test_new_storage;User Id=[USER];Password=[PWD];SslMode=none;"
+    "mssql_test": "Server=.\\SQLEXPRESS;Database=storage;User ID=[USER];Password=[PWD];",
+    "mysql_test": "Server=127.0.0.1;Database=storage;User Id=[USER];Password=[PWD];SslMode=none;"
   }
 }
 ```

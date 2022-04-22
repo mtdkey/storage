@@ -21,11 +21,14 @@ namespace MtdKey.Storage.Tests
             Assert.True(createdNode.Success);
 
             var node = createdNode.DataSet.FirstOrDefault();
-
+            var testFile = await Common.GetFileTestAsync();
+            var nodeFile = (FileData)node.Items.Find(x => x.FieldType == FieldType.File).Data;
             Assert.True((bool)node.Items.Find(x => x.FieldType == FieldType.Boolean).Data == true);
             Assert.True((string)node.Items.Find(x => x.FieldType == FieldType.Text).Data == Common.LongTextValue);
             Assert.True((decimal)node.Items.Find(x => x.FieldType == FieldType.Numeric).Data == Common.NumericValue);
             Assert.True((DateTime)node.Items.Find(x => x.FieldType == FieldType.DateTime).Data == Common.DateTimeValue);
+            Assert.True(nodeFile.ByteArray.Length == testFile.ByteArray.Length);
+
         }
 
         [Theory]

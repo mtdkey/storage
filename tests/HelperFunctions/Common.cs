@@ -22,7 +22,17 @@ namespace MtdKey.Storage.Tests.HelperFunctions
             return result;
         }
 
-        
+        public static async Task<FileData> GetFileTestAsync()
+        {
+            var byteArray = await FileReader.GetFileBytesAsync();
+            return new FileData
+            {
+                Mime = "text/plain",
+                Name = "LongText.txt",
+                Size = byteArray.Length,
+                ByteArray = byteArray
+            };
+        }
 
     }
 }

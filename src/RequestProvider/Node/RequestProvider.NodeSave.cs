@@ -47,7 +47,7 @@ namespace MtdKey.Storage
 
                 nodePattern.NodeId = node.Id;
                 nodePattern.Number = node.NodeExt.Number;
-                                
+
 
                 List<Stack> stacks = await CreateStackListAsync(nodePattern);
 
@@ -180,11 +180,17 @@ namespace MtdKey.Storage
                 stack.StackList = new StackList { StackId = stack.Id, NodeId = value.NodeId };
             }
 
-
             if (nodeItem.FieldType == FieldType.File)
             {
-                //var value =  (byte[])nodeItem.Data;
-                //stack.StackList = new StackList { StackId = stack.Id, NodeId = value.NodeId };
+                var fileData = (FileData)nodeItem.Data;
+                stack.StackFile = new StackFile
+                {
+                    StackId = stack.Id,
+                    FileName = fileData.Name,
+                    FileSize = fileData.Size,
+                    FileType = fileData.Mime,
+                    Data = fileData.ByteArray
+                };
             }
 
             return stack;

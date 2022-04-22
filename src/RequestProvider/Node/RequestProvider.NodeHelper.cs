@@ -12,12 +12,12 @@ namespace MtdKey.Storage
         private async Task<List<NodePatternItem>> GetNodePatternItemsAsync(IList<Stack> stacks)
         {
             List<NodePatternItem> nodeItems = new();
-            List<long> fieldIds = stacks.GroupBy(x => x.FieldId).Select(x=>x.Key).ToList();
+            List<long> fieldIds = stacks.GroupBy(x => x.FieldId).Select(x => x.Key).ToList();
 
-            Dictionary<long,int> fieldTypes = await context.Set<Field>()
+            Dictionary<long, int> fieldTypes = await context.Set<Field>()
                 .Where(field => fieldIds.Contains(field.Id))
                 .Select(s => new { s.Id, s.FieldType })
-                .ToDictionaryAsync(d=>d.Id,d=>d.FieldType);
+                .ToDictionaryAsync(d => d.Id, d => d.FieldType);
 
             foreach (var stack in stacks)
             {
@@ -25,7 +25,7 @@ namespace MtdKey.Storage
                 int fieldType = fieldTypes
                     .Where(x => x.Key.Equals(stack.FieldId)).Select(x => x.Value)
                     .FirstOrDefault();
-                
+
                 if (fieldType == (int)FieldType.Numeric)
                 {
                     await context.Entry(stack).Reference(x => x.StackDigital).LoadAsync();
@@ -87,6 +87,22 @@ namespace MtdKey.Storage
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }
+
+                if (fieldType == (int)FieldType.File)
+                {
+                    await context.Entry(stack).Reference(x => x.StackFile).LoadAsync();
+                    var fileData = new FileData()
+                    {
+                        Name = stack.StackFile.FileName,
+                        Mime = stack.StackFile.FileType,
+                        ByteArray = stack.StackFile.Data,
+                        Size = stack.StackFile.FileSize
+                    };
+                    NodePatternItem nodeItem = new(fileData, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                    nodeItem.NodeId = stack.NodeId;
+                    nodeItems.Add(nodeItem);
+                }
+
             }
 
             return nodeItems;

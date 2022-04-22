@@ -6,7 +6,7 @@ using Xunit;
 namespace MtdKey.Storage.Tests
 {
     [Collection("Sequential")]
-    public class T040_FieldTypes
+    public class T040_CreateSchema
     {
 
         [Theory]

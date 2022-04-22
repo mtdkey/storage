@@ -19,6 +19,9 @@ namespace MtdKey.Storage.Tests.HelperFunctions
             var fieldBoolean = await requestProvider.CreateFieldAsync(bunch.BunchId, FieldType.Boolean);
             var fieldDateTime = await requestProvider.CreateFieldAsync(bunch.BunchId, FieldType.DateTime);
             var fieldNumeric = await requestProvider.CreateFieldAsync(bunch.BunchId, FieldType.Numeric);
+            var fieldFile = await requestProvider.CreateFieldAsync(bunch.BunchId, FieldType.File);
+
+            var file = await Common.GetFileTestAsync();
 
             List<NodePatternItem> nodeItems = new()
             {
@@ -26,6 +29,7 @@ namespace MtdKey.Storage.Tests.HelperFunctions
                 new NodePatternItem(Common.DateTimeValue, fieldDateTime.FieldId, "Tester", DateTime.UtcNow),
                 new NodePatternItem(Common.BooleanValue, fieldBoolean.FieldId, "Tester", DateTime.UtcNow),
                 new NodePatternItem(Common.NumericValue, fieldNumeric.FieldId, "Tester", DateTime.UtcNow),
+                new NodePatternItem(file, fieldFile.FieldId, "Tester", DateTime.UtcNow),
             };          
 
             requestResult = await requestProvider.NodeSaveAsync(node => {

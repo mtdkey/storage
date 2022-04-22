@@ -91,7 +91,7 @@ Use the Request Provider by specifying a connection string
     var fields = firstNode.Items;
     
 <p>ℹ️ Explore the test code for more examples.</p>
-⚠️ To run tests create storage.json file.
+⚠️ To run tests create storage.json file in the Tests project.
 
 ```json
 {

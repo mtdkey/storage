@@ -10,7 +10,6 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-
         public async Task<RequestResult<NodePattern>> NodeQueryAsync(Action<RequestFilter> filter)
         {
             var patternResult = new RequestResult<NodePattern>(true);
@@ -40,7 +39,6 @@ namespace MtdKey.Storage
                         BunchId = node.BunchId,
                         Number = node.NodeExt.Number,
                         Items = new List<NodePatternItem>()
-
                     })
                     .FilterPages(requestFilter.Page, requestFilter.PageSize)
                     .ToListAsync();

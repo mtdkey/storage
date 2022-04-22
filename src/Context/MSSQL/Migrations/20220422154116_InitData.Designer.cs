@@ -12,7 +12,7 @@ using MtdKey.Storage.Context.MSSQL;
 namespace MtdKey.Storage.Context.MSSQL.Migrations
 {
     [DbContext(typeof(MSSQLContext))]
-    [Migration("20220422113205_InitData")]
+    [Migration("20220422154116_InitData")]
     partial class InitData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,6 +280,11 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("stack_id");
 
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)")
+                        .HasColumnName("data");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(256)")
@@ -293,11 +298,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(256)")
                         .HasColumnName("file_type");
-
-                    b.Property<byte[]>("Value")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("value");
 
                     b.HasKey("StackId");
 

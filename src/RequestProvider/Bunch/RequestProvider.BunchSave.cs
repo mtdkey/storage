@@ -6,25 +6,25 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<RequestResult<BunchSchema>> BunchSaveAsync(BunchSchema bunchSchema)
+        public async Task<RequestResult<BunchPattern>> BunchSaveAsync(BunchPattern bunchPattern)
         {
-            return bunchSchema.BunchId > 0 ? await BunchUpdateAsync(bunchSchema) : await BunchCreateAsync(bunchSchema);
+            return bunchPattern.BunchId > 0 ? await BunchUpdateAsync(bunchPattern) : await BunchCreateAsync(bunchPattern);
         }
 
-        public async Task<RequestResult<BunchSchema>> BunchSaveAsync(Action<BunchSchema> bunchSchema)
+        public async Task<RequestResult<BunchPattern>> BunchSaveAsync(Action<BunchPattern> bunchPattern)
         {
-            var schema = new BunchSchema();
-            bunchSchema.Invoke(schema);
-            return await BunchSaveAsync(schema);
+            var pattern = new BunchPattern();
+            bunchPattern.Invoke(pattern);
+            return await BunchSaveAsync(pattern);
         }
 
-        private async Task<RequestResult<BunchSchema>> BunchCreateAsync(BunchSchema bunchSchema)
+        private async Task<RequestResult<BunchPattern>> BunchCreateAsync(BunchPattern bunchPattern)
         {
-            var requestResult = new RequestResult<BunchSchema>(true);
+            var requestResult = new RequestResult<BunchPattern>(true);
 
             var bunch = new Bunch
             {
-                Name = bunchSchema.Name ?? string.Empty,             
+                Name = bunchPattern.Name ?? string.Empty,             
                 DeletedFlag = FlagSign.False,
                 BunchExt = new BunchExt(),
                 BunchToken = new BunchToken()
@@ -40,8 +40,8 @@ namespace MtdKey.Storage
                 await context.AddAsync(bunch);
                 await context.SaveChangesAsync();
 
-                bunchSchema.BunchId = bunch.Id;
-                requestResult.FillDataSet(new() { bunchSchema });         
+                bunchPattern.BunchId = bunch.Id;
+                requestResult.FillDataSet(new() { bunchPattern });         
             }
             catch (Exception exception)
             {
@@ -54,19 +54,19 @@ namespace MtdKey.Storage
             return requestResult;
         }
 
-        private async Task<RequestResult<BunchSchema>> BunchUpdateAsync(BunchSchema bunchSchema)
+        private async Task<RequestResult<BunchPattern>> BunchUpdateAsync(BunchPattern bunchPattern)
         {
-            var requestResult = new RequestResult<BunchSchema>(true);
-            Bunch bunch = await context.FindAsync<Bunch>(bunchSchema.BunchId);
+            var requestResult = new RequestResult<BunchPattern>(true);
+            Bunch bunch = await context.FindAsync<Bunch>(bunchPattern.BunchId);
             if (bunch == null || bunch.DeletedFlag == FlagSign.True) { requestResult.SetResultInfo(false, new Exception("Bad Request.")); return requestResult; }
 
-            bunch.Name = bunchSchema.Name ?? bunch.Name;
+            bunch.Name = bunchPattern.Name ?? bunch.Name;
             bunch.DeletedFlag = FlagSign.False;
 
             try
             {
                 await context.SaveChangesAsync();
-                requestResult.FillDataSet(new() { bunchSchema });
+                requestResult.FillDataSet(new() { bunchPattern });
             }
             catch (Exception exception)
             {

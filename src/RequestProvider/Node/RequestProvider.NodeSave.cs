@@ -11,23 +11,23 @@ namespace MtdKey.Storage
     public partial class RequestProvider : IDisposable
     {
 
-        public async Task<RequestResult<NodeSchema>> NodeSaveAsync(Action<NodeSchema> nodeSchema)
+        public async Task<RequestResult<NodePattern>> NodeSaveAsync(Action<NodePattern> nodePattern)
         {
-            var schema = new NodeSchema();
-            nodeSchema.Invoke(schema);
-            return await NodeSaveAsync(schema);
+            var pattern = new NodePattern();
+            nodePattern.Invoke(pattern);
+            return await NodeSaveAsync(pattern);
         }
 
-        public async Task<RequestResult<NodeSchema>> NodeSaveAsync(NodeSchema nodeSchema)
+        public async Task<RequestResult<NodePattern>> NodeSaveAsync(NodePattern nodePattern)
         {
-            var requestResult = new RequestResult<NodeSchema>(true);
-            bool creatingNode = nodeSchema.NodeId < 1;
+            var requestResult = new RequestResult<NodePattern>(true);
+            bool creatingNode = nodePattern.NodeId < 1;
             Node node;
             try
             {
 
                 ///Check access via token
-                BunchToken bunchToken = await context.Set<BunchToken>().FindAsync(nodeSchema.BunchId);
+                BunchToken bunchToken = await context.Set<BunchToken>().FindAsync(nodePattern.BunchId);
                 bool creatingAllowed = contextProperty.AccessTokens.Contains(bunchToken.TokenToCreate);
                 bool editingAllowed = contextProperty.AccessTokens.Contains(bunchToken.TokenToEdit);
 
@@ -43,17 +43,17 @@ namespace MtdKey.Storage
                     return requestResult;
                 }
 
-                node = creatingNode ? await CreateNodeAsync(nodeSchema) : await UpdateNodeAsync(nodeSchema);
+                node = creatingNode ? await CreateNodeAsync(nodePattern) : await UpdateNodeAsync(nodePattern);
 
-                nodeSchema.NodeId = node.Id;
-                nodeSchema.Number = node.NodeExt.Number;
+                nodePattern.NodeId = node.Id;
+                nodePattern.Number = node.NodeExt.Number;
                                 
 
-                List<Stack> stacks = await CreateStackListAsync(nodeSchema);
+                List<Stack> stacks = await CreateStackListAsync(nodePattern);
 
-                List<NodeSchemaItem> nodeItems = await GetNodeSchemaItemsAsync(stacks);
-                nodeSchema.Items = nodeItems;
-                requestResult.FillDataSet(new() { nodeSchema });
+                List<NodePatternItem> nodeItems = await GetNodePatternItemsAsync(stacks);
+                nodePattern.Items = nodeItems;
+                requestResult.FillDataSet(new() { nodePattern });
 
             }
             catch (Exception exception)
@@ -67,19 +67,19 @@ namespace MtdKey.Storage
             return requestResult;
         }
 
-        private async Task<Node> CreateNodeAsync(NodeSchema nodeSchema)
+        private async Task<Node> CreateNodeAsync(NodePattern nodePattern)
         {
 
             Node node = new();
-            var bunchExt = await context.Set<BunchExt>().FindAsync(nodeSchema.BunchId);
+            var bunchExt = await context.Set<BunchExt>().FindAsync(nodePattern.BunchId);
             bunchExt.Counter++;
 
             node.NodeExt = new() { Number = bunchExt.Counter };
             node.NodeToken = new() { ForRLS = contextProperty.MasterToken };
-            node.BunchId = nodeSchema.BunchId;
-            var dateCreated = nodeSchema.DateCreated == DateTime.MinValue ? DateTime.UtcNow : nodeSchema.DateCreated;
+            node.BunchId = nodePattern.BunchId;
+            var dateCreated = nodePattern.DateCreated == DateTime.MinValue ? DateTime.UtcNow : nodePattern.DateCreated;
             node.DateCreated = dateCreated;
-            node.CreatorInfo = nodeSchema.CreatorInfo ?? "unknown";
+            node.CreatorInfo = nodePattern.CreatorInfo ?? "unknown";
             node.DeletedFlag = FlagSign.False;
 
             await context.AddAsync(node);
@@ -88,26 +88,26 @@ namespace MtdKey.Storage
             return node;
         }
 
-        private async Task<Node> UpdateNodeAsync(NodeSchema nodeSchema)
+        private async Task<Node> UpdateNodeAsync(NodePattern nodePattern)
         {
-            Node node = await context.Set<Node>().FindAsync(nodeSchema.NodeId);
-            node.BunchId = nodeSchema.BunchId;
+            Node node = await context.Set<Node>().FindAsync(nodePattern.NodeId);
+            node.BunchId = nodePattern.BunchId;
             node.DeletedFlag = FlagSign.False;
             await context.SaveChangesAsync();
 
             return node;
         }
 
-        private async Task<List<Stack>> CreateStackListAsync(NodeSchema nodeSchema)
+        private async Task<List<Stack>> CreateStackListAsync(NodePattern nodePattern)
         {
             List<Stack> stacks;
 
-            if (nodeSchema.Items is not null && nodeSchema.Items.Count > 0)
+            if (nodePattern.Items is not null && nodePattern.Items.Count > 0)
             {
                 stacks = new();
-                nodeSchema.Items.ForEach(nodeItem =>
+                nodePattern.Items.ForEach(nodeItem =>
                 {
-                    var stack = CreateStack(nodeSchema.NodeId, nodeItem);
+                    var stack = CreateStack(nodePattern.NodeId, nodeItem);
                     stacks.Add(stack);
                 });
 
@@ -119,7 +119,7 @@ namespace MtdKey.Storage
                 var scriptGetMaxIds = SqlScript.StackMaxIds(contextProperty.DatabaseType);
                 stacks = await context.Set<Stack>()
                     .FromSqlRaw(scriptGetMaxIds)
-                    .Where(x => x.NodeId == nodeSchema.NodeId)
+                    .Where(x => x.NodeId == nodePattern.NodeId)
                     .ToListAsync();
             }
 
@@ -127,7 +127,7 @@ namespace MtdKey.Storage
 
         }
 
-        private static Stack CreateStack(long nodeId, NodeSchemaItem nodeItem)
+        private static Stack CreateStack(long nodeId, NodePatternItem nodeItem)
         {
             var stack = new Stack()
             {
@@ -176,8 +176,15 @@ namespace MtdKey.Storage
 
             if (nodeItem.FieldType == FieldType.Link)
             {
-                var value = (NodeSchema)nodeItem.Data;
+                var value = (NodePattern)nodeItem.Data;
                 stack.StackList = new StackList { StackId = stack.Id, NodeId = value.NodeId };
+            }
+
+
+            if (nodeItem.FieldType == FieldType.File)
+            {
+                //var value =  (byte[])nodeItem.Data;
+                //stack.StackList = new StackList { StackId = stack.Id, NodeId = value.NodeId };
             }
 
             return stack;

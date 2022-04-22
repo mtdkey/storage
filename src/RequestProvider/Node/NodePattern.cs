@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MtdKey.Storage
 {    
-    public class NodeSchema
+    public class NodePattern
     {
         public long NodeId { get; set; }
         public long BunchId { get; set; }
@@ -14,6 +14,6 @@ namespace MtdKey.Storage
         public string CreatorInfo { get; set; }
         public DateTime DateCreated { get; set; }
 
-        public List<NodeSchemaItem> Items { get; set; }
+        public List<NodePatternItem> Items { get; set; }
     }
 }

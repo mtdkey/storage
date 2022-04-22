@@ -11,8 +11,8 @@ namespace MtdKey.Storage.Tests
         public static async Task<IRequestResult> TestCreateBunchAndFieldsAsync(this RequestProvider requestProvider, long index)
         {
  
-            var directoryCreated = await requestProvider.BunchSaveAsync(schema => {
-                schema.Name = $"Bunch is Catalog {DateTime.UtcNow.Ticks}-first";
+            var directoryCreated = await requestProvider.BunchSaveAsync(bunch => {
+                bunch.Name = $"Bunch is Catalog {DateTime.UtcNow.Ticks}-first";
             });
 
             if (!directoryCreated.Success) return directoryCreated;
@@ -31,8 +31,8 @@ namespace MtdKey.Storage.Tests
             }
 
 
-            var bunchCreated = await requestProvider.BunchSaveAsync(schema => {
-                schema.Name = $"Bunch for test fields {index}-second";
+            var bunchCreated = await requestProvider.BunchSaveAsync(bunch => {
+                bunch.Name = $"Bunch for test fields {index}-second";
             });
 
             if (!bunchCreated.Success) return bunchCreated;     

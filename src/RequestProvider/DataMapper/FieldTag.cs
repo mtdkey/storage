@@ -10,6 +10,6 @@ namespace MtdKey.Storage
     {
         public string BunchName { get; set; }
         public string BunchList { get; set; }
-        public FieldSchema FieldSchema { get; set; }
+        public FieldPattern FieldPattern { get; set; }
     }
 }

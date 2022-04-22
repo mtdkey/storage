@@ -53,9 +53,9 @@ namespace MtdKey.Storage
             return xmlDocument;
         }
 
-        public List<BunchSchema> GetBunches()
+        public List<BunchPattern> GetBunches()
         {
-            var result = new List<BunchSchema>();
+            var result = new List<BunchPattern>();
             XmlElement root = xmlDocument.DocumentElement;
             var bunches = root.GetElementsByTagName("bunch");
             foreach (XmlNode bunch in bunches)
@@ -79,7 +79,7 @@ namespace MtdKey.Storage
                 var fieldType = field.Attributes["type"].Value;
                 var bunchList = field.Attributes["list"]?.Value;
 
-                var fieldSchema = new FieldSchema()
+                var FieldPattern = new FieldPattern()
                 {
                     FieldType = FieldType.GetByName(fieldType),
                     Name = field.Attributes["name"].Value,
@@ -89,7 +89,7 @@ namespace MtdKey.Storage
                 {
                     BunchName = bunchName,
                     BunchList = bunchList,
-                    FieldSchema = fieldSchema
+                    FieldPattern = FieldPattern
                 });
             }
 

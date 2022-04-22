@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MtdKey.Storage
 {
-    public class NodeSchemaItem
+    public class NodePatternItem
     {
         public long NodeId { get; set; }
         public long FieldId { get; private set; }
@@ -16,7 +17,7 @@ namespace MtdKey.Storage
         public string CreatorInfo { get; private set; }
         public DateTime DateCreated { get; private set; }
 
-        public NodeSchemaItem(string value, long fieldId, string creatorInfo, DateTime dateTime)
+        public NodePatternItem(string value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             Data = value;
             SystemType = typeof(string);
@@ -26,7 +27,7 @@ namespace MtdKey.Storage
             DateCreated = dateTime;
         }
 
-        public NodeSchemaItem(decimal value, long fieldId, string creatorInfo, DateTime dateTime)
+        public NodePatternItem(decimal value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             FieldId = fieldId;
             Data = value;
@@ -36,7 +37,7 @@ namespace MtdKey.Storage
             DateCreated = dateTime;
         }
 
-        public NodeSchemaItem(DateTime value, long fieldId, string creatorInfo, DateTime dateTime)
+        public NodePatternItem(DateTime value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             FieldId = fieldId;
             Data = value;
@@ -46,7 +47,7 @@ namespace MtdKey.Storage
             DateCreated = dateTime;
         }
 
-        public NodeSchemaItem(bool value, long fieldId, string creatorInfo, DateTime dateTime)
+        public NodePatternItem(bool value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             FieldId = fieldId;
             Data = value;
@@ -56,21 +57,21 @@ namespace MtdKey.Storage
             DateCreated = dateTime;
         }
 
-        public NodeSchemaItem(NodeSchema value, long fieldId, string creatorInfo, DateTime dateTime)
+        public NodePatternItem(NodePattern value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             FieldId = fieldId;
             Data = value;
-            SystemType = typeof(NodeSchema);
+            SystemType = typeof(NodePattern);
             FieldType = FieldType.Link;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;
         }
 
-        public NodeSchemaItem(byte[] value, long fieldId, string creatorInfo, DateTime dateTime)
+        public NodePatternItem(FileInfo value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             FieldId = fieldId;
             Data = value;
-            SystemType = typeof(NodeSchema);
+            SystemType = typeof(byte[]);
             FieldType = FieldType.File;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;

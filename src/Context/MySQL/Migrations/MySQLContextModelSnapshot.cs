@@ -267,6 +267,11 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("stack_id");
 
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("longblob")
+                        .HasColumnName("data");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("varchar(256)")
@@ -280,11 +285,6 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(256)")
                         .HasColumnName("file_type");
-
-                    b.Property<byte[]>("Value")
-                        .IsRequired()
-                        .HasColumnType("longblob")
-                        .HasColumnName("value");
 
                     b.HasKey("StackId");
 

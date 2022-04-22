@@ -6,8 +6,10 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".xml" #>
 <?xml version="1.0" encoding="UTF-8"?>
-<bunches version="<# Write("{0}", DateTime.Now.Ticks); #>">
-	<#@ include file="Issue.xml"#>
-	<#@ include file="IssueReport.xml"#>
-	<#@ include file="IssueSubject.xml"#>
-</bunches>
+<schema name="Issue" version="<# Write("{0}", DateTime.Now.Ticks); #>">
+	<bunches>
+		<#@ include file="Issue.xml"#>
+		<#@ include file="IssueReport.xml"#>
+		<#@ include file="IssueSubject.xml"#>
+	</bunches>
+</schema>

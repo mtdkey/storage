@@ -11,9 +11,9 @@ namespace MtdKey.Storage
     public partial class RequestProvider : IDisposable
     {
 
-        public async Task<RequestResult<NodeSchema>> NodeQueryAsync(Action<RequestFilter> filter)
+        public async Task<RequestResult<NodePattern>> NodeQueryAsync(Action<RequestFilter> filter)
         {
-            var schemaResult = new RequestResult<NodeSchema>(true);
+            var patternResult = new RequestResult<NodePattern>(true);
             var requestFilter = new RequestFilter();
             filter.Invoke(requestFilter);
 
@@ -34,12 +34,12 @@ namespace MtdKey.Storage
                 }
 
                 var dataSet = await query                    
-                    .Select(node => new NodeSchema
+                    .Select(node => new NodePattern
                     {
                         NodeId = node.Id,
                         BunchId = node.BunchId,
                         Number = node.NodeExt.Number,
-                        Items = new List<NodeSchemaItem>()
+                        Items = new List<NodePatternItem>()
 
                     })
                     .FilterPages(requestFilter.Page, requestFilter.PageSize)
@@ -53,25 +53,25 @@ namespace MtdKey.Storage
                     .Where(x => nodeIds.Contains(x.NodeId))
                     .ToListAsync();
 
-                List<NodeSchemaItem> nodeItems = await GetNodeSchemaItemsAsync(stacks);
+                List<NodePatternItem> nodeItems = await GetNodePatternItemsAsync(stacks);
 
                 dataSet.ToList().ForEach(node =>
                 {
                     node.Items = nodeItems.Where(x => x.NodeId == node.NodeId).ToList();
                 });
                 
-                schemaResult.FillDataSet(dataSet);
+                patternResult.FillDataSet(dataSet);
                 
             }
             catch (Exception exception)
             {
-                schemaResult.SetResultInfo(false, exception);
+                patternResult.SetResultInfo(false, exception);
 #if DEBUG
                 throw;
 #endif
             }
 
-            return schemaResult;
+            return patternResult;
         }
 
     }

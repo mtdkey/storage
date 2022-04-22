@@ -9,16 +9,16 @@ namespace MtdKey.Storage
     public partial class RequestProvider : IDisposable
     {
 
-        public async Task<RequestResult<BunchSchema>> BunchQueryAsync(Action<RequestFilter> filter)
+        public async Task<RequestResult<BunchPattern>> BunchQueryAsync(Action<RequestFilter> filter)
         {
             RequestFilter requestFilter = new();
             filter.Invoke(requestFilter);
             return await BunchQueryAsync(requestFilter); 
         }
 
-        public async Task<RequestResult<BunchSchema>> BunchQueryAsync(RequestFilter filter)
+        public async Task<RequestResult<BunchPattern>> BunchQueryAsync(RequestFilter filter)
         {
-            var schemaResult = new RequestResult<BunchSchema>(true);
+            var patternResult = new RequestResult<BunchPattern>(true);
             
             try
             {
@@ -33,7 +33,7 @@ namespace MtdKey.Storage
                 }
 
                 var dataSet = await query                    
-                    .Select(bunch => new BunchSchema
+                    .Select(bunch => new BunchPattern
                     {
                         BunchId = bunch.Id,
                         Name = bunch.Name,
@@ -41,17 +41,17 @@ namespace MtdKey.Storage
                     .FilterPages(filter.Page, filter.PageSize)
                     .ToListAsync();
 
-                schemaResult.FillDataSet(dataSet);
+                patternResult.FillDataSet(dataSet);
             }
             catch (Exception exception)
             {
-                schemaResult.SetResultInfo(false, exception);
+                patternResult.SetResultInfo(false, exception);
 #if DEBUG
                 throw;
 #endif
             }
 
-            return schemaResult;
+            return patternResult;
         }
     }
 }

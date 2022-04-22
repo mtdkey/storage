@@ -278,6 +278,11 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("stack_id");
 
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)")
+                        .HasColumnName("data");
+
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(256)")
@@ -291,11 +296,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(256)")
                         .HasColumnName("file_type");
-
-                    b.Property<byte[]>("Value")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("value");
 
                     b.HasKey("StackId");
 

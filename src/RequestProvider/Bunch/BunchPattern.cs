@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MtdKey.Storage
 {
-    public class BunchSchema
+    public class BunchPattern
     {
         public long BunchId {get;set;}
         public string Name { get; set; }        

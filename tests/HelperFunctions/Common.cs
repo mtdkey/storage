@@ -12,8 +12,8 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         public static string LongTextValue => FileReader.GetLongText();
         public static string ShortTextValue => FileReader.GetShortText();
         public static bool BooleanValue => true;
-        public static string SplitedWordValue => "Inbunchation"; 
-
+        public static string SplitedWordValue => "Inbunchation";
+        
 
         public static string GetRandomName()
         {

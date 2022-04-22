@@ -40,13 +40,13 @@ namespace MtdKey.Storage.Tests
             dataMapper.LoadSchemaFromServer();
             var fields = dataMapper.GetFields();
             Assert.True(fields.Where(x => x.BunchName.Equals("IssueReport")).Any());
-            Assert.True(fields.Where(x => x.FieldSchema.Name.Equals("AssignedTo")).Any());
+            Assert.True(fields.Where(x => x.FieldPattern.Name.Equals("AssignedTo")).Any());
 
-            var queryA = fields.Where(x => x.FieldSchema.FieldType is null);
-            Assert.False(queryA.Any(),queryA.FirstOrDefault()?.FieldSchema.Name);
+            var queryA = fields.Where(x => x.FieldPattern.FieldType is null);
+            Assert.False(queryA.Any(),queryA.FirstOrDefault()?.FieldPattern.Name);
 
-            var queryB = fields.Where(x => x.FieldSchema.FieldType == FieldType.Link && x.BunchList == null);
-            Assert.False(queryB.Any(), queryB.FirstOrDefault()?.FieldSchema.Name);
+            var queryB = fields.Where(x => x.FieldPattern.FieldType == FieldType.Link && x.BunchList == null);
+            Assert.False(queryB.Any(), queryB.FirstOrDefault()?.FieldPattern.Name);
 
 
         }

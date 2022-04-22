@@ -8,16 +8,16 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<RequestResult<FieldSchema>> FieldQueryAsync(Action<RequestFilter> filter)
+        public async Task<RequestResult<FieldPattern>> FieldQueryAsync(Action<RequestFilter> filter)
         {
             RequestFilter requestFilter = new();
             filter.Invoke(requestFilter);
             return await FieldQueryAsync(requestFilter);
         }
 
-        public async Task<RequestResult<FieldSchema>> FieldQueryAsync(RequestFilter filter)
+        public async Task<RequestResult<FieldPattern>> FieldQueryAsync(RequestFilter filter)
         {
-            var requestResult = new RequestResult<FieldSchema>(true);
+            var requestResult = new RequestResult<FieldPattern>(true);
   
             try
             {
@@ -34,7 +34,7 @@ namespace MtdKey.Storage
                 }
 
                 var dataSet = await query                    
-                    .Select(field => new FieldSchema
+                    .Select(field => new FieldPattern
                     {
                         FieldId = field.Id,
                         BunchId = field.BunchId,

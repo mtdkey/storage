@@ -8,7 +8,7 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<IRequestResult> UpLoadSchena(List<BunchSchema> bunchTags)
+        public async Task<IRequestResult> UpLoadSchena(List<BunchPattern> bunchTags)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace MtdKey.Storage
             return new RequestResult<IRequestResult>(true);
         }
 
-        private async Task ParsingTBunchags(List<BunchSchema> bunchTags)
+        private async Task ParsingTBunchags(List<BunchPattern> bunchTags)
         {
             var query = context.Set<Bunch>();
 
@@ -65,7 +65,7 @@ namespace MtdKey.Storage
                 long bunchId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.BunchName)).Id;
 
                 var fieldExists = fieldQuery
-                    .Where(field => field.Name.ToLower() == fieldTag.FieldSchema.Name.ToLower()
+                    .Where(field => field.Name.ToLower() == fieldTag.FieldPattern.Name.ToLower()
                         && field.BunchId == bunchId)
                     .Any();
                 if (fieldExists) continue;
@@ -73,11 +73,11 @@ namespace MtdKey.Storage
                 var field = new Field
                 {
                     BunchId = bunchId,
-                    Name = fieldTag.FieldSchema.Name,
-                    FieldType = (int)fieldTag.FieldSchema.FieldType,
+                    Name = fieldTag.FieldPattern.Name,
+                    FieldType = (int)fieldTag.FieldPattern.FieldType,
                 };
 
-                if (fieldTag.FieldSchema.FieldType == FieldType.Link)
+                if (fieldTag.FieldPattern.FieldType == FieldType.Link)
                 {
                     var linkId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.BunchList)).Id;
                     var fieldLink = new FieldLink { BunchId = linkId };

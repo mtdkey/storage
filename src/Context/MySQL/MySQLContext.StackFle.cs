@@ -32,9 +32,9 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnName("file_type")
                     .HasColumnType("varchar(256)");
 
-                entity.Property(e => e.Value)
+                entity.Property(e => e.Data)
                     .IsRequired()
-                    .HasColumnName("value")
+                    .HasColumnName("data")
                     .HasColumnType("longblob");
 
                 entity.HasOne(d => d.Stack)

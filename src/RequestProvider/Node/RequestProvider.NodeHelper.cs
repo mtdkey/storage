@@ -9,9 +9,9 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        private async Task<List<NodeSchemaItem>> GetNodeSchemaItemsAsync(IList<Stack> stacks)
+        private async Task<List<NodePatternItem>> GetNodePatternItemsAsync(IList<Stack> stacks)
         {
-            List<NodeSchemaItem> nodeItems = new();
+            List<NodePatternItem> nodeItems = new();
             List<long> fieldIds = stacks.GroupBy(x => x.FieldId).Select(x=>x.Key).ToList();
 
             Dictionary<long,int> fieldTypes = await context.Set<Field>()
@@ -30,7 +30,7 @@ namespace MtdKey.Storage
                 {
                     await context.Entry(stack).Reference(x => x.StackDigital).LoadAsync();
                     var value = stack.StackDigital.Value;
-                    NodeSchemaItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                    NodePatternItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }
@@ -39,7 +39,7 @@ namespace MtdKey.Storage
                 {
                     await context.Entry(stack).Reference(x => x.StackDigital).LoadAsync();
                     bool value = stack.StackDigital.Value == 1;
-                    NodeSchemaItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                    NodePatternItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }
@@ -48,7 +48,7 @@ namespace MtdKey.Storage
                 {
                     await context.Entry(stack).Reference(x => x.StackDigital).LoadAsync();
                     DateTime value = new((long)stack.StackDigital.Value);
-                    NodeSchemaItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                    NodePatternItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }
@@ -58,7 +58,7 @@ namespace MtdKey.Storage
                     await context.Entry(stack).Collection(x => x.StackTexts).LoadAsync();
                     List<string> values = stack.StackTexts.Select(x => x.Value).ToList();
                     string value = string.Concat(values);
-                    NodeSchemaItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                    NodePatternItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }
@@ -73,17 +73,17 @@ namespace MtdKey.Storage
                     await context.Entry(listNode).Reference(x => x.NodeExt).LoadAsync();
 
                     var catalogStacks = listNode.Stacks.ToList();
-                    var nodeSchemaItems = await GetNodeSchemaItemsAsync(catalogStacks);
+                    var nodePatternItems = await GetNodePatternItemsAsync(catalogStacks);
 
-                    NodeSchema nodeSchema = new()
+                    NodePattern nodePattern = new()
                     {
                         NodeId = listNode.Id,
                         BunchId = listNode.BunchId,
                         Number = listNode.NodeExt.Number,
-                        Items = nodeSchemaItems
+                        Items = nodePatternItems
                     };
 
-                    NodeSchemaItem nodeItem = new(nodeSchema, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                    NodePatternItem nodeItem = new(nodePattern, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }

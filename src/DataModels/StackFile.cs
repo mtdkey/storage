@@ -10,7 +10,7 @@ namespace MtdKey.Storage.DataModels
         public string FileName { get; set; }
         public long FileSize { get; set; }
         public string FileType { get; set; }
-        public byte[] Value { get; set; }
+        public byte[] Data { get; set; }
 
         public virtual Stack Stack { get; set; }
     }

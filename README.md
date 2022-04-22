@@ -90,8 +90,17 @@ Use the Request Provider by specifying a connection string
     var firstNode = receivedNodes.DataSet.FirstOrDefault();
     var fields = firstNode.Items;
     
-ℹ️ Explore the test code for more examples. To run tests create storage.json file.
+<p>ℹ️ Explore the test code for more examples.</p>
+⚠️ To run tests create storage.json file.
 
+```json
+{
+  "ConnectionStrings": {
+    "mssql_test": "Server=.\\SQLEXPRESS;Database=test_new_storage;User ID=[USER];Password=[PWD];Trusted_Connection=false;",
+    "mysql_test": "Server=127.0.0.1;Database=test_new_storage;User Id=[USER];Password=[PWD];SslMode=none;"
+  }
+}
+```
 ## License    
 Copyright (c) – presented by [Oleg Bruev](https://github.com/olegbruev/).  
 MTDKey Storage is free and open-source software licensed under the MIT License.

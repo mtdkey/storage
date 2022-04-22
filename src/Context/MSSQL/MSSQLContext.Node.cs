@@ -25,6 +25,16 @@ namespace MtdKey.Storage.Context.MSSQL
                     .HasColumnName("bunch_id")
                     .HasColumnType("bigint");
 
+                entity.Property(e => e.DateCreated)
+                    .IsRequired()
+                    .HasColumnName("date_created")
+                    .HasColumnType("DateTime");
+
+                entity.Property(e => e.CreatorInfo)
+                    .IsRequired()
+                    .HasColumnName("creator_info")
+                    .HasColumnType("nvarchar(128)");
+
                 entity.Property(e => e.DeletedFlag)
                     .IsRequired()
                     .HasColumnName("deleted_flag")

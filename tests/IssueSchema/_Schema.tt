@@ -7,9 +7,7 @@
 <#@ output extension=".xml" #>
 <?xml version="1.0" encoding="UTF-8"?>
 <bunches version="<# Write("{0}", DateTime.Now.Ticks); #>">
-	<#@ include file="company.xml"#>
-	<#@ include file="companyUser.xml"#>
-	<#@ include file="issue.xml"#>
-	<#@ include file="issueReport.xml"#>
-	<#@ include file="issueSubject.xml"#>
+	<#@ include file="Issue.xml"#>
+	<#@ include file="IssueReport.xml"#>
+	<#@ include file="IssueSubject.xml"#>
 </bunches>

@@ -12,7 +12,7 @@ using MtdKey.Storage.Context.MSSQL;
 namespace MtdKey.Storage.Context.MSSQL.Migrations
 {
     [DbContext(typeof(MSSQLContext))]
-    [Migration("20220421164755_InitData")]
+    [Migration("20220422113205_InitData")]
     partial class InitData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,6 +163,15 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     b.Property<long>("BunchId")
                         .HasColumnType("bigint")
                         .HasColumnName("bunch_id");
+
+                    b.Property<string>("CreatorInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(128)")
+                        .HasColumnName("creator_info");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("date_created");
 
                     b.Property<byte>("DeletedFlag")
                         .HasColumnType("tinyint")

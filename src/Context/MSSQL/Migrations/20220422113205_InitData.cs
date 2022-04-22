@@ -90,6 +90,8 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     bunch_id = table.Column<long>(type: "bigint", nullable: false),
+                    date_created = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    creator_info = table.Column<string>(type: "nvarchar(128)", nullable: false),
                     deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>

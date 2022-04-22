@@ -18,7 +18,7 @@ namespace MtdKey.Storage.Tests
             using RequestProvider requestProvider = new(contextProperty);
 
             await requestProvider.BeginTransactionAsync();
-            var xmlSchema = new XmlSchema<T030_XMLSchemaLoader>();
+            var xmlSchema = new XmlSchema<T030_XMLSchemaLoader>("Issue");
             xmlSchema.LoadSchemaFromServer();
             var xmlDoc = xmlSchema.GetXmlDocument();
 

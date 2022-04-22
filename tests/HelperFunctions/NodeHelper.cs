@@ -31,6 +31,8 @@ namespace MtdKey.Storage.Tests.HelperFunctions
             requestResult = await requestProvider.NodeSaveAsync(schema => {
                 schema.BunchId = bunch.BunchId;
                 schema.Items = nodeItems;
+                schema.DateCreated = DateTime.UtcNow;
+                schema.CreatorInfo = "Tester";
             });            
 
             return requestResult;

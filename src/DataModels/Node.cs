@@ -1,7 +1,7 @@
 ﻿using MtdKey.Storage.Context;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MtdKey.Storage.DataModels
 {
@@ -15,7 +15,9 @@ namespace MtdKey.Storage.DataModels
 
         [Key]
         public long Id { get; set; }
-        public long BunchId { get; set; }        
+        public long BunchId { get; set; }
+        public DateTime DateCreated { get; set; }
+        public string CreatorInfo { get; set; }
         public byte DeletedFlag { get; set; }
 
         public virtual Bunch Bunch {get;set;}

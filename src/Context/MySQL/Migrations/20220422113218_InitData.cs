@@ -98,6 +98,8 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     bunch_id = table.Column<long>(type: "bigint", nullable: false),
+                    date_created = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    creator_info = table.Column<string>(type: "nvarchar(128)", nullable: false),
                     deleted_flag = table.Column<sbyte>(type: "tinyint(2)", nullable: false)
                 },
                 constraints: table =>

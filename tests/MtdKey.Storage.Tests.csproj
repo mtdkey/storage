@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DataSchema\BunchesSchema.xml" />
+    <None Remove="IssueSchema\BunchesSchema.xml" />
+    <None Remove="IssueSchema\_Schema.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,10 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="DataSchema\BunchesSchema.xml">
+    <EmbeddedResource Include="IssueSchema\_Schema.xml">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>BunchesSchema.t4</DependentUpon>
+      <DependentUpon>_Schema.tt</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestFiles\LongText.txt" CopyToPublishDirectory="Never" />
     <EmbeddedResource Include="TestFiles\ShortText.txt" CopyToPublishDirectory="Never" />
@@ -38,9 +39,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DataSchema\BunchesSchema.t4">
+    <None Update="IssueSchema\DataSchema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSchema.t4</DependentUpon>
+    </None>
+    <None Update="IssueSchema\IssueSchema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IssueSchema.t4</DependentUpon>
+    </None>
+    <None Update="IssueSchema\_IssueSchema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_IssueSchema.t4</DependentUpon>
+    </None>
+    <None Update="IssueSchema\_Schema.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BunchesSchema.xml</LastGenOutput>
+      <LastGenOutput>_Schema.xml</LastGenOutput>
     </None>
     <None Update="storage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

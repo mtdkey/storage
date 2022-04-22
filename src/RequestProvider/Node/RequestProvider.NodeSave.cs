@@ -47,6 +47,7 @@ namespace MtdKey.Storage
 
                 nodeSchema.NodeId = node.Id;
                 nodeSchema.Number = node.NodeExt.Number;
+                                
 
                 List<Stack> stacks = await CreateStackListAsync(nodeSchema);
 
@@ -75,8 +76,10 @@ namespace MtdKey.Storage
 
             node.NodeExt = new() { Number = bunchExt.Counter };
             node.NodeToken = new() { ForRLS = contextProperty.MasterToken };
-
             node.BunchId = nodeSchema.BunchId;
+            var dateCreated = nodeSchema.DateCreated == DateTime.MinValue ? DateTime.UtcNow : nodeSchema.DateCreated;
+            node.DateCreated = dateCreated;
+            node.CreatorInfo = nodeSchema.CreatorInfo ?? "unknown";
             node.DeletedFlag = FlagSign.False;
 
             await context.AddAsync(node);

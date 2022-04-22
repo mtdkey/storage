@@ -11,6 +11,9 @@ namespace MtdKey.Storage
         public long NodeId { get; set; }
         public long BunchId { get; set; }
         public int Number { get; set; }
+        public string CreatorInfo { get; set; }
+        public DateTime DateCreated { get; set; }
+
         public List<NodeSchemaItem> Items { get; set; }
     }
 }

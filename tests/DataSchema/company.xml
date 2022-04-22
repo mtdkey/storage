@@ -1,4 +1,0 @@
-﻿<bunch name="Company">
-	<field type="text" name="TIN" />
-	<field type="text" name="Name" />
-</bunch>

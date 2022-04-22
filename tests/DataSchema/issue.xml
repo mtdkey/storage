@@ -1,8 +1,0 @@
-﻿<bunch name="Issue">	
-	<field type="text" name="Description" />
-	<field type="link" list="Company" name="Company" />
-	<field type="boolean" name="Status" />
-	<field type="link" list="IssueSubject" name="Subject" />
-	<field type="link" list="CompanyUser" name="Assigned to"/>
-	<field type="datetime" name="Deadline"/>
-</bunch>

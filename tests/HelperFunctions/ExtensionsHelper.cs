@@ -16,7 +16,6 @@ namespace MtdKey.Storage.Tests
             });
 
             if (!directoryCreated.Success) return directoryCreated;
-
             var catalogId = directoryCreated.DataSet[0].BunchId;
 
             for (int i = 0; i < 5; i++)

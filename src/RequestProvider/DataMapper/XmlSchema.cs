@@ -14,7 +14,7 @@ namespace MtdKey.Storage
         public string ReadDataFromFile()
         {
             var assembly = Assembly.GetAssembly(typeof(T));
-            string resourceName = assembly.GetName().Name + $".DataSchema.BunchesSchema.xml";
+            string resourceName = assembly.GetName().Name + $".{nameSchema}Schema._Schema.xml";
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
             using StreamReader reader = new(stream);
             string fileText = reader.ReadToEnd();
@@ -22,8 +22,11 @@ namespace MtdKey.Storage
         }
 
         private XmlDocument xmlDocument;
+        private readonly string nameSchema;
 
-        public XmlSchema() { }
+        public XmlSchema(string nameSchema) {
+            this.nameSchema = nameSchema;
+        }
 
         public long GetVersion()
         {

@@ -162,6 +162,15 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("bunch_id");
 
+                    b.Property<string>("CreatorInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(128)")
+                        .HasColumnName("creator_info");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("date_created");
+
                     b.Property<byte>("DeletedFlag")
                         .HasColumnType("tinyint")
                         .HasColumnName("deleted_flag");

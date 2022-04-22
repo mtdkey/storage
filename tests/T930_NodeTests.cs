@@ -116,6 +116,8 @@ namespace MtdKey.Storage.Tests
             {                
                 node.BunchId = bunchList.BunchId;
                 node.Items = nodeItems1;
+                node.DateCreated = DateTime.UtcNow;
+                node.CreatorInfo = "Tester";
             });
             var catalogFirstNode = createdfirstdNode.DataSet.FirstOrDefault();
 
@@ -123,6 +125,8 @@ namespace MtdKey.Storage.Tests
             {
                 node.BunchId = bunchList.BunchId;
                 node.Items = nodeItems2;
+                node.DateCreated = DateTime.UtcNow;
+                node.CreatorInfo = "Tester";
             });
 
             //Create data items for the bunch selector
@@ -136,6 +140,8 @@ namespace MtdKey.Storage.Tests
             {
                 node.BunchId = bunchSelector.BunchId;
                 node.Items = selectedNode;
+                node.DateCreated = DateTime.UtcNow;
+                node.CreatorInfo = "Tester";
             });
 
             Assert.True(createdNodeSelected.Success);

@@ -12,7 +12,7 @@ namespace MtdKey.Storage.Tests
         {
 
             var directoryCreated = await requestProvider.BunchSaveAsync(bunch => {
-                bunch.Name = $"Bunch is Catalog {DateTime.UtcNow.Ticks}-first";
+                bunch.Name = $"Bunch is Catalog {index}-first";
             });
 
             if (!directoryCreated.Success) return directoryCreated;

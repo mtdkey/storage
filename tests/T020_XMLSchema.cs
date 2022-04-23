@@ -3,7 +3,7 @@ using Xunit;
 
 namespace MtdKey.Storage.Tests
 {
-    [Collection("Sequential")]
+
     public class T020_XMLSchema
     {
         [Fact]

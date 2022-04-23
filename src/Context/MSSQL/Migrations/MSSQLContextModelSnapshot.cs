@@ -217,6 +217,59 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     b.ToTable("node_token", (string)null);
                 });
 
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaName", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("UniqueName")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("unique_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UniqueName")
+                        .IsUnique()
+                        .HasDatabaseName("idx_schema_unique_name");
+
+                    b.ToTable("schema_name", (string)null);
+                });
+
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaVersion", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("SchemaNameId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schema_name_id");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint")
+                        .HasColumnName("version");
+
+                    b.Property<string>("XmlSchema")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("xml_schema");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchemaNameId")
+                        .HasDatabaseName("fk_schema_version_idx");
+
+                    b.ToTable("schema_version", (string)null);
+                });
+
             modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>
                 {
                     b.Property<long>("Id")
@@ -442,6 +495,18 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     b.Navigation("Node");
                 });
 
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaVersion", b =>
+                {
+                    b.HasOne("MtdKey.Storage.DataModels.SchemaName", "SchemaName")
+                        .WithMany("SchemaVersions")
+                        .HasForeignKey("SchemaNameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_schema_version");
+
+                    b.Navigation("SchemaName");
+                });
+
             modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>
                 {
                     b.HasOne("MtdKey.Storage.DataModels.Field", "Field")
@@ -549,6 +614,11 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     b.Navigation("StackLists");
 
                     b.Navigation("Stacks");
+                });
+
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaName", b =>
+                {
+                    b.Navigation("SchemaVersions");
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>

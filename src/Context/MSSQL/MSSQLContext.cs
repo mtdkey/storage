@@ -28,8 +28,11 @@ namespace MtdKey.Storage.Context.MSSQL
             StackDigitalModelCreating(modelBuilder);
             StackTextModelCreating(modelBuilder);
             StackListModelCreating(modelBuilder);
-            FieldLinkModelCreating(modelBuilder);
+            StackLinkModelCreating(modelBuilder);
             StackFileModelCreating(modelBuilder);
+
+            SchemaNameModelCreating(modelBuilder);
+            SchemaVersionModelCreating(modelBuilder);
         }
 
     }

@@ -2,17 +2,16 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MtdKey.Storage.Context.MSSQL;
+using MtdKey.Storage.Context.MySQL;
 
 #nullable disable
 
-namespace MtdKey.Storage.Context.MSSQL.Migrations
+namespace MtdKey.Storage.Context.MySQL.Migrations
 {
-    [DbContext(typeof(MSSQLContext))]
-    [Migration("20220422154116_InitData")]
+    [DbContext(typeof(MySQLContext))]
+    [Migration("20220423092919_InitData")]
     partial class InitData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,9 +19,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.4")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Bunch", b =>
                 {
@@ -31,10 +28,8 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<byte>("DeletedFlag")
-                        .HasColumnType("tinyint")
+                    b.Property<sbyte>("DeletedFlag")
+                        .HasColumnType("tinyint(2)")
                         .HasColumnName("deleted_flag");
 
                     b.Property<string>("Name")
@@ -58,7 +53,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnName("bunch_id");
 
                     b.Property<int>("Counter")
-                        .HasColumnType("int")
+                        .HasColumnType("int(10)")
                         .HasColumnName("counter");
 
                     b.HasKey("BunchId");
@@ -99,14 +94,12 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
                     b.Property<long>("BunchId")
                         .HasColumnType("bigint")
                         .HasColumnName("bunch_id");
 
-                    b.Property<byte>("DeletedFlag")
-                        .HasColumnType("tinyint")
+                    b.Property<sbyte>("DeletedFlag")
+                        .HasColumnType("tinyint(2)")
                         .HasColumnName("deleted_flag");
 
                     b.Property<short>("FieldType")
@@ -158,8 +151,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
                     b.Property<long>("BunchId")
                         .HasColumnType("bigint")
                         .HasColumnName("bunch_id");
@@ -173,8 +164,8 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("DateTime")
                         .HasColumnName("date_created");
 
-                    b.Property<byte>("DeletedFlag")
-                        .HasColumnType("tinyint")
+                    b.Property<sbyte>("DeletedFlag")
+                        .HasColumnType("tinyint(2)")
                         .HasColumnName("deleted_flag");
 
                     b.HasKey("Id");
@@ -192,7 +183,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnName("node_id");
 
                     b.Property<int>("Number")
-                        .HasColumnType("int")
+                        .HasColumnType("int(10)")
                         .HasColumnName("number");
 
                     b.HasKey("NodeId");
@@ -219,14 +210,61 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     b.ToTable("node_token", (string)null);
                 });
 
-            modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaName", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    b.Property<string>("UniqueName")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("unique_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UniqueName")
+                        .IsUnique()
+                        .HasDatabaseName("idx_schema_unique_name");
+
+                    b.ToTable("schema_name", (string)null);
+                });
+
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaVersion", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    b.Property<long>("SchemaNameId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("schema_name_id");
+
+                    b.Property<long>("Version")
+                        .HasColumnType("bigint")
+                        .HasColumnName("version");
+
+                    b.Property<string>("XmlSchema")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("xml_schema");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchemaNameId")
+                        .HasDatabaseName("fk_schema_version_idx");
+
+                    b.ToTable("schema_version", (string)null);
+                });
+
+            modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
 
                     b.Property<string>("CreatorInfo")
                         .IsRequired()
@@ -282,12 +320,12 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
                     b.Property<byte[]>("Data")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)")
+                        .HasColumnType("longblob")
                         .HasColumnName("data");
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("file_name");
 
                     b.Property<long>("FileSize")
@@ -328,8 +366,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<long>("StackId")
                         .HasColumnType("bigint")
@@ -444,6 +480,18 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     b.Navigation("Node");
                 });
 
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaVersion", b =>
+                {
+                    b.HasOne("MtdKey.Storage.DataModels.SchemaName", "SchemaName")
+                        .WithMany("SchemaVersions")
+                        .HasForeignKey("SchemaNameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_schema_version");
+
+                    b.Navigation("SchemaName");
+                });
+
             modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>
                 {
                     b.HasOne("MtdKey.Storage.DataModels.Field", "Field")
@@ -551,6 +599,11 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                     b.Navigation("StackLists");
 
                     b.Navigation("Stacks");
+                });
+
+            modelBuilder.Entity("MtdKey.Storage.DataModels.SchemaName", b =>
+                {
+                    b.Navigation("SchemaVersions");
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.Stack", b =>

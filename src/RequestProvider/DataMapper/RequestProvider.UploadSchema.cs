@@ -2,17 +2,95 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using MtdKey.Storage.DataModels;
 
 namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<IRequestResult> UpLoadSchena(List<BunchPattern> bunchTags)
+
+        public async Task<IRequestResult> UploadSchemaAsync(IXmlSchema schema)
+        {
+            var bunchTags = schema.GetBunches();
+            var fieldTags = schema.GetFields();
+
+            await BeginTransactionAsync();
+
+            var uploadBunches = await UploadBunchesAsync(bunchTags);
+            if (await ResultAsync(uploadBunches) is not true)
+                return uploadBunches;
+
+            var uploadFields = await UploadFieldsAsync(fieldTags);
+            if (await ResultAsync(uploadFields) is not true)
+                return uploadFields;
+            try
+            {
+                await VersionProcessingAsync(schema);
+
+            } catch (Exception ex)
+            {
+                await RollbackTransactionAsync();
+                return new RequestResult<IRequestResult>(false, ex);
+            }            
+
+            await CommitTransactionAsync();
+
+            return new RequestResult<IRequestResult>(true);
+        }
+
+        private async Task VersionProcessingAsync(IXmlSchema schema)
+        {
+            var uniqueName = schema.GetName();
+            var schemaName = context.Set<SchemaName>()
+                .Where(schema => schema.UniqueName.Equals(uniqueName)).FirstOrDefault();
+
+            if (schemaName is null)
+            {
+                schemaName = new SchemaName
+                {
+                    UniqueName = uniqueName,
+                };
+
+                await context.AddAsync(schemaName);
+                await context.SaveChangesAsync();
+            }
+
+            var uploadVersion = schema.GetVersion();
+
+            var versionExists = await context.Set<SchemaVersion>()
+                .Where(x => x.SchemaNameId == schemaName.Id && x.Version == uploadVersion).AnyAsync();
+
+            if (versionExists) return;
+
+            var schemaVersion = new SchemaVersion
+            {
+                Version = schema.GetVersion(),
+                XmlSchema = schema.GetXmlDocument().InnerXml
+            };
+
+            schemaName.SchemaVersions.Add(schemaVersion);
+
+            await context.SaveChangesAsync();
+
+        }
+
+        private async Task<bool> ResultAsync(IRequestResult result)
+        {
+            if (!result.Success)
+            {
+                await RollbackTransactionAsync();
+                return result.Success;
+            }
+            return result.Success;
+
+        }
+
+        private async Task<IRequestResult> UploadBunchesAsync(List<BunchPattern> bunchTags)
         {
             try
             {
-                await ParsingTBunchags(bunchTags);
+                await ParsingBunchTagsAsync(bunchTags);
                 await context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -23,7 +101,7 @@ namespace MtdKey.Storage
             return new RequestResult<IRequestResult>(true);
         }
 
-        private async Task ParsingTBunchags(List<BunchPattern> bunchTags)
+        private async Task ParsingBunchTagsAsync(List<BunchPattern> bunchTags)
         {
             var query = context.Set<Bunch>();
 
@@ -39,12 +117,11 @@ namespace MtdKey.Storage
             }
         }
 
-
-        public async Task<IRequestResult> UpLoadSchena(List<FieldTag> fieldTags)
+        private async Task<IRequestResult> UploadFieldsAsync(List<FieldTag> fieldTags)
         {
             try
             {
-                await ParsingFieldTags(fieldTags);
+                await ParsingFieldTagsAsync(fieldTags);
                 await context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -55,7 +132,7 @@ namespace MtdKey.Storage
             return new RequestResult<IRequestResult>(true);
         }
 
-        private async Task ParsingFieldTags(List<FieldTag> fieldTags)
+        private async Task ParsingFieldTagsAsync(List<FieldTag> fieldTags)
         {
             var bunchQuery = context.Set<Bunch>();
             var fieldQuery = context.Set<Field>();

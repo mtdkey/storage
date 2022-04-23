@@ -9,7 +9,7 @@ namespace MtdKey.Storage
     ///  Data mapper for xml schema 
     /// </summary>
     /// <typeparam name="T">The class is the parent in which the DataMapper is run</typeparam>
-    public class XmlSchema<T> where T : class
+    public class XmlSchema<T>: IXmlSchema where T : class
     {
         public string ReadDataFromFile()
         {
@@ -26,6 +26,12 @@ namespace MtdKey.Storage
 
         public XmlSchema(string nameSchema) {
             this.nameSchema = nameSchema;
+        }
+
+        public string GetName()
+        {
+            var name = xmlDocument?.DocumentElement.Attributes["name"].Value;
+            return name;
         }
 
         public long GetVersion()

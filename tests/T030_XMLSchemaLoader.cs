@@ -14,24 +14,14 @@ namespace MtdKey.Storage.Tests
             var result = await ContextHandler.CreateNewDatabaseAsync(guidDatabase);
             Assert.True(result.Success, result.Exception?.Message);
 
-            ContextProperty contextProperty =  ContextHandler.GetContextProperty(guidDatabase);            
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
-            await requestProvider.BeginTransactionAsync();
-            var xmlSchema = new XmlSchema<T030_XMLSchemaLoader>("Issue");
-            xmlSchema.LoadSchemaFromServer();
-            var xmlDoc = xmlSchema.GetXmlDocument();
+            var schema = new XmlSchema<T020_XMLSchema>("Issue");
+            schema.LoadSchemaFromServer();
+            var uploadResult = await requestProvider.UploadSchemaAsync(schema);
 
-            var bunchTags = xmlSchema.GetBunches();
-            var uploadBunches = await requestProvider.UpLoadSchena(bunchTags);
-            
-            var fieldTags = xmlSchema.GetFields();
-            var uploadFields = await requestProvider.UpLoadSchena(fieldTags);
-
-            await requestProvider.CommitTransactionAsync();
-            
-            Assert.True(uploadBunches.Success, uploadBunches.Exception?.Message);
-            Assert.True(uploadFields.Success, uploadFields.Exception?.Message);
+            Assert.True(uploadResult.Success, uploadResult.Exception?.Message);
 
         }
     }

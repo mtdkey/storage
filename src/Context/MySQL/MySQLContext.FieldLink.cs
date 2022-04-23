@@ -8,7 +8,7 @@ namespace MtdKey.Storage.Context.MySQL
     {
         internal virtual DbSet<FieldLink> FieldLinks { get; set; }
 
-        private static void FieldLinkModelCreating(ModelBuilder modelBuilder)
+        private static void StackLinkModelCreating(ModelBuilder modelBuilder)
         {
 
             modelBuilder.Entity<FieldLink>(entity =>

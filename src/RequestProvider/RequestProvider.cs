@@ -102,7 +102,18 @@ namespace MtdKey.Storage
 #endif
             }
 
+            if (!await DatabaseExistsAsync())
+            {
+                return new RequestResult<IRequestResult>(false, new Exception("Database does not exist!"));
+            }
+
             return requestResult;
+        }
+
+
+        public async Task<bool> DatabaseExistsAsync()
+        {
+            return  await context.Database.GetService<IRelationalDatabaseCreator>().ExistsAsync();
         }
 
         public void Dispose()

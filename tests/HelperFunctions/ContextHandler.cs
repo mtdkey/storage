@@ -11,6 +11,7 @@ namespace MtdKey.Storage.Tests
             using RequestProvider requestProvider = new(contextProperty);
             await requestProvider.DeleteDatabaseAsync();
             var result = await requestProvider.MigrationAsync();
+            
             return result;
         }
 

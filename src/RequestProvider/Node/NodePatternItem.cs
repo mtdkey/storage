@@ -57,11 +57,11 @@ namespace MtdKey.Storage
             DateCreated = dateTime;
         }
 
-        public NodePatternItem(NodePattern value, long fieldId, string creatorInfo, DateTime dateTime)
+        public NodePatternItem(List<NodePattern> value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             FieldId = fieldId;
             Data = value;
-            SystemType = typeof(NodePattern);
+            SystemType = typeof(List<NodePattern>);
             FieldType = FieldType.Link;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;

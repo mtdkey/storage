@@ -9,7 +9,7 @@
 <schema name="Issue" version="<# Write("{0}", DateTime.Now.Ticks); #>">
 	<bunches>
 		<#@ include file="Issue.xml"#>
-		<#@ include file="IssueReport.xml"#>
-		<#@ include file="IssueSubject.xml"#>
+		<#@ include file="IssueCategory.xml"#>
+		<#@ include file="IssueReport.xml"#>		
 	</bunches>
 </schema>

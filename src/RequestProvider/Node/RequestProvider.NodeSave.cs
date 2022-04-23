@@ -151,7 +151,6 @@ namespace MtdKey.Storage
 
                     stackText.Add(frame);
                 }
-
                 stack.StackTexts = stackText.Count > 0 ? stackText : null;
             }
 
@@ -176,8 +175,11 @@ namespace MtdKey.Storage
 
             if (nodeItem.FieldType == FieldType.Link)
             {
-                var value = (NodePattern)nodeItem.Data;
-                stack.StackList = new StackList { StackId = stack.Id, NodeId = value.NodeId };
+                var value = (List<NodePattern>)nodeItem.Data;
+                value.ForEach(nodePattern => {
+                    stack.StackLists.Add(new StackList { StackId = stack.Id, NodeId = nodePattern.NodeId });
+                });                
+                
             }
 
             if (nodeItem.FieldType == FieldType.File)

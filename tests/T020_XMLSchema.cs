@@ -32,7 +32,7 @@ namespace MtdKey.Storage.Tests
             dataMapper.LoadSchemaFromServer();
             var bunches = dataMapper.GetBunches();
             Assert.True(bunches.Where(x => x.Name.Equals("Issue")).Any());
-            Assert.True(bunches.Where(x => x.Name.Equals("IssueSubject")).Any());
+            Assert.True(bunches.Where(x => x.Name.Equals("IssueCategory")).Any());
         }
 
         [Fact]

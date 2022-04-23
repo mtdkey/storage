@@ -11,7 +11,7 @@ using MtdKey.Storage.Context.MySQL;
 namespace MtdKey.Storage.Context.MySQL.Migrations
 {
     [DbContext(typeof(MySQLContext))]
-    [Migration("20220423092919_InitData")]
+    [Migration("20220423132657_InitData")]
     partial class InitData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,6 +132,12 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.Property<long>("BunchId")
                         .HasColumnType("bigint")
                         .HasColumnName("bunch_id");
+
+                    b.Property<short>("LinkType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint")
+                        .HasDefaultValue((short)1)
+                        .HasColumnName("link_type");
 
                     b.HasKey("FieldId");
 
@@ -344,18 +350,26 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackList", b =>
                 {
-                    b.Property<long>("StackId")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("stack_id");
+                        .HasColumnName("id");
 
                     b.Property<long>("NodeId")
                         .HasColumnType("bigint")
                         .HasColumnName("node_id");
 
-                    b.HasKey("StackId");
+                    b.Property<long>("StackId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("stack_id");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("NodeId")
                         .HasDatabaseName("fk_node_stack_list_idx");
+
+                    b.HasIndex("StackId")
+                        .HasDatabaseName("fk_stack_list_idx");
 
                     b.ToTable("stack_list", (string)null);
                 });
@@ -547,8 +561,8 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasConstraintName("fk_node_stack_list");
 
                     b.HasOne("MtdKey.Storage.DataModels.Stack", "Stack")
-                        .WithOne("StackList")
-                        .HasForeignKey("MtdKey.Storage.DataModels.StackList", "StackId")
+                        .WithMany("StackLists")
+                        .HasForeignKey("StackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_stack_list");
@@ -612,7 +626,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
 
                     b.Navigation("StackFile");
 
-                    b.Navigation("StackList");
+                    b.Navigation("StackLists");
 
                     b.Navigation("StackTexts");
                 });

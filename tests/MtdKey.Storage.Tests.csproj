@@ -28,7 +28,7 @@
     <EmbeddedResource Include="IssueSchema\_Schema.xml">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>_Schema.tt</DependentUpon>
+      <DependentUpon>_Schema.t4</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestFiles\LongText.txt" CopyToPublishDirectory="Never" />
     <EmbeddedResource Include="TestFiles\ShortText.txt" CopyToPublishDirectory="Never" />
@@ -54,7 +54,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>_IssueSchema.t4</DependentUpon>
     </None>
-    <None Update="IssueSchema\_Schema.tt">
+    <None Update="IssueSchema\_Schema.t4">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>_Schema.xml</LastGenOutput>
     </None>

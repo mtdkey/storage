@@ -65,25 +65,29 @@ namespace MtdKey.Storage
 
                 if (fieldType == (int)FieldType.Link)
                 {
-                    await context.Entry(stack).Reference(x => x.StackList).LoadAsync();
-                    await context.Entry(stack.StackList).Reference(x => x.Node).LoadAsync();
-
-                    var listNode = stack.StackList.Node;
-                    await context.Entry(listNode).Collection(x => x.Stacks).LoadAsync();
-                    await context.Entry(listNode).Reference(x => x.NodeExt).LoadAsync();
-
-                    var catalogStacks = listNode.Stacks.ToList();
-                    var nodePatternItems = await GetNodePatternItemsAsync(catalogStacks);
-
-                    NodePattern nodePattern = new()
+                    await context.Entry(stack).Collection(x => x.StackLists).LoadAsync();
+                    var nodePatterns = new List<NodePattern>();
+                    foreach (var stackList in stack.StackLists)
                     {
-                        NodeId = listNode.Id,
-                        BunchId = listNode.BunchId,
-                        Number = listNode.NodeExt.Number,
-                        Items = nodePatternItems
-                    };
+                        await context.Entry(stackList).Reference(x => x.Node).LoadAsync();
 
-                    NodePatternItem nodeItem = new(nodePattern, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                        var listNode = stackList.Node;
+                        await context.Entry(listNode).Collection(x => x.Stacks).LoadAsync();
+                        await context.Entry(listNode).Reference(x => x.NodeExt).LoadAsync();
+
+                        var catalogStacks = listNode.Stacks.ToList();
+                        var nodePatternItems = await GetNodePatternItemsAsync(catalogStacks);
+
+                        nodePatterns.Add(new()
+                        {
+                            NodeId = listNode.Id,
+                            BunchId = listNode.BunchId,
+                            Number = listNode.NodeExt.Number,
+                            Items = nodePatternItems
+                        });
+                    }
+
+                    NodePatternItem nodeItem = new(nodePatterns, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }

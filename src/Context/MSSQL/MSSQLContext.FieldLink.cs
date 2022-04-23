@@ -29,6 +29,12 @@ namespace MtdKey.Storage.Context.MSSQL
                     .HasColumnName("bunch_id")
                     .HasColumnType("bigint");
 
+                entity.Property(e => e.LinkType)
+                    .IsRequired()
+                    .HasColumnName("link_type")
+                    .HasColumnType("smallint")
+                    .HasDefaultValue(1); 
+
                 entity.HasOne(fieldLink => fieldLink.Bunch)
                     .WithMany(bunch => bunch.FieldLinks)
                     .HasForeignKey(fieldLink => fieldLink.BunchId)

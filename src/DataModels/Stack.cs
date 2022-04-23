@@ -8,6 +8,7 @@ namespace MtdKey.Storage.DataModels
     {
         public Stack() {
             StackTexts = new HashSet<StackText>();
+            StackLists = new HashSet<StackList>();
         }
 
         [Key]
@@ -17,11 +18,11 @@ namespace MtdKey.Storage.DataModels
         public DateTime DateCreated { get; set; }
         public string CreatorInfo { get; set; }
 
-        public virtual StackList StackList { get; set; }
         public virtual StackDigital  StackDigital { get; set; }
         public virtual StackFile StackFile { get; set; }
         public virtual Node Node { get; set; }
         public virtual Field Field { get; set; }
         public virtual ICollection<StackText> StackTexts { get; set; }
+        public virtual ICollection<StackList> StackLists { get; set; }
     }
 }

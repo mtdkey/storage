@@ -10,6 +10,7 @@ namespace MtdKey.Storage.DataModels
     internal class StackList
     {
         [Key]
+        public long Id { get; set; }
         public long StackId { get; set; }
         public long NodeId { get; set; }
 

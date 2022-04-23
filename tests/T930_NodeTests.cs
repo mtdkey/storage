@@ -101,8 +101,6 @@ namespace MtdKey.Storage.Tests
             var bunchSelector = await requestProvider.CreateBunchAsync();
             var fieldSelector = await requestProvider.CreateFieldAsync(bunchSelector.BunchId, FieldType.Link, bunchList.BunchId);
            
-
-
             //Create data items for the catalog bunch
             List<NodePatternItem> nodeItems1 = new()
             {
@@ -135,7 +133,7 @@ namespace MtdKey.Storage.Tests
             //Create data items for the bunch selector
             List<NodePatternItem> selectedNode = new()
             {
-                new NodePatternItem(catalogFirstNode, fieldSelector.FieldId, "Tester", DateTime.UtcNow),
+                new NodePatternItem(new List<NodePattern> { catalogFirstNode }, fieldSelector.FieldId, "Tester", DateTime.UtcNow),
             };
 
             //Save selecting list node to database
@@ -156,11 +154,11 @@ namespace MtdKey.Storage.Tests
             });
 
             //Get a complete copy of the List node      
-            var nodeReceiver = (NodePattern)bunchReceiver.DataSet[0].Items.FirstOrDefault(x => x.FieldId == fieldSelector.FieldId).Data;
+            var nodeReceiver = (List<NodePattern>)bunchReceiver.DataSet[0].Items.FirstOrDefault(x => x.FieldId == fieldSelector.FieldId).Data;
 
-            Assert.Equal(nodeReceiver.NodeId, catalogFirstNode.NodeId);
-            Assert.Equal(nodeReceiver.Number, catalogFirstNode.Number);
-            Assert.True((string)nodeReceiver.Items.FirstOrDefault().Data == "Catalog Item one");
+            Assert.Equal(nodeReceiver[0].NodeId, catalogFirstNode.NodeId);
+            Assert.Equal(nodeReceiver[0].Number, catalogFirstNode.Number);
+            Assert.True((string)nodeReceiver[0].Items.FirstOrDefault().Data == "Catalog Item one");
         }
 
         [Theory]

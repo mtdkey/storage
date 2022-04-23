@@ -20,9 +20,9 @@ namespace MtdKey.Storage.Tests
             using RequestProvider requestProvider = new(contextProperty);
 
             var index = DateTime.Now.Ticks;
-            var result = await requestProvider.TestCreateBunchAndFieldsAsync(index);
+            var result = await requestProvider.TestCreateBunchAndFieldsAsync(index);            
 
-            Assert.True(result.Success);
+            Assert.True(result.Success, result.Exception?.Message);
 
         }
 

@@ -18,34 +18,43 @@ namespace MtdKey.Storage
             return FieldPattern.FieldId > 0 ? await FieldUpdatedAsync(FieldPattern) : await FieldCreateAsync(FieldPattern);
         }
 
-        private async Task<RequestResult<FieldPattern>> FieldCreateAsync(FieldPattern FieldPattern)
+        private async Task<RequestResult<FieldPattern>> FieldCreateAsync(FieldPattern fieldPattern)
         {
             var requestResult = new RequestResult<FieldPattern>(true);
 
             var field = new Field
             {
-                BunchId = FieldPattern.BunchId,
-                Name = FieldPattern.Name ?? string.Empty,                
-                FieldType = (int)FieldPattern.FieldType,
+                BunchId = fieldPattern.BunchId,
+                Name = fieldPattern.Name ?? string.Empty,                
+                FieldType = (int)fieldPattern.FieldType,
                 DeletedFlag = FlagSign.False,
             };
 
-            if (FieldPattern.FieldType == FieldType.Link)
+            if (fieldPattern.FieldType == FieldType.Link)
             {
                 var fieldLink = new FieldLink
                 {
-                    BunchId = FieldPattern.LinkId
+                    BunchId = fieldPattern.LinkId,
+                    LinkType = (int)fieldPattern.LinkType,
                 };
                 field.FieldLink = fieldLink;
             }
 
             try
             {
-                await context.AddAsync(field);
+                await context.AddAsync(field);                
                 await context.SaveChangesAsync();
 
-                FieldPattern.FieldId = field.Id;
-                requestResult.FillDataSet(new() { FieldPattern });
+                var newField = await context.Set<Field>().FindAsync(field.Id);
+                await context.Entry(newField).Reference(x=>x.FieldLink).LoadAsync();
+
+                fieldPattern.FieldId = newField.Id;
+                fieldPattern.FieldType = newField.FieldType;
+                fieldPattern.LinkType = newField.FieldLink?.LinkType ?? LinkType.Single;
+                fieldPattern.BunchId = newField.BunchId;
+                fieldPattern.Name = newField.Name;
+                                
+                requestResult.FillDataSet(new() { fieldPattern });
             }
             catch (Exception exception)
             {

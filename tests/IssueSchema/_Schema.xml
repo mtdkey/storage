@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<schema name="Issue" version="637862629309600200">
+<schema name="Issue" version="637863212513618500">
 	<bunches>
 		<bunch name="Issue">
 	<field type="text" name="Title" />
 	<field type="text" name="Description" />
-	<field type="link" list="IssueSubject" name="Subject" />
+	<field type="link" list="IssueCategory" name="Subject" />
 	<!--Guid of the user responsible for solving the issue-->
 	<field type="text" name="AssignedTo"/>
 	<!--Guid of the owner user or company-->
@@ -13,16 +13,16 @@
 	<field type="boolean" name="Status" />
 </bunch>
 
+		<bunch name="IssueCategory">
+	<field type="text" name="Name" />
+</bunch>
+
 		<bunch name="IssueReport">
 	<field type="link" list="Issue" name="Issue" />
 	<field type="text" name="Description" />
 	<field type="file" name="FileReport" />
 	<field type="datetime" name="ReportDatetime" />
 </bunch>
-
-		<bunch name="IssueSubject">
-	<field type="text" name="Name" />
-</bunch>
-
+		
 	</bunches>
 </schema>

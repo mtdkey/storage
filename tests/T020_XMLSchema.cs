@@ -44,10 +44,7 @@ namespace MtdKey.Storage.Tests
             Assert.True(fields.Where(x => x.BunchName.Equals("IssueReport")).Any());
             Assert.True(fields.Where(x => x.FieldPattern.Name.Equals("AssignedTo")).Any());
 
-            var queryA = fields.Where(x => x.FieldPattern.FieldType is null);
-            Assert.False(queryA.Any(), queryA.FirstOrDefault()?.FieldPattern.Name);
-
-            var queryB = fields.Where(x => x.FieldPattern.FieldType == FieldType.Link && x.BunchList == null);
+            var queryB = fields.Where(x => x.FieldPattern.FieldType.Equals(FieldType.Link) && x.BunchList == null);
             Assert.False(queryB.Any(), queryB.FirstOrDefault()?.FieldPattern.Name);
 
 

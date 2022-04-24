@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MtdKey.Storage
 {
-    public class LinkType
+    
+    public struct LinkType
     {
         private readonly int value;
         public LinkType(int linkType)
@@ -24,8 +25,8 @@ namespace MtdKey.Storage
             return new LinkType(linkType);
         }
 
-        public readonly static LinkType Single = new(1);
-        public readonly static LinkType Multiple = new(2);
+        public readonly static LinkType Single = 1;
+        public readonly static LinkType Multiple = 2;        
 
     }
 }

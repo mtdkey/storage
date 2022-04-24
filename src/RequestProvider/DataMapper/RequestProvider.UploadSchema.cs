@@ -154,7 +154,7 @@ namespace MtdKey.Storage
                     FieldType = (int)fieldTag.FieldPattern.FieldType,
                 };
 
-                if (fieldTag.FieldPattern.FieldType == FieldType.Link)
+                if (fieldTag.FieldPattern.FieldType.Equals(FieldType.Link))
                 {
                     var linkId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.BunchList)).Id;
                     var fieldLink = new FieldLink { BunchId = linkId };

@@ -22,13 +22,12 @@ namespace MtdKey.Storage.Tests
 
             var node = createdNode.DataSet.FirstOrDefault();
             var testFile = await Common.GetFileTestAsync();
-            var nodeFile = (FileData)node.Items.Find(x => x.FieldType == FieldType.File).Data;
-            Assert.True((bool)node.Items.Find(x => x.FieldType == FieldType.Boolean).Data == true);
-            Assert.True((string)node.Items.Find(x => x.FieldType == FieldType.Text).Data == Common.LongTextValue);
-            Assert.True((decimal)node.Items.Find(x => x.FieldType == FieldType.Numeric).Data == Common.NumericValue);
-            Assert.True((DateTime)node.Items.Find(x => x.FieldType == FieldType.DateTime).Data == Common.DateTimeValue);
+            var nodeFile = (FileData)node.Items.Find(x => x.FieldType.Equals(FieldType.File)).Data;
+            Assert.True((bool)node.Items.Find(x => x.FieldType.Equals(FieldType.Boolean)).Data == true);
+            Assert.True((string)node.Items.Find(x => x.FieldType.Equals(FieldType.Text)).Data == Common.LongTextValue);
+            Assert.True((decimal)node.Items.Find(x => x.FieldType.Equals(FieldType.Numeric)).Data == Common.NumericValue);
+            Assert.True((DateTime)node.Items.Find(x => x.FieldType.Equals(FieldType.DateTime)).Data == Common.DateTimeValue);
             Assert.True(nodeFile.ByteArray.Length == testFile.ByteArray.Length);
-
         }
 
         [Theory]
@@ -61,10 +60,10 @@ namespace MtdKey.Storage.Tests
             Assert.Equal(nodeBasis.BunchId, nodeFound.BunchId);
             Assert.Equal(nodeBasis.Number, nodeFound.Number);
 
-            Assert.True((bool)nodeFound.Items.Find(x => x.FieldType == FieldType.Boolean).Data == true);
-            Assert.True((string)nodeFound.Items.Find(x => x.FieldType == FieldType.Text).Data == Common.LongTextValue);
-            Assert.True((decimal)nodeFound.Items.Find(x => x.FieldType == FieldType.Numeric).Data == Common.NumericValue);
-            Assert.True((DateTime)nodeFound.Items.Find(x => x.FieldType == FieldType.DateTime).Data == Common.DateTimeValue);
+            Assert.True((bool)nodeFound.Items.Find(x => x.FieldType.Equals(FieldType.Boolean)).Data == true);
+            Assert.True((string)nodeFound.Items.Find(x => x.FieldType.Equals(FieldType.Text)).Data == Common.LongTextValue);
+            Assert.True((decimal)nodeFound.Items.Find(x => x.FieldType.Equals(FieldType.Numeric)).Data == Common.NumericValue);
+            Assert.True((DateTime)nodeFound.Items.Find(x => x.FieldType.Equals(FieldType.DateTime)).Data == Common.DateTimeValue);
         }
 
         [Theory]

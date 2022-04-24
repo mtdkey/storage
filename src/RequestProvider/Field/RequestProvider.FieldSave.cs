@@ -30,7 +30,7 @@ namespace MtdKey.Storage
                 DeletedFlag = FlagSign.False,
             };
 
-            if (fieldPattern.FieldType == FieldType.Link)
+            if (fieldPattern.FieldType.Equals(FieldType.Link))
             {
                 var fieldLink = new FieldLink
                 {

@@ -30,7 +30,6 @@ namespace MtdKey.Storage.Tests
                 if (!fieldCreated.Success) return fieldCreated;
             }
 
-
             var bunchCreated = await requestProvider.BunchSaveAsync(bunch => {
                 bunch.Name = $"Bunch for test fields {index}-second";
             });
@@ -42,7 +41,7 @@ namespace MtdKey.Storage.Tests
             {
                 long linkId = 0;
                 var linkType = LinkType.Single;
-                if (fieldType == FieldType.Link)
+                if (fieldType.Equals(FieldType.Link))
                 {
                     linkId = directoryCreated.DataSet[0].BunchId;
                     linkType = LinkType.Multiple;
@@ -59,7 +58,7 @@ namespace MtdKey.Storage.Tests
 
                 if (!fieldCreated.Success) return fieldCreated;
 
-                if ((int)fieldCreated.DataSet[0].FieldType == (int)FieldType.Link && (int)fieldCreated.DataSet[0].LinkType == (int)LinkType.Single)
+                if (fieldCreated.DataSet[0].FieldType.Equals(FieldType.Link) && fieldCreated.DataSet[0].LinkType.Equals(LinkType.Single))
                     return new RequestResult<IRequestResult>(false, new Exception("Link type is not multiple!"));
             }
 

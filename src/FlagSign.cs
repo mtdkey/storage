@@ -10,16 +10,5 @@ namespace MtdKey.Storage
     {
         public readonly static byte True = 1;
         public readonly static byte False = 0;
-
-        public static byte AsFlagSign(this bool flag)
-        {
-            return flag is true ? True : False;
-        }
-
-        public static bool AsBoolean(this byte flag)
-        {
-            return flag.Equals(True);
-        }
-
     }
 }

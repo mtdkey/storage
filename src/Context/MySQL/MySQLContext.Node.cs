@@ -28,10 +28,15 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnName("bunch_id")
                     .HasColumnType("bigint");
 
-                entity.Property(e => e.ArchiveFlag)
+                entity.Property(e => e.DateCreated)
                     .IsRequired()
-                    .HasColumnName("archive_flag")
-                    .HasColumnType("tinyint(2)");
+                    .HasColumnName("date_created")
+                    .HasColumnType("DateTime");
+
+                entity.Property(e => e.CreatorInfo)
+                    .IsRequired()
+                    .HasColumnName("creator_info")
+                    .HasColumnType("nvarchar(128)");
 
                 entity.Property(e => e.DeletedFlag)
                     .IsRequired()

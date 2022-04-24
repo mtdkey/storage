@@ -1,18 +1,19 @@
 # MTDKey Storage [<img alt="NuGet" src="https://img.shields.io/nuget/v/MtdKey.Storage"/>](https://www.nuget.org/packages/mtdkey.storage/) <img alt="Licence MIT" src="https://img.shields.io/badge/licence-MIT-green"> <img alt="Platform" src="https://img.shields.io/badge/platform-.Net%206.0-blue"> <img alt="Database" src="https://img.shields.io/badge/database-MySql%20|%20MSSQL-blue">
 
-MTDKey Storage is a backend solution designed to speed up the development of web-applications. For example, web applications for order management.
+MTDKey Storage is a backend solution designed to speed up the development of web-applications.
 Explore this code, you`ll find many useful features such as:
 -	Switching between different databases in real time mode using Entity Framework
 -	Using multiple database systems in one application (MSSQL and MySQL)
 -	Row Level Security based on Access Token 
 -	Control Save, Edit, and Delete operations with a User Access Token
 -	Using sql script files and raw requests in an Entity Framework application
+-	How to store and retrieve indexed text of unlimited size
 
 <p>
   <strong>Main approach is creating database only once.</strong>
 </p>
 
-> You can create application forms to enter information in any quantity without changing the structure of the database. Just create a form template and save  it to the database. You can use the types of form fields – Text (unlimited size), Numeric, Boolean, Date time and List when one form is linked to another form.
+> You can create application forms to enter information in any quantity without changing the structure of the database. Just create a form template and save  it to the database. You can use the types of form fields – Text (unlimited size), Numeric, Boolean, Date time, List and File when one form is linked to another form.
 
 <p align="center">
   <img src="./img/schema.png" />
@@ -61,18 +62,18 @@ Use the Request Provider by specifying a connection string
         contextProperty.ConnectionString = connectionString;
     });
 
-> Methods of the RequestProvider class have incoming and out coming arguments as of special Schema collections, such as Bunch Schema, Field Schema, Node Schema. 
+> Methods of the RequestProvider class have incoming and out coming arguments as of special Pattern collections, such as Bunch Patter, Field Pattern, Node Patten. 
 
 <p>
-  Use the Save method to create or update data. If no identifier is specified in the Schema as an incoming parameter, a new record will be created.
+  Use the Save method to create or update data. If no identifier is specified in the Pattern as an incoming parameter, a new record will be created.
 </p>
 
-    var createdForm = await requestProvider.BunchSaveAsync(schema => {
-                    schema.Name = "Form template name";
-                    schema.Description = "Form description";
-                    schema.ArchiveFlag = false;
+    var createdForm = await requestProvider.BunchSaveAsync(pattern => {
+                    pattern.Name = "Form template name";
+                    pattern.Description = "Form description";
+                    pattern.ArchiveFlag = false;
                 });
-    //DataSet is List<BunchSchema> because the RequestProvider may return many forms.
+    //DataSet is List<BunchPattern> because the RequestProvider may return many forms.
     var newID = createdForm.DataSet[0].BunchId;
 
 <p>
@@ -90,8 +91,17 @@ Use the Request Provider by specifying a connection string
     var firstNode = receivedNodes.DataSet.FirstOrDefault();
     var fields = firstNode.Items;
     
-ℹ️ Explore the test code for more examples. To run tests create storage.json file.
+<p>ℹ️ Explore the test code for more examples.</p>
+⚠️ To run tests create storage.json file in the Tests project.
 
+```json
+{
+  "ConnectionStrings": {
+    "mssql_test": "Server=.\\SQLEXPRESS;Database=storage;User ID=[USER];Password=[PWD];",
+    "mysql_test": "Server=127.0.0.1;Database=storage;User Id=[USER];Password=[PWD];SslMode=none;"
+  }
+}
+```
 ## License    
 Copyright (c) – presented by [Oleg Bruev](https://github.com/olegbruev/).  
 MTDKey Storage is free and open-source software licensed under the MIT License.

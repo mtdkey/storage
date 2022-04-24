@@ -8,10 +8,12 @@ namespace MtdKey.Storage
 {
     public class RequestFilter
     {
-        public List<long> Ids { get; set; }
+        /// <summary>
+        /// Ids of Table
+        /// </summary>
+        public List<long> Ids { get; set; }        
         public List<long> BunchIds { get; set; }
         public string SearchText { get; set; }
-        public bool IncludeArchive { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
 

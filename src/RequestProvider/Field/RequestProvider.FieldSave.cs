@@ -6,48 +6,55 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<RequestResult<FieldSchema>> FieldSaveAsync(Action<FieldSchema> fieldSchema)
+        public async Task<RequestResult<FieldPattern>> FieldSaveAsync(Action<FieldPattern> FieldPattern)
         {
-            var schema = new FieldSchema();
-            fieldSchema.Invoke(schema);
-            return schema.FieldId > 0 ? await FieldUpdatedAsync(schema) : await FieldCreateAsync(schema);
+            var pattern = new FieldPattern();
+            FieldPattern.Invoke(pattern);
+            return pattern.FieldId > 0 ? await FieldUpdatedAsync(pattern) : await FieldCreateAsync(pattern);
         }
 
-        public async Task<RequestResult<FieldSchema>> FieldSaveAsync(FieldSchema fieldSchema)
+        public async Task<RequestResult<FieldPattern>> FieldSaveAsync(FieldPattern FieldPattern)
         {
-            return fieldSchema.FieldId>0 ? await FieldUpdatedAsync(fieldSchema) : await FieldCreateAsync(fieldSchema);
+            return FieldPattern.FieldId > 0 ? await FieldUpdatedAsync(FieldPattern) : await FieldCreateAsync(FieldPattern);
         }
 
-        private async Task<RequestResult<FieldSchema>> FieldCreateAsync(FieldSchema fieldSchema)
+        private async Task<RequestResult<FieldPattern>> FieldCreateAsync(FieldPattern fieldPattern)
         {
-            var requestResult = new RequestResult<FieldSchema>(true);
+            var requestResult = new RequestResult<FieldPattern>(true);
 
             var field = new Field
             {
-                BunchId = fieldSchema.BunchId,
-                Name = fieldSchema.Name ?? string.Empty,
-                Description = fieldSchema.Description ?? string.Empty,
-                FieldType = (int)fieldSchema.FieldType,
-                ArchiveFlag = fieldSchema.ArchiveFlag.AsFlagSign(),
+                BunchId = fieldPattern.BunchId,
+                Name = fieldPattern.Name ?? string.Empty,                
+                FieldType = (int)fieldPattern.FieldType,
                 DeletedFlag = FlagSign.False,
             };
 
-            if (fieldSchema.FieldType == FieldType.Link)
+            if (fieldPattern.FieldType.Equals(FieldType.Link))
             {
                 var fieldLink = new FieldLink
                 {
-                    BunchId = fieldSchema.LinkId
+                    BunchId = fieldPattern.LinkId,
+                    LinkType = (int)fieldPattern.LinkType,
                 };
                 field.FieldLink = fieldLink;
             }
 
             try
             {
-                await context.AddAsync(field);
+                await context.AddAsync(field);                
                 await context.SaveChangesAsync();
-                
-                fieldSchema.FieldId = field.Id;
-                requestResult.FillDataSet(new() { fieldSchema });
+
+                var newField = await context.Set<Field>().FindAsync(field.Id);
+                await context.Entry(newField).Reference(x=>x.FieldLink).LoadAsync();
+
+                fieldPattern.FieldId = newField.Id;
+                fieldPattern.FieldType = newField.FieldType;
+                fieldPattern.LinkType = newField.FieldLink?.LinkType ?? LinkType.Single;
+                fieldPattern.BunchId = newField.BunchId;
+                fieldPattern.Name = newField.Name;
+                                
+                requestResult.FillDataSet(new() { fieldPattern });
             }
             catch (Exception exception)
             {
@@ -60,21 +67,23 @@ namespace MtdKey.Storage
             return requestResult;
         }
 
-        private async Task<RequestResult<FieldSchema>> FieldUpdatedAsync(FieldSchema fieldSchema)
+        private async Task<RequestResult<FieldPattern>> FieldUpdatedAsync(FieldPattern FieldPattern)
         {
-            var requestResult = new RequestResult<FieldSchema>(true);
-            Field field = await context.FindAsync<Field>(fieldSchema.FieldId);
-            if (field == null || field.DeletedFlag == FlagSign.True) { requestResult.SetResultInfo(false, new Exception("Bad Request.")); return requestResult; }
-            
-            field.Name = fieldSchema.Name ?? field.Name;
-            field.Description = fieldSchema.Description ?? field.Description;
-            field.ArchiveFlag = fieldSchema.ArchiveFlag.AsFlagSign();
+            var requestResult = new RequestResult<FieldPattern>(true);
+            Field field = await context.FindAsync<Field>(FieldPattern.FieldId);
+            if (field == null || field.DeletedFlag == FlagSign.True)
+            {
+                requestResult.SetResultInfo(false, new Exception("Bad Request."));
+                return requestResult;
+            }
+
+            field.Name = FieldPattern.Name ?? field.Name;
             field.DeletedFlag = FlagSign.False;
 
             try
             {
                 await context.SaveChangesAsync();
-                requestResult.FillDataSet(new() { fieldSchema });
+                requestResult.FillDataSet(new() { FieldPattern });
             }
             catch (Exception exception)
             {
@@ -86,6 +95,6 @@ namespace MtdKey.Storage
 
             return requestResult;
         }
-               
+
     }
 }

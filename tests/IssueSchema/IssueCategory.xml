@@ -1,0 +1,3 @@
+﻿<bunch name="IssueCategory">
+	<field type="text" name="Name" />
+</bunch>

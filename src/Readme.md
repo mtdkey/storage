@@ -5,3 +5,4 @@ This library contains the following useful features:
 -	Row Level Security based on Access Token 
 -	Control Save, Edit, and Delete operations with a User Access Token
 -	Using sql script files and raw requests in an Entity Framework application
+-	How to store and retrieve indexed text of unlimited size

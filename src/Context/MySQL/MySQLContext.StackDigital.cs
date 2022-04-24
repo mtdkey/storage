@@ -17,11 +17,6 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasDatabaseName("idx_stack_digital_value");
 
                 entity.Property(e => e.StackId)
-                    .HasColumnName("id")
-                    .HasColumnType("bigint");
-
-                entity.Property(e => e.StackId)
-                    .IsRequired()
                     .HasColumnName("stack_id")
                     .HasColumnType("bigint");
 

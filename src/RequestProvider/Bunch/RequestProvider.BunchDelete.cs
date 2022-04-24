@@ -12,7 +12,7 @@ namespace MtdKey.Storage
 
         public async Task<IRequestResult> BunchDeleteAsync(long id)
         {
-            var requestResult = new RequestResult<BunchSchema>(true);
+            var requestResult = new RequestResult<BunchPattern>(true);
 
             try
             {

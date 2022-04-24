@@ -9,52 +9,49 @@ namespace MtdKey.Storage
     public partial class RequestProvider : IDisposable
     {
 
-        public async Task<RequestResult<BunchSchema>> BunchQueryAsync(Action<RequestFilter> filter)
+        public async Task<RequestResult<BunchPattern>> BunchQueryAsync(Action<RequestFilter> filter)
         {
             RequestFilter requestFilter = new();
             filter.Invoke(requestFilter);
             return await BunchQueryAsync(requestFilter); 
         }
 
-        public async Task<RequestResult<BunchSchema>> BunchQueryAsync(RequestFilter filter)
+        public async Task<RequestResult<BunchPattern>> BunchQueryAsync(RequestFilter filter)
         {
-            var schemaResult = new RequestResult<BunchSchema>(true);
+            var patternResult = new RequestResult<BunchPattern>(true);
             
             try
-            {                
+            {
                 var query = context.Set<Bunch>()
-                    .FilterBasic(filter)
-                    .FilterPages(filter.Page, filter.PageSize);
+                    .Where(bunch => bunch.DeletedFlag == FlagSign.False)
+                    .FilterBasic(filter);                    
 
                 if (string.IsNullOrEmpty(filter.SearchText) is not true)
                 {
                     var text = filter.SearchText.ToUpper();
-                    query = query.Where(bunch => bunch.Name.ToUpper().Contains(text) || bunch.Description.ToUpper().Contains(text));
+                    query = query.Where(bunch => bunch.Name.ToUpper().Contains(text));
                 }
 
                 var dataSet = await query                    
-                    .Select(bunch => new BunchSchema
+                    .Select(bunch => new BunchPattern
                     {
                         BunchId = bunch.Id,
                         Name = bunch.Name,
-                        Description = bunch.Description,
-                        ArchiveFlag = bunch.ArchiveFlag.AsBoolean()
+                    })
+                    .FilterPages(filter.Page, filter.PageSize)
+                    .ToListAsync();
 
-                    }).ToListAsync();
-
-                schemaResult.FillDataSet(dataSet);
+                patternResult.FillDataSet(dataSet);
             }
             catch (Exception exception)
             {
-                schemaResult.SetResultInfo(false, exception);
+                patternResult.SetResultInfo(false, exception);
 #if DEBUG
                 throw;
 #endif
             }
 
-            return schemaResult;
+            return patternResult;
         }
-
-
     }
 }

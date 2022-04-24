@@ -17,8 +17,6 @@ namespace MtdKey.Storage.DataModels
         [Key]
         public long Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public byte ArchiveFlag { get; set; }
         public byte DeletedFlag { get; set; }
 
         public virtual BunchExt BunchExt { get; set; }

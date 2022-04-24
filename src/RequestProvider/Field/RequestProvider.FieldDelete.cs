@@ -9,7 +9,7 @@ namespace MtdKey.Storage
 
         public async Task<IRequestResult> FieldDeleteAsync(long id)
         {
-            var requestResult = new RequestResult<FieldSchema>(true);
+            var requestResult = new RequestResult<FieldPattern>(true);
             Field field = await context.FindAsync<Field>(id);
 
             try

@@ -1,8 +1,0 @@
-﻿<bunch id="issueStatus">
-	<name>Issue Status</name>
-	<description>Status for issues</description>
-	<field type="text">
-		<name>Name</name>
-		<description>Status title</description>
-	</field>
-</bunch>

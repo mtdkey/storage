@@ -12,8 +12,8 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         public static string LongTextValue => FileReader.GetLongText();
         public static string ShortTextValue => FileReader.GetShortText();
         public static bool BooleanValue => true;
-        public static string SplitedWordValue => "Inbunchation"; 
-
+        public static string SplitedWordValue => "Inbunchation";
+        
 
         public static string GetRandomName()
         {
@@ -22,7 +22,17 @@ namespace MtdKey.Storage.Tests.HelperFunctions
             return result;
         }
 
-        
+        public static async Task<FileData> GetFileTestAsync()
+        {
+            var byteArray = await FileReader.GetFileBytesAsync();
+            return new FileData
+            {
+                Mime = "text/plain",
+                Name = "LongText.txt",
+                Size = byteArray.Length,
+                ByteArray = byteArray
+            };
+        }
 
     }
 }

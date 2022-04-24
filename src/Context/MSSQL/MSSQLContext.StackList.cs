@@ -17,8 +17,15 @@ namespace MtdKey.Storage.Context.MSSQL
                 entity.HasIndex(e => e.NodeId)
                     .HasDatabaseName("fk_node_stack_list_idx");
 
+                entity.HasIndex(e => e.StackId)
+                    .HasDatabaseName("fk_stack_list_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint");
+
                 entity.Property(e => e.StackId)
-                    .HasColumnName("number")
+                    .HasColumnName("stack_id")
                     .HasColumnType("bigint");
 
                 entity.Property(e => e.NodeId)
@@ -26,8 +33,8 @@ namespace MtdKey.Storage.Context.MSSQL
                     .HasColumnType("bigint");                
 
                 entity.HasOne(d => d.Stack)
-                    .WithOne(p => p.StackList)
-                    .HasForeignKey<StackList>(d => d.StackId)
+                    .WithMany(p => p.StackLists)
+                    .HasForeignKey(d => d.StackId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_stack_list");
 

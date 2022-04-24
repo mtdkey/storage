@@ -1,0 +1,6 @@
+﻿<bunch name="IssueReport">
+	<field type="link" list="Issue" name="Issue" />
+	<field type="text" name="Description" />
+	<field type="file" name="FileReport" />
+	<field type="datetime" name="ReportDatetime" />
+</bunch>

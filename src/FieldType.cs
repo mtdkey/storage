@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MtdKey.Storage
 {
-    public class FieldType
+    public struct FieldType
     {
         private readonly int value;
         public FieldType(int fieldType)
@@ -24,11 +24,12 @@ namespace MtdKey.Storage
             return new FieldType(fieldType);
         }
 
-        public readonly static FieldType Numeric = new(1);
-        public readonly static FieldType Text = new(2);
-        public readonly static FieldType DateTime = new(3);
-        public readonly static FieldType Boolean = new(4);
-        public readonly static FieldType Link = new(5);
+        public readonly static FieldType Numeric = 1;
+        public readonly static FieldType Text = 2;
+        public readonly static FieldType DateTime = 3;
+        public readonly static FieldType Boolean = 4;
+        public readonly static FieldType Link = 5;
+        public readonly static FieldType File = 6;
 
         public static string GetName(FieldType fieldType)
         {
@@ -39,6 +40,7 @@ namespace MtdKey.Storage
                 case 3: { return nameof(DateTime); }
                 case 4: { return nameof(Boolean); }
                 case 5: { return nameof(Link); }
+                case 6: { return nameof(File); }
                 default: return null;
             }
         }
@@ -53,9 +55,15 @@ namespace MtdKey.Storage
                 case "datetime": { return DateTime; }
                 case "boolean": { return Boolean; }
                 case "link": { return Link; }
-                default: return null;
+                case "file": { return File; }
+                default: return Text;
             }
         }
+
+        public static List<FieldType> AllTypes => new()
+        {
+            Numeric,Text, DateTime, Boolean, Link, File
+        };
 
     }
 }

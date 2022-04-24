@@ -1,21 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MtdKey.Storage.Tests.TestFiles
 {
     public static class FileReader
     {
+        public static async Task<byte[]> GetFileBytesAsync()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            string resourceName = typeof(FileReader).Namespace + $".LongText.txt";
+            using Stream stream = assembly.GetManifestResourceStream(resourceName);        
+            byte[] buffer = new byte[stream.Length];
+            await stream.ReadAsync(buffer);
+            return buffer;
+        }
+
         private static string GetFileText(string fileName)
         {
             var assembly = Assembly.GetExecutingAssembly();
             string resourceName = typeof(FileReader).Namespace + $".{fileName}";
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
             using StreamReader reader = new(stream);
+            
             string fileText = reader.ReadToEnd();
             return fileText;
         }

@@ -94,15 +94,20 @@ namespace MtdKey.Storage
 
                 if (fieldType == FieldType.File)
                 {
-                    await context.Entry(stack).Reference(x => x.StackFile).LoadAsync();
-                    var fileData = new FileData()
+                    await context.Entry(stack).Collection(x => x.StackFiles).LoadAsync();
+                    var fileDatas = new List<FileData>();
+                    foreach(var stackFile in stack.StackFiles)
                     {
-                        Name = stack.StackFile.FileName,
-                        Mime = stack.StackFile.FileType,
-                        ByteArray = stack.StackFile.Data,
-                        Size = stack.StackFile.FileSize
-                    };
-                    NodePatternItem nodeItem = new(fileData, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                       fileDatas.Add(new()
+                        {
+                            Name = stackFile.FileName,
+                            Mime = stackFile.FileType,
+                            ByteArray = stackFile.Data,
+                            Size = stackFile.FileSize
+                        });
+                    }
+
+                    NodePatternItem nodeItem = new(fileDatas, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }

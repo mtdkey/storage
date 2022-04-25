@@ -184,15 +184,17 @@ namespace MtdKey.Storage
 
             if (nodeItem.FieldType == FieldType.File)
             {
-                var fileData = (FileData)nodeItem.Data;
-                stack.StackFile = new StackFile
-                {
-                    StackId = stack.Id,
-                    FileName = fileData.Name,
-                    FileSize = fileData.Size,
-                    FileType = fileData.Mime,
-                    Data = fileData.ByteArray
-                };
+                var fileDatas = (List<FileData>)nodeItem.Data;
+                fileDatas.ForEach(fileData => {
+                    stack.StackFiles.Add(new()
+                    {
+                        StackId = stack.Id,
+                        FileName = fileData.Name,
+                        FileSize = fileData.Size,
+                        FileType = fileData.Mime,
+                        Data = fileData.ByteArray
+                    });
+                });            
             }
 
             return stack;

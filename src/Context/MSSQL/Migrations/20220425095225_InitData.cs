@@ -1,54 +1,47 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MtdKey.Storage.Context.MySQL.Migrations
+namespace MtdKey.Storage.Context.MSSQL.Migrations
 {
     public partial class InitData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "bunch",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(128)", nullable: false),
-                    deleted_flag = table.Column<sbyte>(type: "tinyint(2)", nullable: false)
+                    deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_bunch", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "schema_name",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     unique_name = table.Column<string>(type: "varchar(256)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_schema_name", x => x.id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "bunch_ext",
                 columns: table => new
                 {
                     bunch_id = table.Column<long>(type: "bigint", nullable: false),
-                    counter = table.Column<int>(type: "int(10)", nullable: false)
+                    counter = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,8 +52,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "bunch",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "bunch_token",
@@ -80,19 +72,18 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "bunch",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "field",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     bunch_id = table.Column<long>(type: "bigint", nullable: false),
                     name = table.Column<string>(type: "nvarchar(128)", nullable: false),
                     field_type = table.Column<short>(type: "smallint", nullable: false),
-                    deleted_flag = table.Column<sbyte>(type: "tinyint(2)", nullable: false)
+                    deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,19 +94,18 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "bunch",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "node",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     bunch_id = table.Column<long>(type: "bigint", nullable: false),
                     date_created = table.Column<DateTime>(type: "DateTime", nullable: false),
                     creator_info = table.Column<string>(type: "nvarchar(128)", nullable: false),
-                    deleted_flag = table.Column<sbyte>(type: "tinyint(2)", nullable: false)
+                    deleted_flag = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,19 +116,17 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "bunch",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "schema_version",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     schema_name_id = table.Column<long>(type: "bigint", nullable: false),
                     version = table.Column<long>(type: "bigint", nullable: false),
                     xml_schema = table.Column<string>(type: "text", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -149,8 +137,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "schema_name",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "field_link",
@@ -174,15 +161,14 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "field",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "node_ext",
                 columns: table => new
                 {
                     node_id = table.Column<long>(type: "bigint", nullable: false),
-                    number = table.Column<int>(type: "int(10)", nullable: false)
+                    number = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,8 +179,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "node",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "node_token",
@@ -212,15 +197,14 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "node",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "stack",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     node_id = table.Column<long>(type: "bigint", nullable: false),
                     field_id = table.Column<long>(type: "bigint", nullable: false),
                     date_created = table.Column<DateTime>(type: "DateTime", nullable: false),
@@ -240,8 +224,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "node",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "stack_digital",
@@ -259,39 +242,37 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "stack",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "stack_file",
                 columns: table => new
                 {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     stack_id = table.Column<long>(type: "bigint", nullable: false),
-                    file_name = table.Column<string>(type: "varchar(256)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    file_name = table.Column<string>(type: "nvarchar(256)", nullable: false),
                     file_size = table.Column<long>(type: "bigint", nullable: false),
-                    file_type = table.Column<string>(type: "varchar(256)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    data = table.Column<byte[]>(type: "longblob", nullable: false)
+                    file_type = table.Column<string>(type: "varchar(256)", nullable: false),
+                    data = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_stack_file", x => x.stack_id);
+                    table.PrimaryKey("PK_stack_file", x => x.id);
                     table.ForeignKey(
                         name: "fk_stack_file",
                         column: x => x.stack_id,
                         principalTable: "stack",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "stack_list",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     stack_id = table.Column<long>(type: "bigint", nullable: false),
                     node_id = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -309,15 +290,14 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "stack",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateTable(
                 name: "stack_text",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     stack_id = table.Column<long>(type: "bigint", nullable: false),
                     value = table.Column<string>(type: "nvarchar(128)", nullable: false)
                 },
@@ -330,8 +310,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         principalTable: "stack",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                });
 
             migrationBuilder.CreateIndex(
                 name: "idx_bunch_name",
@@ -395,6 +374,11 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                 name: "idx_stack_digital_value",
                 table: "stack_digital",
                 column: "value");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_stack_file_stack_id",
+                table: "stack_file",
+                column: "stack_id");
 
             migrationBuilder.CreateIndex(
                 name: "fk_node_stack_list_idx",

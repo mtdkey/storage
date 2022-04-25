@@ -11,7 +11,12 @@ namespace MtdKey.Storage.Context.MySQL
         {
             modelBuilder.Entity<StackFile>(entity =>
             {
-                entity.ToTable("stack_file");                
+                entity.ToTable("stack_file");
+
+                entity.Property(e => e.Id)
+                    .IsRequired()
+                    .HasColumnName("id")
+                    .HasColumnType("bigint");
 
                 entity.Property(e => e.StackId)
                     .IsRequired()
@@ -38,8 +43,8 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnType("longblob");
 
                 entity.HasOne(d => d.Stack)
-                    .WithOne(p => p.StackFile)
-                    .HasForeignKey<StackFile>(d => d.StackId)
+                    .WithMany(p => p.StackFiles)
+                    .HasForeignKey(d => d.StackId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_stack_file");
             });

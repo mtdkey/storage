@@ -333,9 +333,12 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackFile", b =>
                 {
-                    b.Property<long>("StackId")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("stack_id");
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<byte[]>("Data")
                         .IsRequired()
@@ -356,7 +359,13 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("varchar(256)")
                         .HasColumnName("file_type");
 
-                    b.HasKey("StackId");
+                    b.Property<long>("StackId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("stack_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StackId");
 
                     b.ToTable("stack_file", (string)null);
                 });
@@ -559,8 +568,8 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackFile", b =>
                 {
                     b.HasOne("MtdKey.Storage.DataModels.Stack", "Stack")
-                        .WithOne("StackFile")
-                        .HasForeignKey("MtdKey.Storage.DataModels.StackFile", "StackId")
+                        .WithMany("StackFiles")
+                        .HasForeignKey("StackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_stack_file");
@@ -641,7 +650,7 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                 {
                     b.Navigation("StackDigital");
 
-                    b.Navigation("StackFile");
+                    b.Navigation("StackFiles");
 
                     b.Navigation("StackLists");
 

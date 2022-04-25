@@ -26,7 +26,7 @@ namespace MtdKey.Storage
                     .Where(x => x.Key.Equals(stack.FieldId)).Select(x => x.Value)
                     .FirstOrDefault();
 
-                if (fieldType == (int)FieldType.Numeric)
+                if (fieldType == FieldType.Numeric)
                 {
                     await context.Entry(stack).Reference(x => x.StackDigital).LoadAsync();
                     var value = stack.StackDigital.Value;
@@ -35,7 +35,7 @@ namespace MtdKey.Storage
                     nodeItems.Add(nodeItem);
                 }
 
-                if (fieldType == (int)FieldType.Boolean)
+                if (fieldType == FieldType.Boolean)
                 {
                     await context.Entry(stack).Reference(x => x.StackDigital).LoadAsync();
                     bool value = stack.StackDigital.Value == 1;
@@ -44,7 +44,7 @@ namespace MtdKey.Storage
                     nodeItems.Add(nodeItem);
                 }
 
-                if (fieldType == (int)FieldType.DateTime)
+                if (fieldType == FieldType.DateTime)
                 {
                     await context.Entry(stack).Reference(x => x.StackDigital).LoadAsync();
                     DateTime value = new((long)stack.StackDigital.Value);
@@ -53,7 +53,7 @@ namespace MtdKey.Storage
                     nodeItems.Add(nodeItem);
                 }
 
-                if (fieldType == (int)FieldType.Text)
+                if (fieldType == FieldType.Text)
                 {
                     await context.Entry(stack).Collection(x => x.StackTexts).LoadAsync();
                     List<string> values = stack.StackTexts.Select(x => x.Value).ToList();
@@ -63,7 +63,7 @@ namespace MtdKey.Storage
                     nodeItems.Add(nodeItem);
                 }
 
-                if (fieldType == (int)FieldType.Link)
+                if (fieldType == FieldType.Link)
                 {
                     await context.Entry(stack).Collection(x => x.StackLists).LoadAsync();
                     var nodePatterns = new List<NodePattern>();
@@ -92,17 +92,22 @@ namespace MtdKey.Storage
                     nodeItems.Add(nodeItem);
                 }
 
-                if (fieldType == (int)FieldType.File)
+                if (fieldType == FieldType.File)
                 {
-                    await context.Entry(stack).Reference(x => x.StackFile).LoadAsync();
-                    var fileData = new FileData()
+                    await context.Entry(stack).Collection(x => x.StackFiles).LoadAsync();
+                    var fileDatas = new List<FileData>();
+                    foreach(var stackFile in stack.StackFiles)
                     {
-                        Name = stack.StackFile.FileName,
-                        Mime = stack.StackFile.FileType,
-                        ByteArray = stack.StackFile.Data,
-                        Size = stack.StackFile.FileSize
-                    };
-                    NodePatternItem nodeItem = new(fileData, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
+                       fileDatas.Add(new()
+                        {
+                            Name = stackFile.FileName,
+                            Mime = stackFile.FileType,
+                            ByteArray = stackFile.Data,
+                            Size = stackFile.FileSize
+                        });
+                    }
+
+                    NodePatternItem nodeItem = new(fileDatas, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);
                 }

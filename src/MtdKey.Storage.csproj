@@ -5,7 +5,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <Copyright>Oleg Bruev</Copyright>
     <PackageIcon>MTDKey-128.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <RepositoryType></RepositoryType>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <Description>MTDKey Storage is a backend solution designed to speed up the development of web-applications.</Description>

@@ -6,6 +6,7 @@ namespace MtdKey.Storage.DataModels
     internal class StackFile
     {
         [Key]
+        public long Id { get; set; }
         public long StackId { get; set; }
         public string FileName { get; set; }
         public long FileSize { get; set; }

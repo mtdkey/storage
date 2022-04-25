@@ -15,6 +15,48 @@ namespace MtdKey.Storage
             value = linkType;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+
+            if (obj is LinkType linkType)
+            {
+                return linkType.value == value;
+            }
+
+            if (obj is int intValue)
+            {
+                return intValue == value;
+            }
+            return false;
+        }
+
+
+        public static bool operator ==(int left, LinkType right)
+        {
+            return left == right.value;
+        }
+
+        public static bool operator !=(int left, LinkType right)
+        {
+            return left != right.value;
+        }
+
+        public static bool operator ==(LinkType left, LinkType right)
+        {
+            return left.value == right.value;
+        }
+
+        public static bool operator !=(LinkType left, LinkType right)
+        {
+            return left.value != right.value;
+        }
+
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
+        }
+
         public static explicit operator int(LinkType linkType)
         {
             return linkType.value;

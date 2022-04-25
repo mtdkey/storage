@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,48 @@ namespace MtdKey.Storage
             value = fieldType;
         }
 
-        public static explicit operator int(FieldType fieldType)
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+
+            if (obj is FieldType fieldType)
+            {
+                return fieldType.value == value;
+            }
+
+            if (obj is int intValue)
+            {
+                return intValue == value;
+            }
+            return false;
+        }
+
+        public static bool operator ==(int left, FieldType right)
+        {
+            return left == right.value;
+        }
+
+        public static bool operator !=(int left, FieldType right)
+        {
+            return left != right.value;
+        }
+
+        public static bool operator ==(FieldType left, FieldType right)
+        {
+            return left.value == right.value;
+        }
+
+        public static bool operator !=(FieldType left, FieldType right)
+        {
+            return left.value != right.value;
+        }
+
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
+        }
+
+        public static implicit operator int(FieldType fieldType)
         {
             return fieldType.value;
         }
@@ -33,7 +75,7 @@ namespace MtdKey.Storage
 
         public static string GetName(FieldType fieldType)
         {
-            switch ((int)fieldType)
+            switch (fieldType)
             {
                 case 1: { return nameof(Numeric); }
                 case 2: { return nameof(Text); }
@@ -62,7 +104,12 @@ namespace MtdKey.Storage
 
         public static List<FieldType> AllTypes => new()
         {
-            Numeric,Text, DateTime, Boolean, Link, File
+            Numeric,
+            Text,
+            DateTime,
+            Boolean,
+            Link,
+            File
         };
 
     }

@@ -154,26 +154,26 @@ namespace MtdKey.Storage
                 stack.StackTexts = stackText.Count > 0 ? stackText : null;
             }
 
-            if (nodeItem.FieldType.Equals(FieldType.Numeric))
+            if (nodeItem.FieldType == FieldType.Numeric)
             {
                 var value = (decimal)nodeItem.Data;
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };
             }
 
-            if (nodeItem.FieldType.Equals(FieldType.DateTime))
+            if (nodeItem.FieldType == FieldType.DateTime)
             {
                 var dateTime = (DateTime)nodeItem.Data;
                 decimal value = dateTime.Ticks;
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };
             }
 
-            if (nodeItem.FieldType.Equals(FieldType.Boolean))
+            if (nodeItem.FieldType == FieldType.Boolean)
             {
                 var value = (bool)nodeItem.Data;
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value ? 1 : 0 };
             }
 
-            if (nodeItem.FieldType.Equals(FieldType.Link))
+            if (nodeItem.FieldType == FieldType.Link)
             {
                 var value = (List<NodePattern>)nodeItem.Data;
                 value.ForEach(nodePattern => {
@@ -182,7 +182,7 @@ namespace MtdKey.Storage
                 
             }
 
-            if (nodeItem.FieldType.Equals(FieldType.File))
+            if (nodeItem.FieldType == FieldType.File)
             {
                 var fileData = (FileData)nodeItem.Data;
                 stack.StackFile = new StackFile

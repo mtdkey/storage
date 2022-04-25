@@ -62,7 +62,7 @@ namespace MtdKey.Storage
             FieldId = fieldId;
             Data = value;
             SystemType = typeof(List<NodePattern>);
-            FieldType = FieldType.Link;
+            FieldType = FieldType.LinkSingle;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;
         }

@@ -87,7 +87,7 @@ namespace MtdKey.Storage
 
                 var FieldPattern = new FieldPattern()
                 {
-                    FieldType = FieldType.GetByName(fieldType),
+                    FieldType = FieldType.GetFromXmlType(fieldType),
                     Name = field.Attributes["name"].Value,
                 };
 

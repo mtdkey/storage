@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MtdKey.Storage.DataModels
 {
-    internal class StackList
+    internal class StackLink
     {
         [Key]
         public long Id { get; set; }

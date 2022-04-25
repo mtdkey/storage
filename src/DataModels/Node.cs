@@ -10,7 +10,7 @@ namespace MtdKey.Storage.DataModels
         public Node()
         {
             Stacks = new HashSet<Stack>();
-            StackLists = new HashSet<StackList>();
+            StackLists = new HashSet<StackLink>();
         }
 
         [Key]
@@ -24,7 +24,7 @@ namespace MtdKey.Storage.DataModels
         public virtual NodeExt NodeExt { get; set; }
         public virtual NodeToken NodeToken { get; set; }
         public virtual ICollection<Stack> Stacks { get; set; }
-        public virtual ICollection<StackList> StackLists { get; set; }
+        public virtual ICollection<StackLink> StackLists { get; set; }
 
     }
 }

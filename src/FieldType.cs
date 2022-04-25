@@ -70,46 +70,54 @@ namespace MtdKey.Storage
         public readonly static FieldType Text = 2;
         public readonly static FieldType DateTime = 3;
         public readonly static FieldType Boolean = 4;
-        public readonly static FieldType Link = 5;
+        public readonly static FieldType LinkSingle = 5;
         public readonly static FieldType File = 6;
+        public readonly static FieldType LinkMultiple = 7;
 
-        public static string GetName(FieldType fieldType)
+        public string GetXmlType()
         {
-            switch (fieldType)
+            switch (value)
             {
-                case 1: { return nameof(Numeric); }
-                case 2: { return nameof(Text); }
-                case 3: { return nameof(DateTime); }
-                case 4: { return nameof(Boolean); }
-                case 5: { return nameof(Link); }
-                case 6: { return nameof(File); }
+                case 1: { return XmlType.Numeric; }
+                case 2: { return XmlType.Text; }
+                case 3: { return XmlType.DateTime; }
+                case 4: { return XmlType.Boolean; }
+                case 5: { return XmlType.LinkSingle; }
+                case 6: { return XmlType.File; }
+                case 7: { return XmlType.LinkMultiple; }
                 default: return null;
             }
         }
 
-        public static FieldType GetByName(string typeName)
+        public static FieldType GetFromXmlType(string xmlType)
         {
-            var name = typeName.ToLower();
+            var name = xmlType.ToLower();
             switch (name)
             {
-                case "numeric": { return Numeric; }
-                case "text": { return Text; }
-                case "datetime": { return DateTime; }
-                case "boolean": { return Boolean; }
-                case "link": { return Link; }
-                case "file": { return File; }
+                case XmlType.Numeric: { return Numeric; }
+                case XmlType.DateTime: { return DateTime; }
+                case XmlType.Boolean: { return Boolean; }
+                case XmlType.LinkSingle: { return LinkSingle; }
+                case XmlType.LinkMultiple: { return LinkMultiple; }
+                case XmlType.File: { return File; }
                 default: return Text;
             }
         }
 
-        public static List<FieldType> AllTypes => new()
+
+        public static bool IsXmlTypeLink(string xmlType) => xmlType.Contains("link-");
+        public bool IsLink => value == LinkSingle || value == LinkMultiple;
+
+
+        public static List<string> XmlTypes => new()
         {
-            Numeric,
-            Text,
-            DateTime,
-            Boolean,
-            Link,
-            File
+            XmlType.Numeric,
+            XmlType.Text,
+            XmlType.DateTime,
+            XmlType.Boolean,
+            XmlType.LinkSingle,
+            XmlType.LinkMultiple,
+            XmlType.File
         };
 
     }

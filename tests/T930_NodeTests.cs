@@ -99,7 +99,7 @@ namespace MtdKey.Storage.Tests
 
             //Create a bunch to link to the catalog bunch
             var bunchSelector = await requestProvider.CreateBunchAsync();
-            var fieldSelector = await requestProvider.CreateFieldAsync(bunchSelector.BunchId, FieldType.Link, bunchList.BunchId);
+            var fieldSelector = await requestProvider.CreateFieldAsync(bunchSelector.BunchId, FieldType.LinkSingle, bunchList.BunchId);
            
             //Create data items for the catalog bunch
             List<NodePatternItem> nodeItems1 = new()

@@ -131,12 +131,6 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("bunch_id");
 
-                    b.Property<short>("LinkType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
-                        .HasDefaultValue((short)1)
-                        .HasColumnName("link_type");
-
                     b.HasKey("FieldId");
 
                     b.HasIndex("BunchId")
@@ -353,7 +347,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.ToTable("stack_file", (string)null);
                 });
 
-            modelBuilder.Entity("MtdKey.Storage.DataModels.StackList", b =>
+            modelBuilder.Entity("MtdKey.Storage.DataModels.StackLink", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -371,12 +365,12 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("NodeId")
-                        .HasDatabaseName("fk_node_stack_list_idx");
+                        .HasDatabaseName("fk_node_stack_link_idx");
 
                     b.HasIndex("StackId")
-                        .HasDatabaseName("fk_stack_list_idx");
+                        .HasDatabaseName("fk_stack_link_idx");
 
-                    b.ToTable("stack_list", (string)null);
+                    b.ToTable("stack_link", (string)null);
                 });
 
             modelBuilder.Entity("MtdKey.Storage.DataModels.StackText", b =>
@@ -556,21 +550,21 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                     b.Navigation("Stack");
                 });
 
-            modelBuilder.Entity("MtdKey.Storage.DataModels.StackList", b =>
+            modelBuilder.Entity("MtdKey.Storage.DataModels.StackLink", b =>
                 {
                     b.HasOne("MtdKey.Storage.DataModels.Node", "Node")
                         .WithMany("StackLists")
                         .HasForeignKey("NodeId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
-                        .HasConstraintName("fk_node_stack_list");
+                        .HasConstraintName("fk_node_stack_link");
 
                     b.HasOne("MtdKey.Storage.DataModels.Stack", "Stack")
                         .WithMany("StackLists")
                         .HasForeignKey("StackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_stack_list");
+                        .HasConstraintName("fk_stack_link");
 
                     b.Navigation("Node");
 

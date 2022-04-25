@@ -173,11 +173,11 @@ namespace MtdKey.Storage
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value ? 1 : 0 };
             }
 
-            if (nodeItem.FieldType == FieldType.Link)
+            if (nodeItem.FieldType == FieldType.LinkSingle)
             {
                 var value = (List<NodePattern>)nodeItem.Data;
                 value.ForEach(nodePattern => {
-                    stack.StackLists.Add(new StackList { StackId = stack.Id, NodeId = nodePattern.NodeId });
+                    stack.StackLists.Add(new StackLink { StackId = stack.Id, NodeId = nodePattern.NodeId });
                 });                
                 
             }

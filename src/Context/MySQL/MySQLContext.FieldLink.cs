@@ -8,7 +8,7 @@ namespace MtdKey.Storage.Context.MySQL
     {
         internal virtual DbSet<FieldLink> FieldLinks { get; set; }
 
-        private static void StackLinkModelCreating(ModelBuilder modelBuilder)
+        private static void FieldLinkModelCreating(ModelBuilder modelBuilder)
         {
 
             modelBuilder.Entity<FieldLink>(entity =>
@@ -28,12 +28,6 @@ namespace MtdKey.Storage.Context.MySQL
                 entity.Property(e => e.BunchId)
                     .HasColumnName("bunch_id")
                     .HasColumnType("bigint");
-
-                entity.Property(e => e.LinkType)
-                    .IsRequired()
-                    .HasColumnName("link_type")
-                    .HasColumnType("smallint")
-                    .HasDefaultValue(1);
 
                 entity.HasOne(fieldLink => fieldLink.Bunch)
                     .WithMany(bunch => bunch.FieldLinks)

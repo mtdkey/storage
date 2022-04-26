@@ -13,9 +13,12 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://mtdkey.com</PackageProjectUrl>
     <Company>MTD Key</Company>
-    <Version>2.0.1-alpha.1</Version>
+    <Version>2.0.1-alpha.2</Version>
     <Authors>Oleg Bruev</Authors>
     <PackageTags>orm, mtdkey, storage, dotnet, multiple-database, sql, entity-framework</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
+    <AssemblyVersion>2.0.1.2</AssemblyVersion>
+    <FileVersion>2.0.1.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

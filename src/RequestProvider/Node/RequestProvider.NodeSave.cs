@@ -137,7 +137,7 @@ namespace MtdKey.Storage
                 CreatorInfo = nodeItem.CreatorInfo,
             };
 
-            if (nodeItem.FieldType.Equals(FieldType.Text))
+            if (nodeItem.FieldType == FieldType.Text)
             {
                 var stackText = new List<StackText>();
                 var datas = SplitText((string)nodeItem.Data);

@@ -27,12 +27,12 @@ The first way is to directly specify the connection string and database type (My
 The second way is to use the **storage.json** file, ⚠️ which should be in the same folder as the project.
 
 ```json
-    {
-      "ConnectionStrings": {
-        "mssql_ID1": "Server=.\\SQLEXPRESS;Database=name;User ID=sa;Password=pwd;",
-        "mysql_ID2": "Server=127.0.0.1;Database=name;User Id=root;Password=pwd;SslMode=none;"
-      }
-    }
+{
+  "ConnectionStrings": {
+    "mssql_ID1": "Server=.\\SQLEXPRESS;Database=name;User ID=sa;Password=pwd;",
+    "mysql_ID2": "Server=127.0.0.1;Database=name;User Id=root;Password=pwd;SslMode=none;"
+  }
+}
 ```
 
 > This way can be used if you store unique database IDs for each user, for example: ["user1","ID1"]
@@ -44,23 +44,28 @@ The storage.json file can store any quantity of connection strings. Each line mu
 Use the Request Provider by specifying a connection string  
 </p>
 
-    using RequestProvider requestProvider = new(contextProperty =>
-    {
-        contextProperty.DatabaseType = DatabaseType.MSSQL;
-        contextProperty.ConnectionString = "connection string to your MSSQL database";
-    });
+```cs
+using RequestProvider requestProvider = new(contextProperty =>
+{
+    contextProperty.DatabaseType = DatabaseType.MSSQL;
+    contextProperty.ConnectionString = "connection string to your MSSQL database";
+});
+```    
+
 <p>
   Use the query provider by providing a unique database name from storage.json file.
   </p>
   
-    var dataBaseID = "ID1";
-    var contextProperty = ContextConfig.GetConnectionString(dataBaseID);
-    var databaseType = ContextConfig.GetDatabaseType(dataBaseID);
-    using RequestProvider requestProvider = new(contextProperty =>
-    {
-        contextProperty.DatabaseType = databaseType;
-        contextProperty.ConnectionString = connectionString;
-    });
+```cs 
+var dataBaseID = "ID1";
+var contextProperty = ContextConfig.GetConnectionString(dataBaseID);
+var databaseType = ContextConfig.GetDatabaseType(dataBaseID);
+using RequestProvider requestProvider = new(contextProperty =>
+{
+    contextProperty.DatabaseType = databaseType;
+    contextProperty.ConnectionString = connectionString;
+});
+```
 
 > Methods of the RequestProvider class have incoming and out coming arguments as of special Pattern collections, such as Bunch Patter, Field Pattern, Node Patten. 
 
@@ -68,29 +73,31 @@ Use the Request Provider by specifying a connection string
   Use the Save method to create or update data. If no identifier is specified in the Pattern as an incoming parameter, a new record will be created.
 </p>
 
-    var createdForm = await requestProvider.BunchSaveAsync(pattern => {
-                    pattern.Name = "Form template name";
-                    pattern.Description = "Form description";
-                    pattern.ArchiveFlag = false;
-                });
-    //DataSet is List<BunchPattern> because the RequestProvider may return many forms.
-    var newID = createdForm.DataSet[0].BunchId;
-
+```cs
+var createdForm = await requestProvider.BunchSaveAsync(pattern => {
+                pattern.Name = "Form template name";
+                pattern.Description = "Form description";
+                pattern.ArchiveFlag = false;
+            });
+//DataSet is List<BunchPattern> because the RequestProvider may return many forms.
+var newID = createdForm.DataSet[0].BunchId;
+```
 <p>
   Use NodeQuery with a filter to find some data. 
 </p>
 
-    var receivedNodes = await requestProvider.NodeQueryAsync(filter =>
-    {
-        filter.SearchText = "search word";
-        filter.Page = 2;
-        filter.PageSize = 50;
-        filter.IncludeArchive = true;
-    });
-   
-    var firstNode = receivedNodes.DataSet.FirstOrDefault();
-    var fields = firstNode.Items;
-    
+```cs
+var receivedNodes = await requestProvider.NodeQueryAsync(filter =>
+{
+    filter.SearchText = "search word";
+    filter.Page = 2;
+    filter.PageSize = 50;
+});
+
+var firstNode = receivedNodes.DataSet.FirstOrDefault();
+var fields = firstNode.Items;
+```
+
 <p>ℹ️ Explore the test code for more examples.</p>
 ⚠️ To run tests create storage.json file in the Tests project.
 

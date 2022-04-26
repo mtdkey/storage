@@ -19,7 +19,8 @@ namespace MtdKey.Storage.Context.MSSQL
             BunchTokenModelCreating(modelBuilder);
 
             FieldModelCreating(modelBuilder);
-            
+            FieldLinkModelCreating(modelBuilder);
+
             NodeModelCreating(modelBuilder);
             NodeExtModelCreating(modelBuilder);
             NodeTokenModelCreating(modelBuilder);
@@ -27,8 +28,7 @@ namespace MtdKey.Storage.Context.MSSQL
             StackModelCreating(modelBuilder);
             StackDigitalModelCreating(modelBuilder);
             StackTextModelCreating(modelBuilder);
-            StackListModelCreating(modelBuilder);
-            StackLinkModelCreating(modelBuilder);
+            StackLinkModelCreating(modelBuilder);           
             StackFileModelCreating(modelBuilder);
 
             SchemaNameModelCreating(modelBuilder);

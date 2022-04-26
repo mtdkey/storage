@@ -151,14 +151,14 @@ namespace MtdKey.Storage
                 {
                     BunchId = bunchId,
                     Name = fieldTag.FieldPattern.Name,
-                    FieldType = (int)fieldTag.FieldPattern.FieldType,
+                    FieldType = fieldTag.FieldPattern.FieldType,
                 };
 
-                if (fieldTag.FieldPattern.FieldType.Equals(FieldType.Link))
+                if (fieldTag.FieldPattern.FieldType == FieldType.LinkSingle)
                 {
                     var linkId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.BunchList)).Id;
                     var fieldLink = new FieldLink { BunchId = linkId };
-                    field.FieldLink = fieldLink;
+                    field.FieldLink = fieldLink;                    
                 }
 
                 await context.AddAsync(field);

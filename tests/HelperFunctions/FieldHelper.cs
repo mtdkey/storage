@@ -21,7 +21,7 @@ namespace MtdKey.Storage.Tests.HelperFunctions
                 field.LinkId = linkId;
                 field.BunchId = bunchId;
                 field.FieldType = fieldType;
-                field.Name = $"Field name is {name} {FieldType.GetName(fieldType)}";
+                field.Name = $"Field name is {name} {fieldType.GetXmlType}";
             });
         }
 
@@ -33,7 +33,7 @@ namespace MtdKey.Storage.Tests.HelperFunctions
                 field.LinkId = linkId;
                 field.BunchId = bunchId;
                 field.FieldType = fieldType;
-                field.Name = $"Field name is {name} {FieldType.GetName(fieldType)}";
+                field.Name = $"Field name is {name} {fieldType.GetXmlType}";
             });
         }
 

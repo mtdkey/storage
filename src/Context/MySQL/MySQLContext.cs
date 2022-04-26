@@ -8,7 +8,6 @@ namespace MtdKey.Storage.Context.MySQL
 {
     internal partial class MySQLContext : DbContext
     {
-
         public MySQLContext(DbContextOptions<MySQLContext> options) : base(options) { }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -18,6 +17,7 @@ namespace MtdKey.Storage.Context.MySQL
             BunchTokenModelCreating(modelBuilder);
 
             FieldModelCreating(modelBuilder);
+            FieldLinkModelCreating(modelBuilder);
 
             NodeModelCreating(modelBuilder);
             NodeExtModelCreating(modelBuilder);
@@ -26,8 +26,8 @@ namespace MtdKey.Storage.Context.MySQL
             StackModelCreating(modelBuilder);
             StackDigitalModelCreating(modelBuilder);
             StackTextModelCreating(modelBuilder);
-            StackListModelCreating(modelBuilder);            
-            StackLinkModelCreating(modelBuilder);
+            StackLinkModelCreating(modelBuilder);            
+            
             StackFileModelCreating(modelBuilder);
 
             SchemaNameModelCreating(modelBuilder);

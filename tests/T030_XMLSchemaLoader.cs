@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MtdKey.Storage.Tests
@@ -23,6 +24,24 @@ namespace MtdKey.Storage.Tests
 
             Assert.True(uploadResult.Success, uploadResult.Exception?.Message);
 
+            var bunchFieldsReturned = await requestProvider.GetScheamaAsync();
+            Assert.True(bunchFieldsReturned.Success, bunchFieldsReturned.Exception?.Message);
+            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue").Any());
+            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "IssueCategory").Any());
+
+            var fieldExists = bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue" 
+                    && x.FieldPatterns.Where(x => x.Name == "AssignedTo").Any()).Any();
+
+            Assert.True(fieldExists);
+
+            bunchFieldsReturned = await requestProvider.GetScheamaAsync("Issue");
+            Assert.True(bunchFieldsReturned.Success, bunchFieldsReturned.Exception?.Message);
+            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue").Any());
+
+            fieldExists = bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue"
+                    && x.FieldPatterns.Where(x => x.Name == "AssignedTo").Any()).Any();
+
+            Assert.True(fieldExists);
         }
     }
 }

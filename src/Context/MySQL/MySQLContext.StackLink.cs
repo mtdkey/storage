@@ -10,19 +10,19 @@ namespace MtdKey.Storage.Context.MySQL
 {
     internal partial class MySQLContext : DbContext
     {
-        internal virtual DbSet<StackList> StackCatalogs { get; set; }
+        internal virtual DbSet<StackLink> StackCatalogs { get; set; }
 
-        private static void StackListModelCreating(ModelBuilder modelBuilder)
+        private static void StackLinkModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StackList>(entity =>
+            modelBuilder.Entity<StackLink>(entity =>
             {
-                entity.ToTable("stack_list");
+                entity.ToTable("stack_link");
 
                 entity.HasIndex(e => e.NodeId)
-                    .HasDatabaseName("fk_node_stack_list_idx");
+                    .HasDatabaseName("fk_node_stack_link_idx");
 
                 entity.HasIndex(e => e.StackId)
-                    .HasDatabaseName("fk_stack_list_idx");
+                    .HasDatabaseName("fk_stack_link_idx");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -40,13 +40,13 @@ namespace MtdKey.Storage.Context.MySQL
                     .WithMany(p => p.StackLists)
                     .HasForeignKey(d => d.StackId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("fk_stack_list");
+                    .HasConstraintName("fk_stack_link");
 
                 entity.HasOne(d => d.Node)
                     .WithMany(p => p.StackLists)
                     .HasForeignKey(d => d.NodeId)
                     .OnDelete(DeleteBehavior.NoAction)
-                    .HasConstraintName("fk_node_stack_list");
+                    .HasConstraintName("fk_node_stack_link");
 
             });
 

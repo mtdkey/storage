@@ -11,16 +11,23 @@ namespace MtdKey.Storage
     {
         public long NodeId { get; set; }
         public long FieldId { get; private set; }
-        public Type SystemType { get; private set; }
         public FieldType FieldType { get; private set; }
         public object Data { get; private set; }
         public string CreatorInfo { get; private set; }
         public DateTime DateCreated { get; private set; }
 
+        public NodePatternItem(object value, long fieldId, FieldType fieldType, string creatorInfo, DateTime dateTime)
+        {
+            Data = value;            
+            FieldId = fieldId;
+            FieldType = fieldType;
+            CreatorInfo = creatorInfo;
+            DateCreated = dateTime;
+        }
+
         public NodePatternItem(string value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             Data = value;
-            SystemType = typeof(string);
             FieldType = FieldType.Text;
             FieldId = fieldId;
             CreatorInfo = creatorInfo;
@@ -31,7 +38,6 @@ namespace MtdKey.Storage
         {
             FieldId = fieldId;
             Data = value;
-            SystemType = typeof(decimal);
             FieldType = FieldType.Numeric;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;
@@ -41,7 +47,6 @@ namespace MtdKey.Storage
         {
             FieldId = fieldId;
             Data = value;
-            SystemType = typeof(DateTime);
             FieldType = FieldType.DateTime;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;
@@ -51,7 +56,6 @@ namespace MtdKey.Storage
         {
             FieldId = fieldId;
             Data = value;
-            SystemType = typeof(double);
             FieldType = FieldType.Boolean;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;
@@ -60,9 +64,8 @@ namespace MtdKey.Storage
         public NodePatternItem(List<NodePattern> value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             FieldId = fieldId;
-            Data = value;
-            SystemType = typeof(List<NodePattern>);
-            FieldType = FieldType.Link;
+            Data = value;            
+            FieldType = FieldType.LinkSingle;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;
         }
@@ -71,7 +74,6 @@ namespace MtdKey.Storage
         {
             FieldId = fieldId;
             Data = value;
-            SystemType = typeof(List<FileData>);
             FieldType = FieldType.File;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;

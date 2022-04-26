@@ -14,7 +14,6 @@ namespace MtdKey.Storage
         /// BunchId who is a dictionary for this field
         /// </summary>
         public long LinkId { get; set; }
-        public LinkType LinkType { get; set; } = LinkType.Single;
         public string Name { get; set; }
         public FieldType FieldType { get; set; } = FieldType.Text;
     }

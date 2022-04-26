@@ -29,5 +29,10 @@ namespace MtdKey.Storage
             Success = success;
             Exception = exception;
         }
+
+        public static implicit operator RequestResult<T>(Func<Task<RequestResult<BunchPattern>>> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

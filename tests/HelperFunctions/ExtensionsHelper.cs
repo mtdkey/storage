@@ -10,8 +10,8 @@ namespace MtdKey.Storage.Tests
     {
         public static async Task<IRequestResult> TestCreateBunchAndFieldsAsync(this RequestProvider requestProvider, long index)
         {
-
-            var directoryCreated = await requestProvider.BunchSaveAsync(bunch => {
+            var directoryCreated = await requestProvider.BunchSaveAsync(bunch =>
+            {
                 bunch.Name = $"Bunch is Catalog {index}-first";
             });
 
@@ -23,43 +23,37 @@ namespace MtdKey.Storage.Tests
                 var fieldCreated = await requestProvider.FieldSaveAsync(field =>
                 {
                     field.BunchId = catalogId;
-                    field.Name = $"Catalog Item {i}";
+                    field.Name = $"Catalog Item-{index}-{i}";
                     field.FieldType = FieldType.Text;
                 });
 
                 if (!fieldCreated.Success) return fieldCreated;
             }
 
-            var bunchCreated = await requestProvider.BunchSaveAsync(bunch => {
+            var bunchCreated = await requestProvider.BunchSaveAsync(bunch =>
+            {
                 bunch.Name = $"Bunch for test fields {index}-second";
             });
 
             if (!bunchCreated.Success) return bunchCreated;
             var bunchId = bunchCreated.DataSet[0].BunchId;
 
-            foreach (var fieldType in FieldType.AllTypes)
+            foreach (var xmlType in FieldType.XmlTypes)
             {
                 long linkId = 0;
-                var linkType = LinkType.Single;
-                if (fieldType.Equals(FieldType.Link))
-                {
+                if (FieldType.IsXmlTypeLink(xmlType))
                     linkId = directoryCreated.DataSet[0].BunchId;
-                    linkType = LinkType.Multiple;
-                }
-                    
+
+
                 var fieldCreated = await requestProvider.FieldSaveAsync(field =>
                 {
                     field.LinkId = linkId;
                     field.BunchId = bunchId;
-                    field.Name = $"Feild{FieldType.GetName(fieldType)}";
-                    field.FieldType = fieldType;
-                    field.LinkType = LinkType.Multiple;
+                    field.Name = $"Feild-{index}-{xmlType}";
+                    field.FieldType = FieldType.GetFromXmlType(xmlType);
                 });
 
                 if (!fieldCreated.Success) return fieldCreated;
-
-                if (fieldCreated.DataSet[0].FieldType.Equals(FieldType.Link) && fieldCreated.DataSet[0].LinkType.Equals(LinkType.Single))
-                    return new RequestResult<IRequestResult>(false, new Exception("Link type is not multiple!"));
             }
 
             return new RequestResult<IRequestResult>(true);

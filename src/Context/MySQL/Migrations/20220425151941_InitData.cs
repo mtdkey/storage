@@ -157,8 +157,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                 columns: table => new
                 {
                     field_id = table.Column<long>(type: "bigint", nullable: false),
-                    bunch_id = table.Column<long>(type: "bigint", nullable: false),
-                    link_type = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)1)
+                    bunch_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,7 +288,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "stack_list",
+                name: "stack_link",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
@@ -299,14 +298,14 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_stack_list", x => x.id);
+                    table.PrimaryKey("PK_stack_link", x => x.id);
                     table.ForeignKey(
-                        name: "fk_node_stack_list",
+                        name: "fk_node_stack_link",
                         column: x => x.node_id,
                         principalTable: "node",
                         principalColumn: "id");
                     table.ForeignKey(
-                        name: "fk_stack_list",
+                        name: "fk_stack_link",
                         column: x => x.stack_id,
                         principalTable: "stack",
                         principalColumn: "id",
@@ -404,13 +403,13 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                 column: "stack_id");
 
             migrationBuilder.CreateIndex(
-                name: "fk_node_stack_list_idx",
-                table: "stack_list",
+                name: "fk_node_stack_link_idx",
+                table: "stack_link",
                 column: "node_id");
 
             migrationBuilder.CreateIndex(
-                name: "fk_stack_list_idx",
-                table: "stack_list",
+                name: "fk_stack_link_idx",
+                table: "stack_link",
                 column: "stack_id");
 
             migrationBuilder.CreateIndex(
@@ -451,7 +450,7 @@ namespace MtdKey.Storage.Context.MySQL.Migrations
                 name: "stack_file");
 
             migrationBuilder.DropTable(
-                name: "stack_list");
+                name: "stack_link");
 
             migrationBuilder.DropTable(
                 name: "stack_text");

@@ -26,16 +26,15 @@ namespace MtdKey.Storage
             {
                 BunchId = fieldPattern.BunchId,
                 Name = fieldPattern.Name ?? string.Empty,                
-                FieldType = (int)fieldPattern.FieldType,
+                FieldType = fieldPattern.FieldType,
                 DeletedFlag = FlagSign.False,
             };
 
-            if (fieldPattern.FieldType.Equals(FieldType.Link))
+            if (fieldPattern.FieldType.IsLink)
             {
                 var fieldLink = new FieldLink
                 {
                     BunchId = fieldPattern.LinkId,
-                    LinkType = (int)fieldPattern.LinkType,
                 };
                 field.FieldLink = fieldLink;
             }
@@ -50,7 +49,6 @@ namespace MtdKey.Storage
 
                 fieldPattern.FieldId = newField.Id;
                 fieldPattern.FieldType = newField.FieldType;
-                fieldPattern.LinkType = newField.FieldLink?.LinkType ?? LinkType.Single;
                 fieldPattern.BunchId = newField.BunchId;
                 fieldPattern.Name = newField.Name;
                                 

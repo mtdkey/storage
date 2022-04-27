@@ -72,5 +72,31 @@ namespace MtdKey.Storage
             return patternResult;
         }
 
+
+        public async Task<Dictionary<long, string>> NodeQueryAsync(string bunchName, int pageSize = int.MaxValue)
+        {
+            var result = new Dictionary<long, string>();
+            var schema = await GetScheamaAsync(bunchName);
+            var banchId = schema.DataSet.First().BunchPattern.BunchId;
+            var nodes = await NodeQueryAsync(filter =>
+            {
+                filter.BunchIds.Add(banchId);
+                filter.PageSize = pageSize;
+            });
+
+            if (nodes.Success == false || nodes.DataSet.Count == 0)
+                return result;
+
+            nodes.DataSet.ForEach(node => {
+                var key = node.NodeId;
+                var value = node.Items.First().Data;
+                result.Add(key, (string)value);
+            });
+
+            return result;
+
+        }
+
+
     }
 }

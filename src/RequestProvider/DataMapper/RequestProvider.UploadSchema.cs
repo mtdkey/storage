@@ -113,6 +113,8 @@ namespace MtdKey.Storage
                 if (bunchExists) continue;
 
                 var bunch = new Bunch { Name = bunchTag.Name };
+                var bunchEx = new BunchExt { Counter = 0 };
+                bunch.BunchExt = bunchEx;
                 await context.AddAsync(bunch);
             }
         }

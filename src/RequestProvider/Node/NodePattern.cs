@@ -14,6 +14,6 @@ namespace MtdKey.Storage
         public string CreatorInfo { get; set; }
         public DateTime DateCreated { get; set; }
 
-        public List<NodePatternItem> Items { get; set; }
+        public List<NodePatternItem> Items { get; set; } = new List<NodePatternItem>();
     }
 }

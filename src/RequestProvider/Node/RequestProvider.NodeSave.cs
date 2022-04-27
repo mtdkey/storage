@@ -27,7 +27,14 @@ namespace MtdKey.Storage
             {
 
                 ///Check access via token
-                BunchToken bunchToken = await context.Set<BunchToken>().FindAsync(nodePattern.BunchId);
+                var bunchToken = await context.Set<BunchToken>().FindAsync(nodePattern.BunchId);
+                bunchToken ??= new()
+                {
+                    BunchId = nodePattern.BunchId,
+                    TokenoDelete = string.Empty,
+                    TokenToCreate = string.Empty,
+                    TokenToEdit = string.Empty
+                };
                 bool creatingAllowed = contextProperty.AccessTokens.Contains(bunchToken.TokenToCreate);
                 bool editingAllowed = contextProperty.AccessTokens.Contains(bunchToken.TokenToEdit);
 
@@ -176,16 +183,18 @@ namespace MtdKey.Storage
             if (nodeItem.FieldType == FieldType.LinkSingle)
             {
                 var value = (List<NodePattern>)nodeItem.Data;
-                value.ForEach(nodePattern => {
+                value.ForEach(nodePattern =>
+                {
                     stack.StackLists.Add(new StackLink { StackId = stack.Id, NodeId = nodePattern.NodeId });
-                });                
-                
+                });
+
             }
 
             if (nodeItem.FieldType == FieldType.File)
             {
                 var fileDatas = (List<FileData>)nodeItem.Data;
-                fileDatas.ForEach(fileData => {
+                fileDatas.ForEach(fileData =>
+                {
                     stack.StackFiles.Add(new()
                     {
                         StackId = stack.Id,
@@ -194,7 +203,7 @@ namespace MtdKey.Storage
                         FileType = fileData.Mime,
                         Data = fileData.ByteArray
                     });
-                });            
+                });
             }
 
             return stack;

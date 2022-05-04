@@ -32,6 +32,14 @@ namespace MtdKey.Storage.Scripts
             return script.Replace("{searchtext}", safeText);
         }
 
+        public static string SearchTextByLink(string text, DatabaseType databaseType)
+        {
+            var fileName = databaseType.Equals(DatabaseType.MSSQL) ? "MSSQL_SearchText_Link.sql" : "MySQL_SearchText_Link.sql";
+            var safeText = text.Replace("'", "''");
+            var script = GetScript(fileName);
+            return script.Replace("{searchtext}", safeText);
+        }
+
         public static string StackMaxIds(DatabaseType databaseType)
         {
             var fileName = databaseType.Equals(DatabaseType.MSSQL) ? "MSSQL_StackMaxIds.sql" : "MySQL_StackMaxIds.sql";            

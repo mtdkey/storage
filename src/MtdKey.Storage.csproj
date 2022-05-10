@@ -24,8 +24,10 @@
   <ItemGroup>
     <None Remove="Scripts\MSSql_DropDatabase.sql" />
     <None Remove="Scripts\MSSQL_SearchText.sql" />
+    <None Remove="Scripts\MSSQL_SearchText_Link.sql" />
     <None Remove="Scripts\MSSQL_StackMaxIds.sql" />
     <None Remove="Scripts\MySQL_SearchText.sql" />
+    <None Remove="Scripts\MySQL_SearchText_Link.sql" />
     <None Remove="Scripts\MySQL_StackMaxIds.sql" />
   </ItemGroup>
 
@@ -48,6 +50,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\MSSQL_SearchText_Link.sql">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\MySQL_SearchText_Link.sql">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\MySQL_StackMaxIds.sql">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </EmbeddedResource>

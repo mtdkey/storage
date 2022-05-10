@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="IssueSchema\BunchesSchema.xml" />
-    <None Remove="IssueSchema\_Schema.xml" />
+    <None Remove="Issue\BunchesSchema.xml" />
+    <None Remove="Issue\_Schema.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="IssueSchema\_Schema.xml">
+    <EmbeddedResource Include="Issue\_Schema.xml">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>_Schema.t4</DependentUpon>
@@ -54,7 +54,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>_IssueSchema.t4</DependentUpon>
     </None>
-    <None Update="IssueSchema\_Schema.t4">
+    <None Update="Issue\_Schema.t4">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>_Schema.xml</LastGenOutput>
     </None>

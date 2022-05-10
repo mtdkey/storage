@@ -27,10 +27,16 @@ namespace MtdKey.Storage
                 if (string.IsNullOrEmpty(requestFilter.SearchText) is not true)
                 {
                     var text = requestFilter.SearchText.ToUpper();
-                    var script = SqlScript.SearchText(text, contextProperty.DatabaseType);                                                                      
-                    IList<long> textNodeids = await context.Set<Node>().FromSqlRaw(script).Select(x => x.Id).ToListAsync();                   
-                    query = textNodeids.Count > 0 ? query.Where(x => textNodeids.Contains(x.Id)) : query;
+                    var script = SqlScript.SearchText(text, contextProperty.DatabaseType);
+                    var scriptForLinks = SqlScript.SearchTextByLink(text, contextProperty.DatabaseType);
+                    IList<long> textNodeids = await context.Set<Node>().FromSqlRaw(script).Select(x => x.Id).ToListAsync();
+                    IList<long> linkNodeids = await context.Set<Node>().FromSqlRaw(scriptForLinks).Select(x => x.Id).ToListAsync();
+                    var ids = textNodeids.Union(linkNodeids).Distinct().ToList();
+                    query = query.Where(x => ids.Contains(x.Id));
                 }
+
+                var rowCount = await query.CountAsync();
+                patternResult.SetRowCount(rowCount);
 
                 var dataSet = await query                    
                     .Select(node => new NodePattern
@@ -38,8 +44,11 @@ namespace MtdKey.Storage
                         NodeId = node.Id,
                         BunchId = node.BunchId,
                         Number = node.NodeExt.Number,
+                        DateCreated = node.DateCreated,
+                        CreatorInfo = node.CreatorInfo,
                         Items = new List<NodePatternItem>()
                     })
+                    .OrderByDescending(x => x.DateCreated)
                     .FilterPages(requestFilter.Page, requestFilter.PageSize)
                     .ToListAsync();
 
@@ -72,8 +81,12 @@ namespace MtdKey.Storage
             return patternResult;
         }
 
-
-        public async Task<Dictionary<long, string>> NodeQueryAsync(string bunchName, int pageSize = int.MaxValue)
+        /// <summary>
+        /// This is request type for Catalogs. Use for single bunch in database only.
+        /// </summary>
+        /// <param name="bunchName"></param>
+        /// <returns>Return all Nodes for the first Bunch.</returns>
+        public async Task<Dictionary<long, string>> NodeQueryForBunchAsync(string bunchName)
         {
             var result = new Dictionary<long, string>();
             var schema = await GetScheamaAsync(bunchName);
@@ -81,7 +94,7 @@ namespace MtdKey.Storage
             var nodes = await NodeQueryAsync(filter =>
             {
                 filter.BunchIds.Add(banchId);
-                filter.PageSize = pageSize;
+                filter.PageSize = int.MaxValue;
             });
 
             if (nodes.Success == false || nodes.DataSet.Count == 0)

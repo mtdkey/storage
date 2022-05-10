@@ -14,7 +14,7 @@ namespace MtdKey.Storage
         public string ReadDataFromFile()
         {
             var assembly = Assembly.GetAssembly(typeof(T));
-            string resourceName = assembly.GetName().Name + $".{nameSchema}Schema._Schema.xml";
+            string resourceName = assembly.GetName().Name + $".{nameSchema}._Schema.xml";
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
             using StreamReader reader = new(stream);
             string fileText = reader.ReadToEnd();

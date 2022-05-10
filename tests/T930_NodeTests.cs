@@ -159,6 +159,18 @@ namespace MtdKey.Storage.Tests
             Assert.Equal(nodeReceiver[0].NodeId, catalogFirstNode.NodeId);
             Assert.Equal(nodeReceiver[0].Number, catalogFirstNode.Number);
             Assert.True((string)nodeReceiver[0].Items.FirstOrDefault().Data == "Catalog Item one");
+
+
+            //Get data by link name
+            var nodeByLink = await requestProvider.NodeQueryAsync(filter =>
+            {
+                filter.SearchText = "Catalog Item one";
+                filter.BunchIds.Add(bunchSelector.BunchId);
+            });
+
+            Assert.True(nodeByLink.Success);
+            Assert.True(nodeByLink.DataSet.Count > 0);
+
         }
 
         [Theory]

@@ -53,6 +53,7 @@ namespace MtdKey.Storage
                 node = creatingNode ? await CreateNodeAsync(nodePattern) : await UpdateNodeAsync(nodePattern);
 
                 nodePattern.NodeId = node.Id;
+                
                 nodePattern.Number = node.NodeExt.Number;
 
 
@@ -99,8 +100,9 @@ namespace MtdKey.Storage
         {
             Node node = await context.Set<Node>().FindAsync(nodePattern.NodeId);
             node.BunchId = nodePattern.BunchId;
-            node.DeletedFlag = FlagSign.False;
+            node.DeletedFlag = FlagSign.False;            
             await context.SaveChangesAsync();
+            await context.Entry(node).Reference(x => x.NodeExt).LoadAsync();
 
             return node;
         }
@@ -176,8 +178,9 @@ namespace MtdKey.Storage
 
             if (nodeItem.FieldType == FieldType.Boolean)
             {
-                var value = (bool)nodeItem.Data;
-                stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value ? 1 : 0 };
+                var value = false;
+                if (nodeItem.Data is bool) value = (bool) nodeItem.Data;                             
+                stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value ? 1 : 0, Stack = stack };
             }
 
             if (nodeItem.FieldType == FieldType.LinkSingle)

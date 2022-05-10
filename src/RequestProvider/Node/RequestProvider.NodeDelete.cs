@@ -1,5 +1,6 @@
 ﻿using MtdKey.Storage.DataModels;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MtdKey.Storage
@@ -16,12 +17,15 @@ namespace MtdKey.Storage
 
                 ///Check access via token
                 BunchToken bunchToken = await context.Set<BunchToken>().FindAsync(node.BunchId);
-                bool deletingAllowed = contextProperty.AccessTokens.Contains(bunchToken.TokenoDelete);     
-
-                if (deletingAllowed is not true)
+                if (bunchToken != null)
                 {
-                    requestResult.SetResultInfo(false, new Exception("Access denied!"));
-                    return requestResult;
+                    bool deletingAllowed = contextProperty.AccessTokens.Contains(bunchToken.TokenoDelete);
+
+                    if (deletingAllowed is not true)
+                    {
+                        requestResult.SetResultInfo(false, new Exception("Access denied!"));
+                        return requestResult;
+                    }
                 }
 
                 node.DeletedFlag = FlagSign.True;

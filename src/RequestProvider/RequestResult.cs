@@ -11,7 +11,7 @@ namespace MtdKey.Storage
         public Exception Exception { get; private set; }
 
         public List<T> DataSet { get; private set; }
-
+        public long RowCount { get; private set; }
         public RequestResult() { }
         
         public RequestResult(bool success, Exception exception = null)
@@ -28,6 +28,11 @@ namespace MtdKey.Storage
         {
             Success = success;
             Exception = exception;
+        }
+
+        public void SetRowCount(long rowCount)
+        {
+            RowCount = rowCount;
         }
 
         public static implicit operator RequestResult<T>(Func<Task<RequestResult<BunchPattern>>> v)

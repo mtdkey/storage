@@ -35,6 +35,9 @@ namespace MtdKey.Storage
                     query = query.Where(x => ids.Contains(x.Id));
                 }
 
+                var rowCount = await query.CountAsync();
+                patternResult.SetRowCount(rowCount);
+
                 var dataSet = await query                    
                     .Select(node => new NodePattern
                     {
@@ -45,6 +48,7 @@ namespace MtdKey.Storage
                         CreatorInfo = node.CreatorInfo,
                         Items = new List<NodePatternItem>()
                     })
+                    .OrderByDescending(x => x.DateCreated)
                     .FilterPages(requestFilter.Page, requestFilter.PageSize)
                     .ToListAsync();
 

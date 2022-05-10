@@ -18,8 +18,18 @@ namespace MtdKey.Storage
 
         public async Task<RequestResult<NodePattern>> NodeCreateAsync(string bunchName, Dictionary<string, object> values, string creatorInfo)
         {
-            var categoryRetrived = await GetScheamaAsync(bunchName);
-            var bunchId = categoryRetrived.DataSet.First().BunchPattern.BunchId;
+            return await ConvertToNodePattern(bunchName, values, creatorInfo, true);
+        }
+
+        public async Task<RequestResult<NodePattern>> NodeUpdateAsync(string bunchName, Dictionary<string, object> values, string creatorInfo)
+        {
+           return await ConvertToNodePattern(bunchName,values, creatorInfo);
+        }
+
+        private async Task<RequestResult<NodePattern>> ConvertToNodePattern(string bunchName, Dictionary<string, object> values, string creatorInfo, bool createNew = false)
+        {
+            var schemaRetrived = await GetScheamaAsync(bunchName);
+            var bunchId = schemaRetrived.DataSet.First().BunchPattern.BunchId;
 
             var nodePattern = new NodePattern()
             {
@@ -31,8 +41,10 @@ namespace MtdKey.Storage
 
             foreach (var pair in values)
             {
-                var field = categoryRetrived.DataSet.First().FieldPatterns
-                    .Where(x => x.Name == pair.Key).First();
+                var filedPaterns = schemaRetrived.DataSet.FirstOrDefault()?.FieldPatterns;
+                if (filedPaterns == null) continue;
+                var field = filedPaterns.FirstOrDefault(x => x.Name == pair.Key);
+                if (field == null) continue;
 
                 object value = pair.Value;
                 if (field.FieldType.IsLink)
@@ -48,7 +60,21 @@ namespace MtdKey.Storage
                 nodePattern.Items.Add(new(value, field.FieldId, field.FieldType, creatorInfo, DateTime.UtcNow));
             }
 
-            nodePattern.NodeId = 0;
+
+            if (createNew)
+            {
+                nodePattern.NodeId = 0;
+            }
+            else
+            {
+                if(!long.TryParse((string)values["Id"], out long id))
+                {
+                    return new RequestResult<NodePattern>(false, new Exception("Node ID is wrong!"));
+                }
+
+                nodePattern.NodeId = id;
+            }
+            
             return await NodeSaveAsync(nodePattern);
         }
 

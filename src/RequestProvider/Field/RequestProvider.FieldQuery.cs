@@ -21,6 +21,13 @@ namespace MtdKey.Storage
   
             try
             {
+                if (string.IsNullOrEmpty(filter.BunchName) is not true)
+                {
+                    var schema = await GetScheamaAsync(filter.BunchName);
+                    var banchId = schema.DataSet.First().BunchPattern.BunchId;
+                    filter.BunchIds.Add(banchId);
+                }
+
                 var query = context.Set<Field>()
                     .Where(field => field.DeletedFlag == FlagSign.False)
                     .FilterBasic(filter)

@@ -18,10 +18,20 @@ namespace MtdKey.Storage
 
         public async Task<RequestResult<BunchPattern>> BunchQueryAsync(RequestFilter filter)
         {
-            var patternResult = new RequestResult<BunchPattern>(true);
-            
+            var patternResult = new RequestResult<BunchPattern>(true);            
+
             try
             {
+
+                filter.Ids.AddRange(filter.BunchIds);
+
+                if (string.IsNullOrEmpty(filter.BunchName) is not true)
+                {
+                    var schema = await GetScheamaAsync(filter.BunchName);
+                    var banchId = schema.DataSet.First().BunchPattern.BunchId;
+                    filter.Ids.Add(banchId);
+                }
+
                 var query = context.Set<Bunch>()
                     .Where(bunch => bunch.DeletedFlag == FlagSign.False)
                     .FilterBasic(filter);                    

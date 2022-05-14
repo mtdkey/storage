@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<schema name="Issue" version="637878124175746227">
+<schema name="Issue" version="637881339478282993">
 	<bunches>
 		<bunch name="Issue">
 	<field type="text" name="Title" />
@@ -11,6 +11,7 @@
 	<field type="text" name="Owner"/>
 	<field type="datetime" name="Deadline"/>
 	<field type="bool" name="Status" />
+	<field type="link-single" list="User" name="User" />
 </bunch>
 
 		<bunch name="IssueCategory">

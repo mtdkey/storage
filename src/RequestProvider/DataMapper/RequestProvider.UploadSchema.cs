@@ -10,10 +10,17 @@ namespace MtdKey.Storage
     public partial class RequestProvider : IDisposable
     {
 
-        public async Task<IRequestResult> UploadSchemaAsync(IXmlSchema schema)
+        public async Task<IRequestResult> UploadSchemaAsync(List<IXmlSchema> schemas)
         {
-            var bunchTags = schema.GetBunches();
-            var fieldTags = schema.GetFields();
+
+            var bunchTags = new List<BunchPattern>();
+            var fieldTags = new List<FieldTag>();
+
+            foreach (var schema in schemas)
+            {
+               bunchTags.AddRange(schema.GetBunches());
+               fieldTags.AddRange(schema.GetFields());                
+            }
 
             await BeginTransactionAsync();
 
@@ -26,8 +33,9 @@ namespace MtdKey.Storage
                 return uploadFields;
             try
             {
-                await VersionProcessingAsync(schema);
-
+                foreach(var schema in schemas)                
+                    await VersionProcessingAsync(schema);
+                                
             } catch (Exception ex)
             {
                 await RollbackTransactionAsync();

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -18,15 +19,23 @@ namespace MtdKey.Storage.Tests
             ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
 
-            var schema = new XmlSchema<T020_XMLSchema>("Issue");
-            schema.LoadSchemaFromServer();
-            var uploadResult = await requestProvider.UploadSchemaAsync(schema);
+            var schemas = new List<IXmlSchema>();
+            var schemaNames = new[] { "Issue", "User" };
+            foreach (var schemaName in schemaNames)
+            {
+                var schema = new XmlSchema<T020_XMLSchema>(schemaName);
+                schema.LoadSchemaFromServer();
+                schemas.Add(schema);
+            }                       
+
+            var uploadResult = await requestProvider.UploadSchemaAsync(schemas);
 
             Assert.True(uploadResult.Success, uploadResult.Exception?.Message);
 
             var bunchFieldsReturned = await requestProvider.GetScheamaAsync();
             Assert.True(bunchFieldsReturned.Success, bunchFieldsReturned.Exception?.Message);
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue").Any());
+            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "User").Any());
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "IssueCategory").Any());
 
             var fieldExists = bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue" 

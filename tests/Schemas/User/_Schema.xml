@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<schema name="User" version="637881448953467154">
+	<bunches>
+		<bunch name="User">
+			<field type="text" name="Name" />
+			<field type="text" name="Email" />
+		</bunch>
+	</bunches>
+</schema>

@@ -171,6 +171,16 @@ namespace MtdKey.Storage.Tests
             Assert.True(nodeByLink.Success);
             Assert.True(nodeByLink.DataSet.Count > 0);
 
+            //Get data by Bunch name
+            var catalogReturned = await requestProvider.NodeQueryAsync(filter =>
+            {
+                filter.BunchName = bunchList.Name;
+            });
+
+            Assert.True(catalogReturned.Success);
+            var dictonary = NodePattern.GetDictonaryFromList(catalogReturned.DataSet);
+            Assert.True(dictonary.Count>0);
+
         }
 
         [Theory]

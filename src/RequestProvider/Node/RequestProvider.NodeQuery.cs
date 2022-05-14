@@ -17,7 +17,14 @@ namespace MtdKey.Storage
             filter.Invoke(requestFilter);
 
             try
-            {
+            {                
+                if (string.IsNullOrEmpty(requestFilter.BunchName) is not true)
+                {
+                    var schema = await GetScheamaAsync(requestFilter.BunchName);
+                    var banchId = schema.DataSet.First().BunchPattern.BunchId;
+                    requestFilter.BunchIds.Add(banchId);
+                }
+
                 var query = context.Set<Node>()
                     .Where(node => node.DeletedFlag == FlagSign.False
                         && contextProperty.AccessTokens.Contains(node.NodeToken.ForRLS))
@@ -81,11 +88,12 @@ namespace MtdKey.Storage
             return patternResult;
         }
 
+        [Obsolete("Use NodeQuery filter and then NodePatter.GetDictonaryFromList")]
         /// <summary>
-        /// This is request type for Catalogs. Use for single bunch in database only.
+        /// This is request type for Catalogs. 
         /// </summary>
         /// <param name="bunchName"></param>
-        /// <returns>Return all Nodes for the first Bunch.</returns>
+        /// <returns>Return all Nodes for the Bunch.</returns>
         public async Task<Dictionary<long, string>> NodeQueryForBunchAsync(string bunchName)
         {
             var result = new Dictionary<long, string>();
@@ -109,7 +117,6 @@ namespace MtdKey.Storage
             return result;
 
         }
-
 
     }
 }

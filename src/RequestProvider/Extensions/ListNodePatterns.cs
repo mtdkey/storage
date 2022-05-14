@@ -14,7 +14,7 @@ namespace MtdKey.Storage
         /// </summary>
         /// <param name="nodes"></param>
         /// <returns></returns>
-        public static Dictionary<long, string> GetDictonary(this List<NodePattern> nodes)
+        public static Dictionary<long, string> GetDictionary(this List<NodePattern> nodes)
         {
             var result = new Dictionary<long, string>();
             nodes.ForEach(node => {

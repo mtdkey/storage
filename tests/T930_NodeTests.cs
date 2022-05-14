@@ -178,7 +178,7 @@ namespace MtdKey.Storage.Tests
             });
 
             Assert.True(catalogReturned.Success);
-            var dictonary = catalogReturned.DataSet.GetDictonary();
+            var dictonary = catalogReturned.DataSet.GetDictionary();
             Assert.True(dictonary.Count>0);
 
         }

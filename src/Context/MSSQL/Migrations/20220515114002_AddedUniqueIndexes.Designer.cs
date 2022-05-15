@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MtdKey.Storage.Context.MSSQL;
 
@@ -11,9 +12,10 @@ using MtdKey.Storage.Context.MSSQL;
 namespace MtdKey.Storage.Context.MSSQL.Migrations
 {
     [DbContext(typeof(MSSQLContext))]
-    partial class MSSQLContextModelSnapshot : ModelSnapshot
+    [Migration("20220515114002_AddedUniqueIndexes")]
+    partial class AddedUniqueIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

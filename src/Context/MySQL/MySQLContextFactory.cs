@@ -18,7 +18,7 @@ namespace MtdKey.Storage.Context.MySQL
             var connections = configuration.GetSection("ConnectionStrings").AsEnumerable()
                 .Where(x => x.Key.Contains(databaseGuid))
                 .ToList();
-            var connectionString = connections.FirstOrDefault(x => x.Value is not null);
+            var connectionString = connections.FirstOrDefault(x => x.Value is not null && x.Key.Contains(ContextConfig.MySQLPrefix));
             ContextProperty contextProperty = new() { ConnectionString = connectionString.Value };
             return CreateDbContext(contextProperty);
 

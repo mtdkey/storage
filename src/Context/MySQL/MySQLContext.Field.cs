@@ -46,6 +46,16 @@ namespace MtdKey.Storage.Context.MySQL
                     .HasColumnName("deleted_flag")
                     .HasColumnType("tinyint(2)");
 
+                entity.Property(e => e.UQInBunchFlag)
+                    .IsRequired()
+                    .HasColumnName("uq_bunch_flag")
+                    .HasColumnType("tinyint(2)");
+
+                entity.Property(e => e.UQInAllFlag)
+                    .IsRequired()
+                    .HasColumnName("uq_all_flag")
+                    .HasColumnType("tinyint(2)");
+
                 entity.HasOne(field => field.Bunch)
                     .WithMany(bunch => bunch.Fields)
                     .HasForeignKey(field => field.BunchId)

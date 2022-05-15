@@ -18,6 +18,8 @@ namespace MtdKey.Storage.DataModels
         public string Name { get; set; }
         public int FieldType { get; set; }        
         public byte DeletedFlag { get; set; }
+        public byte UQInBunchFlag { get; set; }
+        public byte UQInAllFlag { get; set; }
 
         public virtual Bunch Bunch { get; set; }
         public virtual FieldLink FieldLink { get; set; }

@@ -116,14 +116,6 @@ namespace MtdKey.Storage.Context.MSSQL.Migrations
                         .HasColumnType("nvarchar(128)")
                         .HasColumnName("name");
 
-                    b.Property<byte>("UQInAllFlag")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("uq_all_flag");
-
-                    b.Property<byte>("UQInBunchFlag")
-                        .HasColumnType("tinyint")
-                        .HasColumnName("uq_bunch_flag");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BunchId")

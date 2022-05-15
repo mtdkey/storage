@@ -18,20 +18,29 @@ namespace MtdKey.Storage
         public async Task<RequestResult<FieldPattern>> FieldQueryAsync(RequestFilter filter)
         {
             var requestResult = new RequestResult<FieldPattern>(true);
-  
+            if (filter.NodeIds.Count > 0)
+                return new RequestResult<FieldPattern>(false, new Exception("NodeIds are not supported for this query!"));
+
             try
             {
-                if (string.IsNullOrEmpty(filter.BunchName) is not true)
+                if (filter.BunchNames.Count > 0)
                 {
-                    var schema = await GetScheamaAsync(filter.BunchName);
-                    var banchId = schema.DataSet.First().BunchPattern.BunchId;
-                    filter.BunchIds.Add(banchId);
+                    foreach (var bunchName in filter.BunchNames)
+                    {
+                        var schema = await GetScheamaAsync(bunchName);
+                        var banchId = schema.DataSet.First().BunchPattern.BunchId;
+                        filter.BunchIds.Add(banchId);
+                    }
                 }
 
                 var query = context.Set<Field>()
-                    .Where(field => field.DeletedFlag == FlagSign.False)
-                    .FilterBasic(filter)
-                    .FilterChild(filter);
+                    .Where(field => field.DeletedFlag == FlagSign.False);
+
+                if (filter.FieldIds?.Count > 0)
+                    query = query.Where(field => filter.FieldIds.Contains(field.Id));
+
+                if (filter.BunchIds?.Count > 0)
+                    query = query.Where(field => filter.BunchIds.Contains(field.BunchId));
 
 
                 if (string.IsNullOrEmpty(filter.SearchText) is not true)

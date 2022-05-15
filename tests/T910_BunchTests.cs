@@ -54,7 +54,7 @@ namespace MtdKey.Storage.Tests
 
             var receivedbunch = await requestProvider.BunchQueryAsync(filter =>
             {
-                filter.Ids.Add(bunch.BunchId);
+                filter.BunchIds.Add(bunch.BunchId);
             });
 
             Assert.True(receivedbunch.Success);
@@ -84,7 +84,7 @@ namespace MtdKey.Storage.Tests
             //Get BunchA by Id
             var receivedbunchA = await requestProvider.BunchQueryAsync(filter =>
             {
-                filter.Ids.Add(createdBunchA.DataSet[0].BunchId);
+                filter.BunchIds.Add(createdBunchA.DataSet[0].BunchId);
             });
 
             Assert.True(receivedbunchA.Success);
@@ -142,7 +142,7 @@ namespace MtdKey.Storage.Tests
             var requestResult = await requestProvider.BunchDeleteAsync(bunch.BunchId);
             Assert.True(requestResult.Success);
 
-            var operationCheck = await requestProvider.BunchQueryAsync(filter => filter.Ids.Add(bunch.BunchId));
+            var operationCheck = await requestProvider.BunchQueryAsync(filter => filter.BunchIds.Add(bunch.BunchId));
             Assert.True(operationCheck.Success);
             Assert.True(operationCheck.DataSet.Count == 0);
         }

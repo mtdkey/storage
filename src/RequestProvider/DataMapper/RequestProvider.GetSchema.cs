@@ -17,6 +17,18 @@ namespace MtdKey.Storage
             return await GetScheamaAsync(bunchQueryAsync);
         }
 
+
+        public async Task<RequestResult<BunchFields>> GetScheamaAsync(long bunchId)
+        {
+            var bunchQueryAsync = async () => await BunchQueryAsync(filter =>
+            {
+                filter.BunchIds.Add(bunchId);
+                filter.PageSize = int.MaxValue;
+            });
+
+            return await GetScheamaAsync(bunchQueryAsync);
+        }
+
         public async Task<RequestResult<BunchFields>> GetScheamaAsync()
         {
             return await GetScheamaAsync(async () => await BunchQueryAsync(filter => filter.PageSize = int.MaxValue));

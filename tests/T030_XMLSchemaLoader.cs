@@ -61,13 +61,19 @@ namespace MtdKey.Storage.Tests
             var userCreated = await requestProvider.NodeCreateAsync("User", values, "Tester");
             Assert.True(userCreated.Success);
 
+            var userSchema = await requestProvider.GetScheamaAsync("User");
+
+            var field = userSchema.DataSet[0].FieldPatterns.FirstOrDefault(x => x.Name == "Name");
+            field ??= new();
+
             var nodeReturned = await requestProvider.NodeQueryAsync(filter => {
                 filter.SearchText = "UniqueData";
-                filter.BunchName = "User";
+                filter.BunchNames.Add("User");
+                filter.FieldIds.Add(field.FieldId);
             });
 
             Assert.True(nodeReturned.Success);
-            Assert.True(nodeReturned.DataSet.Count > 0);
+            Assert.True(nodeReturned.DataSet[0].Items.Count > 0);
         }
     }
 }

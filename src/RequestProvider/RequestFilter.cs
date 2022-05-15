@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 namespace MtdKey.Storage
 {
     public class RequestFilter
-    {
-        /// <summary>
-        /// Ids of Table
-        /// </summary>
-        public List<long> Ids { get; set; }        
-        public List<long> BunchIds { get; set; }          
+    {        
+        public List<long> BunchIds { get; set; }
+        public List<long> FieldIds { get; set; }
+        public List<long> NodeIds { get; set; }
         public string SearchText { get; set; }   
-        public string BunchName { get; set; }
+        public List<string> BunchNames { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
 
         public RequestFilter()
         {
             Page = 1;
-            Ids = new();
-            PageSize = 10;
-            BunchIds = new();                        
+            BunchIds = new();
+            BunchNames = new();
+            FieldIds = new();
+            NodeIds = new();
+            PageSize = 10;                                   
         }
     }
 }

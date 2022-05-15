@@ -52,7 +52,7 @@ namespace MtdKey.Storage
                     var ok = long.TryParse((string)pair.Value, out long nodeId);
                     if (!ok) return new(false, new Exception("NodeId parsing error!"));
 
-                    var request = await NodeQueryAsync(filter => filter.Ids.Add(nodeId));
+                    var request = await NodeQueryAsync(filter => filter.NodeIds.Add(nodeId));
                     if (!request.Success) return request;
                     value = request.DataSet;
                 }

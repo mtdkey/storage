@@ -20,21 +20,28 @@ namespace MtdKey.Storage
         {
             var patternResult = new RequestResult<BunchPattern>(true);            
 
+            if(filter.FieldIds.Count>0 || filter.NodeIds.Count > 0)            
+                return new RequestResult<BunchPattern>(false, 
+                    new Exception("FieldIds or NodeIds are not supported for this query!"));            
+
             try
-            {
-
-                filter.Ids.AddRange(filter.BunchIds);
-
-                if (string.IsNullOrEmpty(filter.BunchName) is not true)
+            {                
+                if (filter.BunchNames.Count>0)
                 {
-                    var schema = await GetScheamaAsync(filter.BunchName);
-                    var banchId = schema.DataSet.First().BunchPattern.BunchId;
-                    filter.Ids.Add(banchId);
+                    foreach(var bunchName in filter.BunchNames)
+                    {
+                        var schema = await GetScheamaAsync(bunchName);
+                        var banchId = schema.DataSet.First().BunchPattern.BunchId;
+                        filter.BunchIds.Add(banchId);
+                    }
                 }
 
                 var query = context.Set<Bunch>()
-                    .Where(bunch => bunch.DeletedFlag == FlagSign.False)
-                    .FilterBasic(filter);                    
+                    .Where(bunch => bunch.DeletedFlag == FlagSign.False);
+
+                if (filter.BunchIds?.Count > 0)
+                    query = query.Where(bunch => filter.BunchIds.Contains(bunch.Id));
+                
 
                 if (string.IsNullOrEmpty(filter.SearchText) is not true)
                 {

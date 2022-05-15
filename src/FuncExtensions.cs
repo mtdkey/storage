@@ -31,25 +31,6 @@ namespace MtdKey.Storage
             }
         }
 
- 
-        public static IQueryable<T> FilterChild<T>(this IQueryable<T> query, RequestFilter requestFilter) where T : IFilterChild
-        {
-            if (requestFilter.BunchIds.Count > 0)
-            {
-                query = query.Where(entity => requestFilter.BunchIds.Contains(entity.BunchId));
-            }
-            return query;
-        }
-
-        public static IQueryable<T> FilterBasic<T>(this IQueryable<T> query, RequestFilter requestFilter) where T : IFilterBasic
-        {            
-            if (requestFilter.Ids.Count > 0)
-            {                            
-                query = query.Where(entity => requestFilter.Ids.Contains(entity.Id));
-            }
-            return query;
-        }
-
         public static IQueryable<T> WhereIf<T>(this IQueryable<T> query, bool controlCheck, Expression<Func<T, bool>> condition)
         {
             if (controlCheck)

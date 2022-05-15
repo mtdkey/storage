@@ -17,19 +17,26 @@ namespace MtdKey.Storage
             filter.Invoke(requestFilter);
 
             try
-            {                
-                if (string.IsNullOrEmpty(requestFilter.BunchName) is not true)
+            {
+                if (requestFilter.BunchNames.Count > 0)
                 {
-                    var schema = await GetScheamaAsync(requestFilter.BunchName);
-                    var banchId = schema.DataSet.First().BunchPattern.BunchId;
-                    requestFilter.BunchIds.Add(banchId);
+                    foreach (var bunchName in requestFilter.BunchNames)
+                    {
+                        var schema = await GetScheamaAsync(bunchName);
+                        var banchId = schema.DataSet.First().BunchPattern.BunchId;
+                        requestFilter.BunchIds.Add(banchId);
+                    }
                 }
 
                 var query = context.Set<Node>()
                     .Where(node => node.DeletedFlag == FlagSign.False
-                        && contextProperty.AccessTokens.Contains(node.NodeToken.ForRLS))
-                    .FilterBasic(requestFilter)
-                    .FilterChild(requestFilter);                
+                        && contextProperty.AccessTokens.Contains(node.NodeToken.ForRLS));
+
+                if (requestFilter.NodeIds?.Count > 0)
+                    query = query.Where(node => requestFilter.NodeIds.Contains(node.Id));
+
+                if (requestFilter.BunchIds?.Count > 0)
+                    query = query.Where(node => requestFilter.BunchIds.Contains(node.BunchId));                   
 
                 if (string.IsNullOrEmpty(requestFilter.SearchText) is not true)
                 {
@@ -62,11 +69,14 @@ namespace MtdKey.Storage
                 var scriptGetMaxIds = SqlScript.StackMaxIds(contextProperty.DatabaseType);
                 List<long> nodeIds = dataSet.GroupBy(x => x.NodeId).Select(x => x.Key).ToList();
 
-                IList<Stack> stacks = await context.Set<Stack>()
-                    .FromSqlRaw(scriptGetMaxIds)                    
-                    .Where(x => nodeIds.Contains(x.NodeId))
-                    .ToListAsync();
-
+                var stackQuery = context.Set<Stack>()
+                    .FromSqlRaw(scriptGetMaxIds)
+                    .Where(x => nodeIds.Contains(x.NodeId));
+                
+                if (requestFilter.FieldIds?.Count > 0)                
+                    stackQuery = stackQuery.Where(stack=> requestFilter.FieldIds.Contains(stack.FieldId));
+                
+                IList<Stack> stacks = await stackQuery.ToListAsync();
                 List<NodePatternItem> nodeItems = await GetNodePatternItemsAsync(stacks);
 
                 dataSet.ToList().ForEach(node =>
@@ -74,8 +84,7 @@ namespace MtdKey.Storage
                     node.Items = nodeItems.Where(x => x.NodeId == node.NodeId).ToList();
                 });
                 
-                patternResult.FillDataSet(dataSet);
-                
+                patternResult.FillDataSet(dataSet);                
             }
             catch (Exception exception)
             {

@@ -80,7 +80,7 @@ namespace MtdKey.Storage.Tests
             var deleteResult = await requestProvider.NodeDeleteAsync(node.NodeId);
             Assert.True(deleteResult.Success);
 
-            var operationCheck = await requestProvider.NodeQueryAsync(filter => filter.Ids.Add(node.NodeId));
+            var operationCheck = await requestProvider.NodeQueryAsync(filter => filter.NodeIds.Add(node.NodeId));
             Assert.True(operationCheck.Success);
             Assert.True(operationCheck.DataSet.Count == 0);
         }
@@ -174,7 +174,7 @@ namespace MtdKey.Storage.Tests
             //Get data by Bunch name
             var catalogReturned = await requestProvider.NodeQueryAsync(filter =>
             {
-                filter.BunchName = bunchList.Name;
+                filter.BunchNames.Add(bunchList.Name);
             });
 
             Assert.True(catalogReturned.Success);
@@ -198,7 +198,7 @@ namespace MtdKey.Storage.Tests
             var createdNode = await NodeHelper.CreateAsync(requestProvider);
             var node = createdNode.DataSet.FirstOrDefault();
 
-            var requestRequest = await requestProvider.NodeQueryAsync(filter => { filter.Ids.Add(node.NodeId); });
+            var requestRequest = await requestProvider.NodeQueryAsync(filter => { filter.NodeIds.Add(node.NodeId); });
             Assert.True(requestRequest.Success);
             Assert.True(requestRequest.DataSet.Count == 1);
 

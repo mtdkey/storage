@@ -83,12 +83,12 @@ namespace MtdKey.Storage
             {
                 var bunchName = field.ParentNode.Attributes["name"].Value;
                 var fieldType = field.Attributes["type"].Value;
-                var bunchList = field.Attributes["list"]?.Value;
+                var bunchList = field.Attributes["list"]?.Value;                
 
                 var FieldPattern = new FieldPattern()
                 {
                     FieldType = FieldType.GetFromXmlType(fieldType),
-                    Name = field.Attributes["name"].Value,
+                    Name = field.Attributes["name"].Value,                     
                 };
 
                 result.Add(new()

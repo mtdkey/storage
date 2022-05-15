@@ -56,7 +56,6 @@ namespace MtdKey.Storage
                 
                 nodePattern.Number = node.NodeExt.Number;
 
-
                 List<Stack> stacks = await CreateStackListAsync(nodePattern);
 
                 List<NodePatternItem> nodeItems = await GetNodePatternItemsAsync(stacks);
@@ -89,6 +88,8 @@ namespace MtdKey.Storage
             node.DateCreated = dateCreated;
             node.CreatorInfo = nodePattern.CreatorInfo ?? "unknown";
             node.DeletedFlag = FlagSign.False;
+            
+
 
             await context.AddAsync(node);
             await context.SaveChangesAsync();

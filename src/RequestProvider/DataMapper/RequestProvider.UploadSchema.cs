@@ -18,8 +18,8 @@ namespace MtdKey.Storage
 
             foreach (var schema in schemas)
             {
-               bunchTags.AddRange(schema.GetBunches());
-               fieldTags.AddRange(schema.GetFields());                
+                bunchTags.AddRange(schema.GetBunches());
+                fieldTags.AddRange(schema.GetFields());
             }
 
             await BeginTransactionAsync();
@@ -33,14 +33,15 @@ namespace MtdKey.Storage
                 return uploadFields;
             try
             {
-                foreach(var schema in schemas)                
+                foreach (var schema in schemas)
                     await VersionProcessingAsync(schema);
-                                
-            } catch (Exception ex)
+
+            }
+            catch (Exception ex)
             {
                 await RollbackTransactionAsync();
                 return new RequestResult<IRequestResult>(false, ex);
-            }            
+            }
 
             await CommitTransactionAsync();
 
@@ -80,7 +81,6 @@ namespace MtdKey.Storage
             schemaName.SchemaVersions.Add(schemaVersion);
 
             await context.SaveChangesAsync();
-
         }
 
         private async Task<bool> ResultAsync(IRequestResult result)
@@ -168,7 +168,7 @@ namespace MtdKey.Storage
                 {
                     var linkId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.BunchList)).Id;
                     var fieldLink = new FieldLink { BunchId = linkId };
-                    field.FieldLink = fieldLink;                    
+                    field.FieldLink = fieldLink;
                 }
 
                 await context.AddAsync(field);

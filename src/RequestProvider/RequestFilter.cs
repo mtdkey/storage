@@ -12,8 +12,8 @@ namespace MtdKey.Storage
         /// Ids of Table
         /// </summary>
         public List<long> Ids { get; set; }        
-        public List<long> BunchIds { get; set; }
-        public string SearchText { get; set; }
+        public List<long> BunchIds { get; set; }          
+        public string SearchText { get; set; }   
         public string BunchName { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }

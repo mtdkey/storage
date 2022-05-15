@@ -120,8 +120,7 @@ namespace MtdKey.Storage.Tests
             var operationCheck = await requestProvider.FieldQueryAsync(filter => filter.Ids.Add(field.FieldId));
             Assert.True(operationCheck.Success);
             Assert.True(operationCheck.DataSet.Count == 0);
-
-
         }
+
     }
 }

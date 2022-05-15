@@ -40,7 +40,7 @@ namespace MtdKey.Storage.Tests
 
             var fieldExists = bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue" 
                     && x.FieldPatterns.Where(x => x.Name == "AssignedTo").Any()).Any();
-
+            
             Assert.True(fieldExists);
 
             bunchFieldsReturned = await requestProvider.GetScheamaAsync("Issue");
@@ -51,6 +51,23 @@ namespace MtdKey.Storage.Tests
                     && x.FieldPatterns.Where(x => x.Name == "AssignedTo").Any()).Any();
 
             Assert.True(fieldExists);
+
+            //Check Unique Value - needs to be refined
+            var values = new Dictionary<string, object>() {
+                { "Name", "UniqueData" },
+                { "Email", "user@example.com" }
+            };
+
+            var userCreated = await requestProvider.NodeCreateAsync("User", values, "Tester");
+            Assert.True(userCreated.Success);
+
+            var nodeReturned = await requestProvider.NodeQueryAsync(filter => {
+                filter.SearchText = "UniqueData";
+                filter.BunchName = "User";
+            });
+
+            Assert.True(nodeReturned.Success);
+            Assert.True(nodeReturned.DataSet.Count > 0);
         }
     }
 }

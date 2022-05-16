@@ -28,7 +28,7 @@ namespace MtdKey.Storage
 
         private async Task<RequestResult<NodePattern>> ConvertToNodePattern(string bunchName, Dictionary<string, object> values, string creatorInfo, bool createNew = false)
         {
-            var schemaRetrived = await GetScheamaAsync(bunchName);
+            var schemaRetrived = await GetSchemaAsync(bunchName);
             var bunchId = schemaRetrived.DataSet.First().BunchPattern.BunchId;
 
             var nodePattern = new NodePattern()

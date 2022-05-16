@@ -18,8 +18,10 @@ namespace MtdKey.Storage
 
             foreach (var schema in schemas)
             {
-                bunchTags.AddRange(schema.GetBunches());
-                fieldTags.AddRange(schema.GetFields());
+                var bunches = schema.GetBunches();
+                var fields = schema.GetFields();
+                bunchTags.AddRange(bunches);
+                fieldTags.AddRange(fields);
             }
 
             await BeginTransactionAsync();
@@ -35,7 +37,6 @@ namespace MtdKey.Storage
             {
                 foreach (var schema in schemas)
                     await VersionProcessingAsync(schema);
-
             }
             catch (Exception ex)
             {

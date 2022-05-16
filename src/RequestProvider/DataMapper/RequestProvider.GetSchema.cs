@@ -6,7 +6,7 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<RequestResult<BunchFields>> GetScheamaAsync(string bunchName)
+        public async Task<RequestResult<BunchFields>> GetSchemaAsync(string bunchName)
         {
             var bunchQueryAsync = async () => await BunchQueryAsync(filter =>
             {
@@ -29,7 +29,7 @@ namespace MtdKey.Storage
             return await GetScheamaAsync(bunchQueryAsync);
         }
 
-        public async Task<RequestResult<BunchFields>> GetScheamaAsync()
+        public async Task<RequestResult<BunchFields>> GetSchemaAsync()
         {
             return await GetScheamaAsync(async () => await BunchQueryAsync(filter => filter.PageSize = int.MaxValue));
         }
@@ -47,7 +47,10 @@ namespace MtdKey.Storage
             var bunches = bunchesReturned.DataSet;
             foreach (var bunch in bunches)
             {
-                var fieldsReturned = await FieldQueryAsync(filter => filter.BunchIds.Add(bunch.BunchId));
+                var fieldsReturned = await FieldQueryAsync(filter => { 
+                    filter.BunchIds.Add(bunch.BunchId);
+                    filter.PageSize = int.MaxValue;
+                });
 
                 if (!fieldsReturned.Success)
                     return new RequestResult<BunchFields>(false, fieldsReturned.Exception);

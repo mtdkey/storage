@@ -22,7 +22,7 @@ namespace MtdKey.Storage
                 {
                     foreach (var bunchName in requestFilter.BunchNames)
                     {
-                        var schema = await GetScheamaAsync(bunchName);
+                        var schema = await GetSchemaAsync(bunchName);
                         var banchId = schema.DataSet.First().BunchPattern.BunchId;
                         requestFilter.BunchIds.Add(banchId);
                     }

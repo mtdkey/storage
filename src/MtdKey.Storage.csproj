@@ -29,13 +29,6 @@
     <None Remove="Scripts\MySQL_SearchText.sql" />
     <None Remove="Scripts\MySQL_SearchText_Link.sql" />
     <None Remove="Scripts\MySQL_StackMaxIds.sql" />
-    <None Remove="storage.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="storage.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -83,6 +76,9 @@
     <None Update="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+    </None>
+    <None Update="storage.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   

@@ -42,7 +42,7 @@ namespace MtdKey.Storage
                 foreach (var schemaBunch in schemaBunches)
                 {
                     //Actual fields from database
-                    var bunchFields = await GetBunchFieldsAsync(schemaBunch.Name);
+                    var bunchFields = await BunchQueryAsync(filter => filter.BunchNames.Add(schemaBunch.Name));
                     if (!bunchFields.Success) return new RequestResult<IRequestResult>(false, bunchFields.Exception);
                     var actualFields = bunchFields.DataSet.FirstOrDefault()?.FieldPatterns;
                     if (actualFields == null) continue;
@@ -80,7 +80,7 @@ namespace MtdKey.Storage
             var schemas = await context.Set<SchemaName>().ToListAsync();
             var lostBunches = new List<Bunch>();
 
-            var bunchesRequest = await GetAllBunchesAndFieldsAsync();            
+            var bunchesRequest = await BunchQueryAsync(filter => filter.PageSize = int.MaxValue);
             if (!bunchesRequest.Success) return new RequestResult<IRequestResult>(false, bunchesRequest.Exception);
 
             foreach (var schema in schemas)
@@ -99,9 +99,9 @@ namespace MtdKey.Storage
                 var actualBunches = bunchesRequest.DataSet.ToList();
                 foreach (var actualBunch in actualBunches)
                 {
-                    if (!schemaBunches.Where(schemaBunch => schemaBunch.Name == actualBunch.BunchPattern.Name).Any())
+                    if (!schemaBunches.Where(schemaBunch => schemaBunch.Name == actualBunch.Name).Any())
                     {
-                        lostBunches.Add(new Bunch { Id = actualBunch.BunchPattern.BunchId });
+                        lostBunches.Add(new Bunch { Id = actualBunch.BunchId });
                     }
                 }
             }

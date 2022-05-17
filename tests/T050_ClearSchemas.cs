@@ -67,7 +67,7 @@ namespace MtdKey.Storage.Tests
 
         private async Task CreateData(RequestProvider requestProvider, string bunchName)
         {
-            var bunchFields = await requestProvider.GetBunchFieldsAsync(bunchName);
+            var bunchFields = await requestProvider.BunchQueryAsync(filter => filter.BunchNames.Add(bunchName));
             var fieldPatterns = bunchFields.DataSet.FirstOrDefault().FieldPatterns;
             var nodeItems = new List<NodePatternItem>();
             foreach (var fieldPattern in fieldPatterns)
@@ -89,7 +89,7 @@ namespace MtdKey.Storage.Tests
             }
 
             await requestProvider.NodeSaveAsync(nodePattern => {
-                nodePattern.BunchId = bunchFields.DataSet.FirstOrDefault().BunchPattern.BunchId;
+                nodePattern.BunchId = bunchFields.DataSet.First().BunchId;
                 nodePattern.DateCreated = DateTime.UtcNow;
                 nodePattern.CreatorInfo = "Tester";
                 nodePattern.Items = nodeItems;

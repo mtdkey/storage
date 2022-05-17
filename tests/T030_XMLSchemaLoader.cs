@@ -32,22 +32,22 @@ namespace MtdKey.Storage.Tests
 
             Assert.True(uploadResult.Success, uploadResult.Exception?.Message);
 
-            var bunchFieldsReturned = await requestProvider.GetAllBunchesAndFieldsAsync();
+            var bunchFieldsReturned = await requestProvider.BunchQueryAsync(filter => filter.PageSize = int.MaxValue);
             Assert.True(bunchFieldsReturned.Success, bunchFieldsReturned.Exception?.Message);
-            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue").Any());
-            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "User").Any());
-            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "IssueCategory").Any());
+            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.Name == "Issue").Any());
+            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.Name == "User").Any());
+            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.Name == "IssueCategory").Any());
 
-            var fieldExists = bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue" 
+            var fieldExists = bunchFieldsReturned.DataSet.Where(x => x.Name == "Issue" 
                     && x.FieldPatterns.Where(x => x.Name == "AssignedTo").Any()).Any();
             
             Assert.True(fieldExists);
 
-            bunchFieldsReturned = await requestProvider.GetBunchFieldsAsync("Issue");
+            bunchFieldsReturned = await requestProvider.BunchQueryAsync(filter => filter.BunchNames.Add("Issue"));
             Assert.True(bunchFieldsReturned.Success, bunchFieldsReturned.Exception?.Message);
-            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue").Any());
+            Assert.True(bunchFieldsReturned.DataSet.Where(x => x.Name == "Issue").Any());
 
-            fieldExists = bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue"
+            fieldExists = bunchFieldsReturned.DataSet.Where(x => x.Name == "Issue"
                     && x.FieldPatterns.Where(x => x.Name == "AssignedTo").Any()).Any();
 
             Assert.True(fieldExists);
@@ -61,7 +61,7 @@ namespace MtdKey.Storage.Tests
             var userCreated = await requestProvider.NodeCreateAsync("User", values, "Tester");
             Assert.True(userCreated.Success);
 
-            var userSchema = await requestProvider.GetBunchFieldsAsync("User");
+            var userSchema = await requestProvider.BunchQueryAsync(filter => filter.BunchNames.Add("User"));
 
             var field = userSchema.DataSet[0].FieldPatterns.FirstOrDefault(x => x.Name == "Name");
             field ??= new();

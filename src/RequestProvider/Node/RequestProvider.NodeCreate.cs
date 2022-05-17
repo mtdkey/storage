@@ -28,8 +28,8 @@ namespace MtdKey.Storage
 
         private async Task<RequestResult<NodePattern>> ConvertToNodePattern(string bunchName, Dictionary<string, object> values, string creatorInfo, bool createNew = false)
         {
-            var bunchRetrived = await GetBunchFieldsAsync(bunchName);
-            var bunchId = bunchRetrived.DataSet.First().BunchPattern.BunchId;
+            var bunchRetrived = await BunchQueryAsync(filter => filter.BunchNames.Add(bunchName));
+            var bunchId = bunchRetrived.DataSet.First().BunchId;
 
             var nodePattern = new NodePattern()
             {

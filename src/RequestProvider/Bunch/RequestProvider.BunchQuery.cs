@@ -30,8 +30,8 @@ namespace MtdKey.Storage
                 {
                     foreach(var bunchName in filter.BunchNames)
                     {
-                        var schema = await GetSchemaAsync(bunchName);
-                        var banchId = schema.DataSet.First().BunchPattern.BunchId;
+                        var bunchFields = await GetBunchFieldsAsync(bunchName);
+                        var banchId = bunchFields.DataSet.First().BunchPattern.BunchId;
                         filter.BunchIds.Add(banchId);
                     }
                 }

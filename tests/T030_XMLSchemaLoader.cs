@@ -32,7 +32,7 @@ namespace MtdKey.Storage.Tests
 
             Assert.True(uploadResult.Success, uploadResult.Exception?.Message);
 
-            var bunchFieldsReturned = await requestProvider.GetSchemaAsync();
+            var bunchFieldsReturned = await requestProvider.GetBunchFieldsAsync();
             Assert.True(bunchFieldsReturned.Success, bunchFieldsReturned.Exception?.Message);
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue").Any());
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "User").Any());
@@ -43,7 +43,7 @@ namespace MtdKey.Storage.Tests
             
             Assert.True(fieldExists);
 
-            bunchFieldsReturned = await requestProvider.GetSchemaAsync("Issue");
+            bunchFieldsReturned = await requestProvider.GetBunchFieldsAsync("Issue");
             Assert.True(bunchFieldsReturned.Success, bunchFieldsReturned.Exception?.Message);
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue").Any());
 
@@ -61,7 +61,7 @@ namespace MtdKey.Storage.Tests
             var userCreated = await requestProvider.NodeCreateAsync("User", values, "Tester");
             Assert.True(userCreated.Success);
 
-            var userSchema = await requestProvider.GetSchemaAsync("User");
+            var userSchema = await requestProvider.GetBunchFieldsAsync("User");
 
             var field = userSchema.DataSet[0].FieldPatterns.FirstOrDefault(x => x.Name == "Name");
             field ??= new();

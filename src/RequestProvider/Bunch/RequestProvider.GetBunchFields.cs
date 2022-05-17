@@ -6,7 +6,7 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<RequestResult<BunchFields>> GetSchemaAsync(string bunchName)
+        public async Task<RequestResult<BunchFields>> GetBunchFieldsAsync(string bunchName)
         {
             var bunchQueryAsync = async () => await BunchQueryAsync(filter =>
             {
@@ -14,11 +14,11 @@ namespace MtdKey.Storage
                 filter.PageSize = int.MaxValue;
             });
 
-            return await GetScheamaAsync(bunchQueryAsync);
+            return await GetBunchFieldsAsync(bunchQueryAsync);
         }
 
 
-        public async Task<RequestResult<BunchFields>> GetScheamaAsync(long bunchId)
+        public async Task<RequestResult<BunchFields>> GetBunchFieldsAsync(long bunchId)
         {
             var bunchQueryAsync = async () => await BunchQueryAsync(filter =>
             {
@@ -26,15 +26,15 @@ namespace MtdKey.Storage
                 filter.PageSize = int.MaxValue;
             });
 
-            return await GetScheamaAsync(bunchQueryAsync);
+            return await GetBunchFieldsAsync(bunchQueryAsync);
         }
 
-        public async Task<RequestResult<BunchFields>> GetSchemaAsync()
+        public async Task<RequestResult<BunchFields>> GetBunchFieldsAsync()
         {
-            return await GetScheamaAsync(async () => await BunchQueryAsync(filter => filter.PageSize = int.MaxValue));
+            return await GetBunchFieldsAsync(async () => await BunchQueryAsync(filter => filter.PageSize = int.MaxValue));
         }
 
-        private async Task<RequestResult<BunchFields>> GetScheamaAsync(Func<Task<RequestResult<BunchPattern>>> bunchQueryAsync)
+        private async Task<RequestResult<BunchFields>> GetBunchFieldsAsync(Func<Task<RequestResult<BunchPattern>>> bunchQueryAsync)
         {
             var result = new RequestResult<BunchFields>(true);
             var data = new List<BunchFields>();

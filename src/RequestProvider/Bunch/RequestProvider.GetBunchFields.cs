@@ -29,7 +29,7 @@ namespace MtdKey.Storage
             return await GetBunchFieldsAsync(bunchQueryAsync);
         }
 
-        public async Task<RequestResult<BunchFields>> GetBunchFieldsAsync()
+        public async Task<RequestResult<BunchFields>> GetAllBunchesAndFieldsAsync()
         {
             return await GetBunchFieldsAsync(async () => await BunchQueryAsync(filter => filter.PageSize = int.MaxValue));
         }

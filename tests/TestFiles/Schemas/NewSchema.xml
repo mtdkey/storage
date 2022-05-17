@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<schema name="Issue" version="637884117385442224">
+	<bunches>
+		<bunch name="Issue">
+			<field type="text" name="Title" />
+			<field type="text" name="Description" />
+			<!--<field type="link-single" list="IssueCategory" name="Category" />-->			
+			<field type="text" name="AssignedTo"/>			
+			<field type="text" name="Owner"/>
+			<!--<field type="datetime" name="Deadline"/>-->
+			<field type="bool" name="Status" />
+		</bunch>
+
+		<bunch name="IssueCategory">
+			<field type="text" name="Name" />
+		</bunch>
+	</bunches>
+</schema>

@@ -10,6 +10,7 @@
     <None Remove="Schemas\Issue\BunchesSchema.xml" />
     <None Remove="Schemas\Issue\_Schema.xml" />
     <None Remove="Schemas\User\_Schema.xml" />
+    <None Remove="TestFiles\Schemas\NewSchema.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,14 @@
       <DependentUpon>_Schema.t4</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestFiles\LongText.txt" CopyToPublishDirectory="Never" />
+    <EmbeddedResource Include="TestFiles\Schemas\NewSchema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestFiles\Schemas\OldSchema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </EmbeddedResource>
     <EmbeddedResource Include="TestFiles\ShortText.txt" CopyToPublishDirectory="Never" />
   </ItemGroup>
 

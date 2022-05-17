@@ -23,8 +23,8 @@ namespace MtdKey.Storage.Tests
             var schemaNames = new[] { "Issue", "User" };
             foreach (var schemaName in schemaNames)
             {
-                var schema = new XmlSchema<T020_XMLSchema>(schemaName);
-                schema.LoadSchemaFromServer();
+                var schema = new XmlSchema<T020_XMLSchema>();
+                schema.LoadSchemaFromServer(schemaName);
                 schemas.Add(schema);
             }                       
 
@@ -32,7 +32,7 @@ namespace MtdKey.Storage.Tests
 
             Assert.True(uploadResult.Success, uploadResult.Exception?.Message);
 
-            var bunchFieldsReturned = await requestProvider.GetBunchFieldsAsync();
+            var bunchFieldsReturned = await requestProvider.GetAllBunchesAndFieldsAsync();
             Assert.True(bunchFieldsReturned.Success, bunchFieldsReturned.Exception?.Message);
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "Issue").Any());
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.BunchPattern.Name == "User").Any());

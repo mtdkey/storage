@@ -52,7 +52,7 @@ namespace MtdKey.Storage.Tests
 
             Assert.True(fieldExists);
 
-            //Check Unique Value - needs to be refined
+            //Check Unique Value
             var values = new Dictionary<string, object>() {
                 { "Name", "UniqueData" },
                 { "Email", "user@example.com" }

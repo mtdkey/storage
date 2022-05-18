@@ -11,7 +11,7 @@ namespace MtdKey.Storage
     {
         public async Task<IRequestResult> ClearSchemas()
         {
-            
+
             var fieldResult = await ClearSchemaFieldsAsync();
             if (!fieldResult.Success) return fieldResult;
 
@@ -55,7 +55,7 @@ namespace MtdKey.Storage
                         //If the actual field is not in the schema, delete this file
                         if (!correctFields.Where(correctField => correctField.Name == actualField.Name).Any())
                         {
-                            var field = new Field { Id = actualField.FieldId };                            
+                            var field = new Field { Id = actualField.FieldId };
                             lostFields.Add(field);
                         }
                     }
@@ -63,12 +63,12 @@ namespace MtdKey.Storage
             }
 
             if (lostFields.Count > 0)
-            {             
+            {
                 var ids = lostFields.Select(x => x.Id);
                 var stackList = await context.Set<Stack>().Where(x => ids.Contains(x.FieldId)).ToListAsync();
                 context.RemoveRange(stackList);
                 context.RemoveRange(lostFields);
-                await context.SaveChangesAsync();                
+                await context.SaveChangesAsync();
             }
 
             return new RequestResult<IRequestResult>(true);
@@ -78,6 +78,7 @@ namespace MtdKey.Storage
         private async Task<IRequestResult> ClearSchemaBunchesAsync()
         {
             var schemas = await context.Set<SchemaName>().ToListAsync();
+            var schemaBunches = new List<BunchPattern>();
             var lostBunches = new List<Bunch>();
 
             var bunchesRequest = await BunchQueryAsync(filter => filter.PageSize = int.MaxValue);
@@ -95,16 +96,19 @@ namespace MtdKey.Storage
                 var xmlSchema = new XmlSchema<IXmlSchema>();
                 xmlSchema.LoadSchemaFromXml(version.XmlSchema);
 
-                var schemaBunches = xmlSchema.GetBunches();
-                var actualBunches = bunchesRequest.DataSet.ToList();
-                foreach (var actualBunch in actualBunches)
+                var bunches = xmlSchema.GetBunches();
+                schemaBunches.AddRange(bunches);
+            }
+
+            var actualBunches = bunchesRequest.DataSet.ToList();
+            foreach (var actualBunch in actualBunches)
+            {
+                if (!schemaBunches.Where(schemaBunch => schemaBunch.Name == actualBunch.Name).Any())
                 {
-                    if (!schemaBunches.Where(schemaBunch => schemaBunch.Name == actualBunch.Name).Any())
-                    {
-                        lostBunches.Add(new Bunch { Id = actualBunch.BunchId });
-                    }
+                    lostBunches.Add(new Bunch { Id = actualBunch.BunchId });
                 }
             }
+
 
             if (lostBunches.Count > 0)
             {

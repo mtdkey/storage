@@ -170,11 +170,10 @@ namespace MtdKey.Storage
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };
             }
 
-            if (nodeItem.FieldType == FieldType.DateTime)
-            {
-                var dateTime = (DateTime)nodeItem.Data;
-                decimal value = dateTime.Ticks;
-                stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };
+            if (nodeItem.FieldType == FieldType.DateTime && nodeItem.Data is DateTime)
+            {        
+                    decimal value = ((DateTime)nodeItem.Data).Ticks;
+                    stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };                
             }
 
             if (nodeItem.FieldType == FieldType.Boolean)

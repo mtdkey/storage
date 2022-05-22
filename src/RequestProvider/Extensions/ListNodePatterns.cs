@@ -16,21 +16,24 @@ namespace MtdKey.Storage
         /// <returns></returns>
         public static Dictionary<long, string> GetDictionary(this List<NodePattern> nodes, params long[] fieldId)
         {
-            var result = new Dictionary<long, string>();            
+            var result = new Dictionary<long, string>();
             foreach (var node in nodes)
-            {                
+            {
                 var key = node.NodeId;
                 var query = node.Items.Where(item => item.FieldType == FieldType.Text);
 
-                if (fieldId.Count()>0)
+                if (fieldId.Count() > 0)
                     query = query.Where(item => fieldId.Contains(item.FieldId));
 
-                var values = query.Select(x=>(string)x.Data).ToList() ?? new();
+                var values = query.Select(x => (string)x.Data).ToList() ?? new();
                 var value = string.Join(" ", values.ToArray());
                 result.Add(key, value);
             }
 
             return result;
         }
+
     }
+
+
 }

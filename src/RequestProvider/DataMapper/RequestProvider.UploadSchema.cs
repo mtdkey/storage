@@ -9,7 +9,6 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-
         public async Task<IRequestResult> UploadSchemaAsync(List<IXmlSchema> schemas)
         {
 

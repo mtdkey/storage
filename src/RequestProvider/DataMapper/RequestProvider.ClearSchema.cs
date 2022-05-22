@@ -9,7 +9,7 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-        public async Task<IRequestResult> ClearSchemas()
+        public async Task<IRequestResult> ClearSchemasAsync()
         {
 
             var fieldResult = await ClearSchemaFieldsAsync();
@@ -38,17 +38,17 @@ namespace MtdKey.Storage
                 xmlSchema.LoadSchemaFromXml(version.XmlSchema);
 
                 var schemaBunches = xmlSchema.GetBunches();
-                var schemaFields = xmlSchema.GetFields();
-                foreach (var schemaBunch in schemaBunches)
+                var schemaFields = xmlSchema.GetFields();                
+                foreach (var actualBunch in schemaBunches)
                 {
                     //Actual fields from database
-                    var bunchFields = await BunchQueryAsync(filter => filter.BunchNames.Add(schemaBunch.Name));
+                    var bunchFields = await BunchQueryAsync(filter => filter.BunchNames.Add(actualBunch.Name));
                     if (!bunchFields.Success) return new RequestResult<IRequestResult>(false, bunchFields.Exception);
                     var actualFields = bunchFields.DataSet.FirstOrDefault()?.FieldPatterns;
                     if (actualFields == null) continue;
 
                     //Correct fields from schema
-                    var correctFields = schemaFields.Where(field => field.BunchName == schemaBunch.Name).Select(x => x.FieldPattern).ToList();
+                    var correctFields = schemaFields.Where(field => field.BunchName == actualBunch.Name).Select(x => x.FieldPattern).ToList();
 
                     foreach (var actualField in actualFields)
                     {
@@ -109,9 +109,22 @@ namespace MtdKey.Storage
                 }
             }
 
-
             if (lostBunches.Count > 0)
-            {
+            {                
+                var fields = await context.Set<Field>()
+                        .Where(x => lostBunches.Select(x => x.Id)
+                        .Contains(x.BunchId)).ToListAsync();
+
+                var fieldLinks = await context.Set<FieldLink>()
+                    .Where(x => lostBunches.Select(x => x.Id)
+                    .Contains(x.BunchId)).ToListAsync();
+
+                var stackList = await context.Set<Stack>()
+                    .Where(x => fields.Select(x=>x.Id).Contains(x.FieldId)).ToListAsync();
+
+                context.RemoveRange(stackList);                
+                context.RemoveRange(fields);
+                context.RemoveRange(fieldLinks);
                 context.RemoveRange(lostBunches);
                 await context.SaveChangesAsync();
             }

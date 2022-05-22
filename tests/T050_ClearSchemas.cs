@@ -51,7 +51,7 @@ namespace MtdKey.Storage.Tests
 
             //Clear schemas
             using RequestProvider cleaningProvider = new(contextProperty);
-            var cleaningResult = await cleaningProvider.ClearSchemas();
+            var cleaningResult = await cleaningProvider.ClearSchemasAsync();
             Assert.True(cleaningResult.Success);
 
             var categoryDeleted =  await cleaningProvider.FieldQueryAsync(filter => filter.SearchText = "Category");

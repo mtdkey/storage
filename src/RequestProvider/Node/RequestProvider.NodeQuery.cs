@@ -32,6 +32,8 @@ namespace MtdKey.Storage
                     .Where(node => node.DeletedFlag == FlagSign.False
                         && contextProperty.AccessTokens.Contains(node.NodeToken.ForRLS));
 
+
+
                 if (requestFilter.NodeIds?.Count > 0)
                     query = query.Where(node => requestFilter.NodeIds.Contains(node.Id));
 
@@ -53,29 +55,29 @@ namespace MtdKey.Storage
                 var stackQuery = context.Set<Stack>().FromSqlRaw(scriptGetMaxIds);
                 
                 if (requestFilter.FieldIds?.Count > 0)
-                    stackQuery = stackQuery.Where(stack => requestFilter.FieldIds.Contains(stack.FieldId));
-                
-                var nodeIds = await stackQuery.GroupBy(x=>x.NodeId).Select(x=>x.Key).ToListAsync();
-                patternResult.SetRowCount(nodeIds.Count);
+                    stackQuery = stackQuery.Where(stack => requestFilter.FieldIds.Contains(stack.FieldId));                        
 
-                IList<NodePattern> dataSet = await query.Where(x=>nodeIds.Contains(x.Id))
-                    .Select(node => new NodePattern
-                    {
-                        NodeId = node.Id,
-                        BunchId = node.BunchId,
-                        Number = node.NodeExt.Number,
-                        DateCreated = node.DateCreated,
-                        CreatorInfo = node.CreatorInfo,
-                        Items = new List<NodePatternItem>()
-                    })
-                    .OrderByDescending(x => x.DateCreated)
-                    .FilterPages(requestFilter.Page, requestFilter.PageSize)
-                    .ToListAsync();
+                var data = query.Where(x => stackQuery.GroupBy(s=>s.NodeId).Select(s=>s.Key).Contains(x.Id))
+                   .Select(node => new NodePattern
+                   {
+                       NodeId = node.Id,
+                       BunchId = node.BunchId,
+                       Number = node.NodeExt.Number,
+                       DateCreated = node.DateCreated,
+                       CreatorInfo = node.CreatorInfo,
+                       Items = new List<NodePatternItem>()
+                   });
 
-                nodeIds = dataSet.GroupBy(x => x.NodeId).Select(x => x.Key).ToList();
-                stackQuery = stackQuery.Where(x => nodeIds.Contains(x.NodeId));
+                long rowCount = await data.GroupBy(x=>x.NodeId).Select(x=>x.Key).CountAsync();
+                patternResult.SetRowCount(rowCount);
 
-                IList<Stack> stacks = await stackQuery.ToListAsync();
+                IList<NodePattern> dataSet = await data
+                            .OrderByDescending(x=>x.DateCreated)
+                            .FilterPages(requestFilter.Page, requestFilter.PageSize)
+                            .ToListAsync();
+                      
+                IList<Stack> stacks = await context.Set<Stack>()
+                    .Where(x=> dataSet.Select(x=>x.NodeId).Contains(x.NodeId)).ToListAsync();
                 List<NodePatternItem> nodeItems = await GetNodePatternItemsAsync(stacks);
 
                 dataSet.ToList().ForEach(node =>

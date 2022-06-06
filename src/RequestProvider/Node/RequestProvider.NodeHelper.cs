@@ -100,6 +100,7 @@ namespace MtdKey.Storage
                     {
                        fileDatas.Add(new()
                         {
+                            StackId = stackFile.Id,
                             Name = stackFile.FileName,
                             Mime = stackFile.FileType,
                             ByteArray = stackFile.Data,

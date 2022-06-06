@@ -53,7 +53,7 @@ namespace MtdKey.Storage
                 node = creatingNode ? await CreateNodeAsync(nodePattern) : await UpdateNodeAsync(nodePattern);
 
                 nodePattern.NodeId = node.Id;
-                
+
                 nodePattern.Number = node.NodeExt.Number;
 
                 List<Stack> stacks = await CreateStackListAsync(nodePattern);
@@ -88,7 +88,7 @@ namespace MtdKey.Storage
             node.DateCreated = dateCreated;
             node.CreatorInfo = nodePattern.CreatorInfo ?? "unknown";
             node.DeletedFlag = FlagSign.False;
-            
+
 
 
             await context.AddAsync(node);
@@ -101,11 +101,30 @@ namespace MtdKey.Storage
         {
             Node node = await context.Set<Node>().FindAsync(nodePattern.NodeId);
             node.BunchId = nodePattern.BunchId;
-            node.DeletedFlag = FlagSign.False;            
+            node.DeletedFlag = FlagSign.False;
             await context.SaveChangesAsync();
             await context.Entry(node).Reference(x => x.NodeExt).LoadAsync();
 
             return node;
+        }
+
+        private async Task HookForOldFiles(NodePatternItem nodeItem)
+        {
+            if (nodeItem.FieldType != FieldType.File) return;
+
+            var fileDatas = (List<FileData>)nodeItem.Data;
+            foreach (var fileData in fileDatas)
+            {
+                if (fileData.StackId == 0) continue;
+
+                var oldFile = await context.FindAsync<StackFile>(fileData.StackId);
+                if (oldFile == null) continue;
+
+                fileData.Size = oldFile.FileSize;
+                fileData.Name = oldFile.FileName;
+                fileData.ByteArray = oldFile.Data;
+                fileData.Mime = oldFile.FileType;
+            }
         }
 
         private async Task<List<Stack>> CreateStackListAsync(NodePattern nodePattern)
@@ -115,11 +134,14 @@ namespace MtdKey.Storage
             if (nodePattern.Items is not null && nodePattern.Items.Count > 0)
             {
                 stacks = new();
-                nodePattern.Items.ForEach(nodeItem =>
+                foreach (var nodeItem in nodePattern.Items)
                 {
+                    if(nodeItem.FieldType == FieldType.File) 
+                        await HookForOldFiles(nodeItem);
+
                     var stack = CreateStack(nodePattern.NodeId, nodeItem);
                     stacks.Add(stack);
-                });
+                }
 
                 await context.AddRangeAsync(stacks);
                 await context.SaveChangesAsync();
@@ -171,15 +193,15 @@ namespace MtdKey.Storage
             }
 
             if (nodeItem.FieldType == FieldType.DateTime && nodeItem.Data is DateTime)
-            {        
-                    decimal value = ((DateTime)nodeItem.Data).Ticks;
-                    stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };                
+            {
+                decimal value = ((DateTime)nodeItem.Data).Ticks;
+                stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };
             }
 
             if (nodeItem.FieldType == FieldType.Boolean)
             {
                 var value = false;
-                if (nodeItem.Data is bool) value = (bool) nodeItem.Data;                             
+                if (nodeItem.Data is bool) value = (bool)nodeItem.Data;
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value ? 1 : 0, Stack = stack };
             }
 

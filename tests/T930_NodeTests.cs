@@ -29,6 +29,14 @@ namespace MtdKey.Storage.Tests
             Assert.True((DateTime)node.Items.Find(x => x.FieldType.Equals(FieldType.DateTime)).Data == Common.DateTimeValue);
             Assert.True(nodeFile.Count == 2);
             Assert.True(nodeFile[0].ByteArray.Length == testFile.ByteArray.Length);
+
+            //Check to clone old files
+            nodeFile[0].ByteArray = null;
+            var createdNode2 = requestProvider.NodeSaveAsync(createdNode.DataSet[0]);
+            var nodeFile2 = (List<FileData>)node.Items.Find(x => x.FieldType.Equals(FieldType.File)).Data;
+            Assert.True(nodeFile2.Count == 2);
+            Assert.True(nodeFile2[0].ByteArray.Length == testFile.ByteArray.Length);
+
         }
 
         [Theory]

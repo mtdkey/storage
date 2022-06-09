@@ -28,8 +28,8 @@ namespace MtdKey.Storage
 
         private async Task<RequestResult<NodePattern>> ConvertToNodePattern(string bunchName, Dictionary<string, object> values, string creatorInfo, bool createNew = false)
         {
-            var schemaRetrived = await GetScheamaAsync(bunchName);
-            var bunchId = schemaRetrived.DataSet.First().BunchPattern.BunchId;
+            var bunchRetrived = await BunchQueryAsync(filter => filter.BunchNames.Add(bunchName));
+            var bunchId = bunchRetrived.DataSet.First().BunchId;
 
             var nodePattern = new NodePattern()
             {
@@ -41,7 +41,7 @@ namespace MtdKey.Storage
 
             foreach (var pair in values)
             {
-                var filedPaterns = schemaRetrived.DataSet.FirstOrDefault()?.FieldPatterns;
+                var filedPaterns = bunchRetrived.DataSet.FirstOrDefault()?.FieldPatterns;
                 if (filedPaterns == null) continue;
                 var field = filedPaterns.FirstOrDefault(x => x.Name == pair.Key);
                 if (field == null) continue;
@@ -52,7 +52,7 @@ namespace MtdKey.Storage
                     var ok = long.TryParse((string)pair.Value, out long nodeId);
                     if (!ok) return new(false, new Exception("NodeId parsing error!"));
 
-                    var request = await NodeQueryAsync(filter => filter.Ids.Add(nodeId));
+                    var request = await NodeQueryAsync(filter => filter.NodeIds.Add(nodeId));
                     if (!request.Success) return request;
                     value = request.DataSet;
                 }

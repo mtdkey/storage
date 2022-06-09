@@ -17,7 +17,8 @@ namespace MtdKey.Storage
         public RequestResult(bool success, Exception exception = null)
         {
             Success = success;
-            Exception = exception;            
+            Exception = exception;  
+            DataSet = new List<T>();
         }
 
         public void FillDataSet(List<T> dataSet) {

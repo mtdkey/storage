@@ -11,10 +11,10 @@ namespace MtdKey.Storage
     /// <typeparam name="T">The class is the parent in which the DataMapper is run</typeparam>
     public class XmlSchema<T>: IXmlSchema where T : class
     {
-        public string ReadDataFromFile()
+        public string ReadDataFromFile(string schemaName)
         {
             var assembly = Assembly.GetAssembly(typeof(T));
-            string resourceName = assembly.GetName().Name + $".{nameSchema}._Schema.xml";
+            string resourceName = assembly.GetName().Name + $".Schemas.{schemaName}._Schema.xml";
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
             using StreamReader reader = new(stream);
             string fileText = reader.ReadToEnd();
@@ -22,11 +22,8 @@ namespace MtdKey.Storage
         }
 
         private XmlDocument xmlDocument;
-        private readonly string nameSchema;
 
-        public XmlSchema(string nameSchema) {
-            this.nameSchema = nameSchema;
-        }
+        public XmlSchema(){}
 
         public string GetName()
         {
@@ -41,13 +38,19 @@ namespace MtdKey.Storage
         }
 
         /// <summary>
-        /// Read the schema from DataSchema folder form file BunchesSchema.xml on the solution near MtdKey.Storage.dll
+        /// Read the schema from Schemas folder on the solution near MtdKey.Storage.dll
         /// The BunchesSchema.xml file must be an embedded resource
         /// </summary>
-        public void LoadSchemaFromServer()
+        public void LoadSchemaFromServer(string schemaName)
         {
             xmlDocument = new XmlDocument();
-            var xmlData = ReadDataFromFile();
+            var xmlData = ReadDataFromFile(schemaName);
+            xmlDocument.LoadXml(xmlData);
+        }
+        
+        public void LoadSchemaFromXml(string xmlData)
+        {
+            xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(xmlData);
         }
 
@@ -83,12 +86,12 @@ namespace MtdKey.Storage
             {
                 var bunchName = field.ParentNode.Attributes["name"].Value;
                 var fieldType = field.Attributes["type"].Value;
-                var bunchList = field.Attributes["list"]?.Value;
+                var bunchList = field.Attributes["list"]?.Value;                
 
                 var FieldPattern = new FieldPattern()
                 {
                     FieldType = FieldType.GetFromXmlType(fieldType),
-                    Name = field.Attributes["name"].Value,
+                    Name = field.Attributes["name"].Value,                     
                 };
 
                 result.Add(new()

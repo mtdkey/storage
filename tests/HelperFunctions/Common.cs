@@ -11,6 +11,10 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         public static decimal NumericValue => 3636.36M;
         public static string LongTextValue => FileReader.GetLongText();
         public static string ShortTextValue => FileReader.GetShortText();
+
+        public static string OldXmlSchema => FileReader.GetOldSchema();
+        public static string NewXmlSchema => FileReader.GetNewSchema();
+
         public static bool BooleanValue => true;
         public static string SplitedWordValue => "Inbunchation";
         

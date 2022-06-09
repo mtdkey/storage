@@ -35,5 +35,15 @@ namespace MtdKey.Storage.Tests.TestFiles
         {
             return GetFileText("LongText.txt");
         }
+
+        public static string GetOldSchema()
+        {
+            return GetFileText("Schemas.OldSchema.xml");
+        }
+
+        public static string GetNewSchema()
+        {
+            return GetFileText("Schemas.NewSchema.xml");
+        }
     }
 }

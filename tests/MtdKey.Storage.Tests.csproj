@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Issue\BunchesSchema.xml" />
-    <None Remove="Issue\_Schema.xml" />
+    <None Remove="Schemas\Issue\BunchesSchema.xml" />
+    <None Remove="Schemas\Issue\_Schema.xml" />
+    <None Remove="Schemas\User\_Schema.xml" />
+    <None Remove="TestFiles\Schemas\NewSchema.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,18 +27,32 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Issue\_Schema.xml">
+    <EmbeddedResource Include="Schemas\Issue\_Schema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_Schema.t4</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\User\_Schema.xml">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>_Schema.t4</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestFiles\LongText.txt" CopyToPublishDirectory="Never" />
+    <EmbeddedResource Include="TestFiles\Schemas\NewSchema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestFiles\Schemas\OldSchema.xml">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </EmbeddedResource>
     <EmbeddedResource Include="TestFiles\ShortText.txt" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\src\MtdKey.Storage.csproj" />
   </ItemGroup>
+
 
   <ItemGroup>
     <None Update="IssueSchema\DataSchema.xml">
@@ -54,9 +70,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>_IssueSchema.t4</DependentUpon>
     </None>
-    <None Update="Issue\_Schema.t4">
+    <None Update="Schemas\Issue\_Schema.t4">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>_Schema.xml</LastGenOutput>
+    </None>
+    <None Update="Schemas\User\_Schema.t4">
+      <LastGenOutput>_Schema.xml</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="storage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

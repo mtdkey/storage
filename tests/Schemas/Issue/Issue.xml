@@ -8,4 +8,5 @@
 	<field type="text" name="Owner"/>
 	<field type="datetime" name="Deadline"/>
 	<field type="bool" name="Status" />
+	<field type="link-single" list="User" name="User" />
 </bunch>

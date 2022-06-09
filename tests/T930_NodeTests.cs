@@ -29,6 +29,14 @@ namespace MtdKey.Storage.Tests
             Assert.True((DateTime)node.Items.Find(x => x.FieldType.Equals(FieldType.DateTime)).Data == Common.DateTimeValue);
             Assert.True(nodeFile.Count == 2);
             Assert.True(nodeFile[0].ByteArray.Length == testFile.ByteArray.Length);
+
+            //Check to clone old files
+            nodeFile[0].ByteArray = null;
+            var createdNode2 = requestProvider.NodeSaveAsync(createdNode.DataSet[0]);
+            var nodeFile2 = (List<FileData>)node.Items.Find(x => x.FieldType.Equals(FieldType.File)).Data;
+            Assert.True(nodeFile2.Count == 2);
+            Assert.True(nodeFile2[0].ByteArray.Length == testFile.ByteArray.Length);
+
         }
 
         [Theory]
@@ -80,7 +88,7 @@ namespace MtdKey.Storage.Tests
             var deleteResult = await requestProvider.NodeDeleteAsync(node.NodeId);
             Assert.True(deleteResult.Success);
 
-            var operationCheck = await requestProvider.NodeQueryAsync(filter => filter.Ids.Add(node.NodeId));
+            var operationCheck = await requestProvider.NodeQueryAsync(filter => filter.NodeIds.Add(node.NodeId));
             Assert.True(operationCheck.Success);
             Assert.True(operationCheck.DataSet.Count == 0);
         }
@@ -171,6 +179,16 @@ namespace MtdKey.Storage.Tests
             Assert.True(nodeByLink.Success);
             Assert.True(nodeByLink.DataSet.Count > 0);
 
+            //Get data by Bunch name
+            var catalogReturned = await requestProvider.NodeQueryAsync(filter =>
+            {
+                filter.BunchNames.Add(bunchList.Name);
+            });
+
+            Assert.True(catalogReturned.Success);
+            var dictonary = catalogReturned.DataSet.GetDictionary();
+            Assert.True(dictonary.Count>0);
+
         }
 
         [Theory]
@@ -188,7 +206,7 @@ namespace MtdKey.Storage.Tests
             var createdNode = await NodeHelper.CreateAsync(requestProvider);
             var node = createdNode.DataSet.FirstOrDefault();
 
-            var requestRequest = await requestProvider.NodeQueryAsync(filter => { filter.Ids.Add(node.NodeId); });
+            var requestRequest = await requestProvider.NodeQueryAsync(filter => { filter.NodeIds.Add(node.NodeId); });
             Assert.True(requestRequest.Success);
             Assert.True(requestRequest.DataSet.Count == 1);
 

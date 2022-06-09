@@ -5,17 +5,19 @@ namespace MtdKey.Storage.Tests
     public class ContextHandler
     {
         public static async Task<IRequestResult> CreateNewDatabaseAsync(string guidDatabase)
-        {            
+        {
             var contextProperty = GetContextProperty(guidDatabase);
 
             using RequestProvider requestProvider = new(contextProperty);
-            await requestProvider.DeleteDatabaseAsync();
+            var deleted = await requestProvider.DeleteDatabaseAsync();
+            if (!deleted.Success) return deleted;
+
             var result = await requestProvider.MigrationAsync();
-            
             return result;
+
         }
 
-        public static ContextProperty  GetContextProperty(string guidDatabase)
+        public static ContextProperty GetContextProperty(string guidDatabase)
         {
             string connectionString = ContextConfig.GetConnectionString(guidDatabase);
             DatabaseType databaseType = ContextConfig.GetDatabaseType(guidDatabase);

@@ -51,7 +51,7 @@ namespace MtdKey.Storage.Tests
             //Get FieldA by Id
             var receiveFieldA = await requestProvider.FieldQueryAsync(filter =>
             {
-                filter.Ids.Add(fieldA.FieldId);
+                filter.FieldIds.Add(fieldA.FieldId);
             });
 
             Assert.True(receiveFieldA.Success);
@@ -117,11 +117,10 @@ namespace MtdKey.Storage.Tests
             var requestResult = await requestProvider.FieldDeleteAsync(field.FieldId);
             Assert.True(requestResult.Success);
 
-            var operationCheck = await requestProvider.FieldQueryAsync(filter => filter.Ids.Add(field.FieldId));
+            var operationCheck = await requestProvider.FieldQueryAsync(filter => filter.FieldIds.Add(field.FieldId));
             Assert.True(operationCheck.Success);
             Assert.True(operationCheck.DataSet.Count == 0);
-
-
         }
+
     }
 }

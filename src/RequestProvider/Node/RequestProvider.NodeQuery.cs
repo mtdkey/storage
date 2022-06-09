@@ -18,11 +18,27 @@ namespace MtdKey.Storage
 
             try
             {
+                if (requestFilter.BunchNames.Count > 0)
+                {
+                    foreach (var bunchName in requestFilter.BunchNames)
+                    {
+                        var bunchFields = await BunchQueryAsync(filter => filter.BunchNames.Add(bunchName));
+                        var banchId = bunchFields.DataSet.First().BunchId;
+                        requestFilter.BunchIds.Add(banchId);
+                    }
+                }
+
                 var query = context.Set<Node>()
                     .Where(node => node.DeletedFlag == FlagSign.False
-                        && contextProperty.AccessTokens.Contains(node.NodeToken.ForRLS))
-                    .FilterBasic(requestFilter)
-                    .FilterChild(requestFilter);                
+                        && contextProperty.AccessTokens.Contains(node.NodeToken.ForRLS));
+
+
+
+                if (requestFilter.NodeIds?.Count > 0)
+                    query = query.Where(node => requestFilter.NodeIds.Contains(node.Id));
+
+                if (requestFilter.BunchIds?.Count > 0)
+                    query = query.Where(node => requestFilter.BunchIds.Contains(node.BunchId));                   
 
                 if (string.IsNullOrEmpty(requestFilter.SearchText) is not true)
                 {
@@ -35,31 +51,33 @@ namespace MtdKey.Storage
                     query = query.Where(x => ids.Contains(x.Id));
                 }
 
-                var rowCount = await query.CountAsync();
+                var scriptGetMaxIds = SqlScript.StackMaxIds(contextProperty.DatabaseType);                
+                var stackQuery = context.Set<Stack>().FromSqlRaw(scriptGetMaxIds);
+                
+                if (requestFilter.FieldIds?.Count > 0)
+                    stackQuery = stackQuery.Where(stack => requestFilter.FieldIds.Contains(stack.FieldId));                        
+
+                var data = query.Where(x => stackQuery.GroupBy(s=>s.NodeId).Select(s=>s.Key).Contains(x.Id))
+                   .Select(node => new NodePattern
+                   {
+                       NodeId = node.Id,
+                       BunchId = node.BunchId,
+                       Number = node.NodeExt.Number,
+                       DateCreated = node.DateCreated,
+                       CreatorInfo = node.CreatorInfo,
+                       Items = new List<NodePatternItem>()
+                   });
+
+                long rowCount = await data.GroupBy(x=>x.NodeId).Select(x=>x.Key).CountAsync();
                 patternResult.SetRowCount(rowCount);
 
-                var dataSet = await query                    
-                    .Select(node => new NodePattern
-                    {
-                        NodeId = node.Id,
-                        BunchId = node.BunchId,
-                        Number = node.NodeExt.Number,
-                        DateCreated = node.DateCreated,
-                        CreatorInfo = node.CreatorInfo,
-                        Items = new List<NodePatternItem>()
-                    })
-                    .OrderByDescending(x => x.DateCreated)
-                    .FilterPages(requestFilter.Page, requestFilter.PageSize)
-                    .ToListAsync();
-
-                var scriptGetMaxIds = SqlScript.StackMaxIds(contextProperty.DatabaseType);
-                List<long> nodeIds = dataSet.GroupBy(x => x.NodeId).Select(x => x.Key).ToList();
-
+                IList<NodePattern> dataSet = await data
+                            .OrderByDescending(x=>x.DateCreated)
+                            .FilterPages(requestFilter.Page, requestFilter.PageSize)
+                            .ToListAsync();
+                      
                 IList<Stack> stacks = await context.Set<Stack>()
-                    .FromSqlRaw(scriptGetMaxIds)                    
-                    .Where(x => nodeIds.Contains(x.NodeId))
-                    .ToListAsync();
-
+                    .Where(x=> dataSet.Select(x=>x.NodeId).Contains(x.NodeId)).ToListAsync();
                 List<NodePatternItem> nodeItems = await GetNodePatternItemsAsync(stacks);
 
                 dataSet.ToList().ForEach(node =>
@@ -67,8 +85,7 @@ namespace MtdKey.Storage
                     node.Items = nodeItems.Where(x => x.NodeId == node.NodeId).ToList();
                 });
                 
-                patternResult.FillDataSet(dataSet);
-                
+                patternResult.FillDataSet(dataSet as List<NodePattern>);                
             }
             catch (Exception exception)
             {
@@ -80,36 +97,5 @@ namespace MtdKey.Storage
 
             return patternResult;
         }
-
-        /// <summary>
-        /// This is request type for Catalogs. Use for single bunch in database only.
-        /// </summary>
-        /// <param name="bunchName"></param>
-        /// <returns>Return all Nodes for the first Bunch.</returns>
-        public async Task<Dictionary<long, string>> NodeQueryForBunchAsync(string bunchName)
-        {
-            var result = new Dictionary<long, string>();
-            var schema = await GetScheamaAsync(bunchName);
-            var banchId = schema.DataSet.First().BunchPattern.BunchId;
-            var nodes = await NodeQueryAsync(filter =>
-            {
-                filter.BunchIds.Add(banchId);
-                filter.PageSize = int.MaxValue;
-            });
-
-            if (nodes.Success == false || nodes.DataSet.Count == 0)
-                return result;
-
-            nodes.DataSet.ForEach(node => {
-                var key = node.NodeId;
-                var value = node.Items.First().Data;
-                result.Add(key, (string)value);
-            });
-
-            return result;
-
-        }
-
-
     }
 }

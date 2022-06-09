@@ -9,11 +9,19 @@ namespace MtdKey.Storage
 {
     public partial class RequestProvider : IDisposable
     {
-
-        public async Task<IRequestResult> UploadSchemaAsync(IXmlSchema schema)
+        public async Task<IRequestResult> UploadSchemaAsync(List<IXmlSchema> schemas)
         {
-            var bunchTags = schema.GetBunches();
-            var fieldTags = schema.GetFields();
+
+            var bunchTags = new List<BunchPattern>();
+            var fieldTags = new List<FieldTag>();
+
+            foreach (var schema in schemas)
+            {
+                var bunches = schema.GetBunches();
+                var fields = schema.GetFields();
+                bunchTags.AddRange(bunches);
+                fieldTags.AddRange(fields);
+            }
 
             await BeginTransactionAsync();
 
@@ -26,13 +34,14 @@ namespace MtdKey.Storage
                 return uploadFields;
             try
             {
-                await VersionProcessingAsync(schema);
-
-            } catch (Exception ex)
+                foreach (var schema in schemas)
+                    await VersionProcessingAsync(schema);
+            }
+            catch (Exception ex)
             {
                 await RollbackTransactionAsync();
                 return new RequestResult<IRequestResult>(false, ex);
-            }            
+            }
 
             await CommitTransactionAsync();
 
@@ -72,7 +81,6 @@ namespace MtdKey.Storage
             schemaName.SchemaVersions.Add(schemaVersion);
 
             await context.SaveChangesAsync();
-
         }
 
         private async Task<bool> ResultAsync(IRequestResult result)
@@ -160,7 +168,7 @@ namespace MtdKey.Storage
                 {
                     var linkId = bunchQuery.FirstOrDefault(x => x.Name.Equals(fieldTag.BunchList)).Id;
                     var fieldLink = new FieldLink { BunchId = linkId };
-                    field.FieldLink = fieldLink;                    
+                    field.FieldLink = fieldLink;
                 }
 
                 await context.AddAsync(field);

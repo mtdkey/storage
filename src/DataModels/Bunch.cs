@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MtdKey.Storage.DataModels
 {
-    internal class Bunch : IFilterBasic
+    internal class Bunch 
     {
         public Bunch()
         {

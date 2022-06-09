@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MtdKey.Storage.DataModels
 {
-    internal class Node : IFilterBasic, IFilterChild
+    internal class Node
     {
         public Node()
         {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MtdKey.Storage
 {    
@@ -15,5 +13,6 @@ namespace MtdKey.Storage
         public DateTime DateCreated { get; set; }
 
         public List<NodePatternItem> Items { get; set; } = new List<NodePatternItem>();
+
     }
 }

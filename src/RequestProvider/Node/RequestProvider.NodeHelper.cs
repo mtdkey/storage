@@ -47,7 +47,10 @@ namespace MtdKey.Storage
                 if (fieldType == FieldType.DateTime)
                 {
                     await context.Entry(stack).Reference(x => x.StackDigital).LoadAsync();
-                    DateTime value = new((long)stack.StackDigital.Value);
+                    DateTime value = DateTime.MinValue;
+                    if(stack.StackDigital != null)                    
+                        value = new((long)stack.StackDigital.Value);                             
+
                     NodePatternItem nodeItem = new(value, stack.FieldId, stack.CreatorInfo, stack.DateCreated);
                     nodeItem.NodeId = stack.NodeId;
                     nodeItems.Add(nodeItem);

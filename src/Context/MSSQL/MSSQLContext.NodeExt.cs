@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MtdKey.Storage.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MtdKey.Storage.Context.MSSQL
 {
@@ -16,7 +11,7 @@ namespace MtdKey.Storage.Context.MSSQL
         {
             modelBuilder.Entity<NodeExt>(entity =>
             {
-                entity.ToTable("node_ext");                
+                entity.ToTable("node_ext");
 
                 entity.Property(e => e.NodeId)
                     .HasColumnName("node_id")

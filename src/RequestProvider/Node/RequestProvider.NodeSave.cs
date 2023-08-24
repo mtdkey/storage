@@ -136,7 +136,7 @@ namespace MtdKey.Storage
                 stacks = new();
                 foreach (var nodeItem in nodePattern.Items)
                 {
-                    if(nodeItem.FieldType == FieldType.File) 
+                    if (nodeItem.FieldType == FieldType.File)
                         await HookForOldFiles(nodeItem);
 
                     var stack = CreateStack(nodePattern.NodeId, nodeItem);
@@ -192,16 +192,16 @@ namespace MtdKey.Storage
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };
             }
 
-            if (nodeItem.FieldType == FieldType.DateTime && nodeItem.Data is DateTime)
+            if (nodeItem.FieldType == FieldType.DateTime && nodeItem.Data is DateTime time)
             {
-                decimal value = ((DateTime)nodeItem.Data).Ticks;
+                decimal value = time.Ticks;
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value };
             }
 
             if (nodeItem.FieldType == FieldType.Boolean)
             {
                 var value = false;
-                if (nodeItem.Data is bool) value = (bool)nodeItem.Data;
+                if (nodeItem.Data is bool boolean) value = boolean;
                 stack.StackDigital = new StackDigital { StackId = stack.Id, Value = value ? 1 : 0, Stack = stack };
             }
 
@@ -212,7 +212,6 @@ namespace MtdKey.Storage
                 {
                     stack.StackLists.Add(new StackLink { StackId = stack.Id, NodeId = nodePattern.NodeId });
                 });
-
             }
 
             if (nodeItem.FieldType == FieldType.File)

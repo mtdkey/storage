@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MtdKey.Storage.Context.MySQL;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using MtdKey.Storage.Context.MSSQL;
+using MtdKey.Storage.Context.MySQL;
+using MtdKey.Storage.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
-using MtdKey.Storage.Scripts;
 
 
 namespace MtdKey.Storage
@@ -43,8 +43,8 @@ namespace MtdKey.Storage
         }
 
         public RequestProvider(ContextProperty contextProperty)
-        {            
-            InitializeProperties(contextProperty);     
+        {
+            InitializeProperties(contextProperty);
         }
 
         public async Task BeginTransactionAsync()
@@ -113,11 +113,11 @@ namespace MtdKey.Storage
 
         public async Task<bool> DatabaseExistsAsync()
         {
-            return  await context.Database.GetService<IRelationalDatabaseCreator>().ExistsAsync();
+            return await context.Database.GetService<IRelationalDatabaseCreator>().ExistsAsync();
         }
 
         public void Dispose()
-        {            
+        {
             context.Dispose();
             GC.SuppressFinalize(this);
         }

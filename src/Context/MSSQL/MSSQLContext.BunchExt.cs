@@ -10,7 +10,7 @@ namespace MtdKey.Storage.Context.MSSQL
 
         private static void BunchExtModelCreating(ModelBuilder modelBuilder)
         {
-  
+
             modelBuilder.Entity<BunchExt>(entity =>
             {
                 entity.ToTable("bunch_ext");

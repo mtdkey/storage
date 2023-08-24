@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 namespace MtdKey.Storage.Tests.HelperFunctions
 {
     public static class FieldHelper
     {
-        public static async Task<FieldPattern> CreateFieldAsync(this RequestProvider requestProvider, long bunchId, FieldType fieldType, long linkId=0)
+        public static async Task<FieldPattern> CreateFieldAsync(this RequestProvider requestProvider, long bunchId, FieldType fieldType, long linkId = 0)
         {
             var createdField = await CreateAsync(requestProvider, bunchId, fieldType, linkId);
             return createdField.DataSet.FirstOrDefault();
@@ -17,7 +15,8 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         {
             string name = Common.GetRandomName();
 
-            return await requestProvider.FieldSaveAsync(field => {
+            return await requestProvider.FieldSaveAsync(field =>
+            {
                 field.LinkId = linkId;
                 field.BunchId = bunchId;
                 field.FieldType = fieldType;
@@ -29,7 +28,8 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         {
             string name = Common.GetRandomName();
 
-            return await requestProvider.FieldSaveAsync(field => {
+            return await requestProvider.FieldSaveAsync(field =>
+            {
                 field.LinkId = linkId;
                 field.BunchId = bunchId;
                 field.FieldType = fieldType;

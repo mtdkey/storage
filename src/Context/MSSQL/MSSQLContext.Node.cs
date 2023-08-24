@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MtdKey.Storage.DataModels;
-using System.Collections.Generic;
 
 namespace MtdKey.Storage.Context.MSSQL
 {
@@ -46,7 +45,7 @@ namespace MtdKey.Storage.Context.MSSQL
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fk_node_bunch");
             });
-            
+
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MtdKey.Storage.Context
 {
@@ -36,12 +33,12 @@ namespace MtdKey.Storage.Context
             return connectionString.Value;
         }
 
-        public static DatabaseType GetDatabaseType (string databaseGuid = default)
+        public static DatabaseType GetDatabaseType(string databaseGuid = default)
         {
             var configuration = GetConfiguration();
             var connectionStrings = configuration.GetSection("ConnectionStrings").AsEnumerable();
             if (databaseGuid != default) { connectionStrings = connectionStrings.Where(x => x.Key.Contains(databaseGuid)); }
-            var connectionString = connectionStrings.FirstOrDefault(x=>x.Value is not null);
+            var connectionString = connectionStrings.FirstOrDefault(x => x.Value is not null);
 
             if (connectionString.Key.Contains(MySQLPrefix)) { return DatabaseType.MySQL; }
             if (connectionString.Key.Contains(MSSQLPrefix)) { return DatabaseType.MSSQL; }

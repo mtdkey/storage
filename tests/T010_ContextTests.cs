@@ -11,8 +11,8 @@ namespace MtdKey.Storage.Tests
         [InlineData("mssql_test")]
         [InlineData("mysql_test")]
         public async Task CreateDataBaseAndMigrationAsync(string guidDatabase)
-        {            
-            var result = await ContextHandler.CreateNewDatabaseAsync(guidDatabase);  
+        {
+            var result = await ContextHandler.CreateNewDatabaseAsync(guidDatabase);
             Assert.True(result.Success, result.Exception?.Message);
         }
 

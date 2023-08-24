@@ -81,13 +81,13 @@ namespace MtdKey.Storage.Tests
 
             var createdBunch = await BunchHelper.CreateAsync(requestProvider);
             var bunch = createdBunch.DataSet.FirstOrDefault();
-            
+
             var createdField = await FieldHelper.CreateAsync(requestProvider, bunch.BunchId, FieldType.Text);
             var field = createdField.DataSet.FirstOrDefault();
             field.Name = testFieldName;
 
             var updatetedFueld = await requestProvider.FieldSaveAsync(field);
-            
+
             Assert.True(updatetedFueld.Success);
 
             var receivedField = await requestProvider.FieldQueryAsync(filer =>
@@ -95,7 +95,7 @@ namespace MtdKey.Storage.Tests
                 filer.SearchText = testFieldName;
             });
 
-            Assert.True(receivedField.Success); 
+            Assert.True(receivedField.Success);
             Assert.True(receivedField.DataSet.Count == 1);
             Assert.True(receivedField.DataSet[0].Name == field.Name);
         }

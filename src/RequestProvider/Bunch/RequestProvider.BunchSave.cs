@@ -24,13 +24,13 @@ namespace MtdKey.Storage
 
             var bunch = new Bunch
             {
-                Name = bunchPattern.Name ?? string.Empty,             
+                Name = bunchPattern.Name ?? string.Empty,
                 DeletedFlag = FlagSign.False,
                 BunchExt = new BunchExt(),
                 BunchToken = new BunchToken()
                 {
                     TokenoDelete = string.Empty,
-                    TokenToCreate =string.Empty,
+                    TokenToCreate = string.Empty,
                     TokenToEdit = string.Empty
                 }
             };
@@ -41,7 +41,7 @@ namespace MtdKey.Storage
                 await context.SaveChangesAsync();
 
                 bunchPattern.BunchId = bunch.Id;
-                requestResult.FillDataSet(new() { bunchPattern });         
+                requestResult.FillDataSet(new() { bunchPattern });
             }
             catch (Exception exception)
             {

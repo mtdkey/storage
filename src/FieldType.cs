@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MtdKey.Storage
 {
-    public struct FieldType
+    public readonly struct FieldType
     {
         private readonly int value;
         public FieldType(int fieldType)

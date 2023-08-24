@@ -38,7 +38,7 @@ namespace MtdKey.Storage
                 xmlSchema.LoadSchemaFromXml(version.XmlSchema);
 
                 var schemaBunches = xmlSchema.GetBunches();
-                var schemaFields = xmlSchema.GetFields();                
+                var schemaFields = xmlSchema.GetFields();
                 foreach (var actualBunch in schemaBunches)
                 {
                     //Actual fields from database
@@ -110,7 +110,7 @@ namespace MtdKey.Storage
             }
 
             if (lostBunches.Count > 0)
-            {                
+            {
                 var fields = await context.Set<Field>()
                         .Where(x => lostBunches.Select(x => x.Id)
                         .Contains(x.BunchId)).ToListAsync();
@@ -120,9 +120,9 @@ namespace MtdKey.Storage
                     .Contains(x.BunchId)).ToListAsync();
 
                 var stackList = await context.Set<Stack>()
-                    .Where(x => fields.Select(x=>x.Id).Contains(x.FieldId)).ToListAsync();
+                    .Where(x => fields.Select(x => x.Id).Contains(x.FieldId)).ToListAsync();
 
-                context.RemoveRange(stackList);                
+                context.RemoveRange(stackList);
                 context.RemoveRange(fields);
                 context.RemoveRange(fieldLinks);
                 context.RemoveRange(lostBunches);

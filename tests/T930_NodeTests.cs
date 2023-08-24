@@ -58,7 +58,7 @@ namespace MtdKey.Storage.Tests
 
             Assert.True(receivedNode.Success);
             Assert.True(receivedNode.DataSet.Count == 1);
-            
+
             var nodeFound = receivedNode.DataSet.FirstOrDefault();
 
             Assert.True(nodeBasis.NodeId == nodeFound.NodeId);
@@ -108,7 +108,7 @@ namespace MtdKey.Storage.Tests
             //Create a bunch to link to the catalog bunch
             var bunchSelector = await requestProvider.CreateBunchAsync();
             var fieldSelector = await requestProvider.CreateFieldAsync(bunchSelector.BunchId, FieldType.LinkSingle, bunchList.BunchId);
-           
+
             //Create data items for the catalog bunch
             List<NodePatternItem> nodeItems1 = new()
             {
@@ -122,7 +122,7 @@ namespace MtdKey.Storage.Tests
 
             //Add a data node to the catalog bunch
             var createdfirstdNode = await requestProvider.NodeSaveAsync(node =>
-            {                
+            {
                 node.BunchId = bunchList.BunchId;
                 node.Items = nodeItems1;
                 node.DateCreated = DateTime.UtcNow;
@@ -187,7 +187,7 @@ namespace MtdKey.Storage.Tests
 
             Assert.True(catalogReturned.Success);
             var dictonary = catalogReturned.DataSet.GetDictionary();
-            Assert.True(dictonary.Count>0);
+            Assert.True(dictonary.Count > 0);
 
         }
 
@@ -212,7 +212,7 @@ namespace MtdKey.Storage.Tests
 
             contextProperty.MasterToken = Guid.NewGuid().ToString();
             contextProperty.AccessTokens = new List<string> { contextProperty.MasterToken };
-            
+
             using RequestProvider requestProvider2 = new(contextProperty);
 
             var changeResult = await requestProvider2.NodeChangeTokenForRLS(contextProperty.MasterToken, Guid.NewGuid().ToString());

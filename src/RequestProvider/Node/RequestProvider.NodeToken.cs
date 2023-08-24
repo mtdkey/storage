@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MtdKey.Storage.DataModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,11 +19,11 @@ namespace MtdKey.Storage
                 if (nodeId > 0) { query = query.Where(x => x.NodeId == nodeId); }
 
                 IList<NodeToken> nodeTokens = await query.Where(node => node.ForRLS == oldToken).ToListAsync();
-                foreach(var nodeToken in nodeTokens)
+                foreach (var nodeToken in nodeTokens)
                 {
                     nodeToken.ForRLS = newToken;
                 }
-                
+
                 await context.SaveChangesAsync();
 
             }

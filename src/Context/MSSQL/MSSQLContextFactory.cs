@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Linq;
 
 namespace MtdKey.Storage.Context.MSSQL
@@ -12,13 +11,13 @@ namespace MtdKey.Storage.Context.MSSQL
         public MSSQLContext CreateDbContext(string[] args)
         {
             string databaseGuid = string.Empty;
-            if (args is not null && args.Length > 0) { databaseGuid = args[0];}
+            if (args is not null && args.Length > 0) { databaseGuid = args[0]; }
 
-            var configuration = ContextConfig.GetConfiguration();            
+            var configuration = ContextConfig.GetConfiguration();
             var connections = configuration.GetSection("ConnectionStrings").AsEnumerable()
                 .Where(x => x.Key.Contains(databaseGuid))
                 .ToList();
-            var connectionString = connections.FirstOrDefault(x=>x.Value is not null && x.Key.Contains(ContextConfig.MSSQLPrefix));
+            var connectionString = connections.FirstOrDefault(x => x.Value is not null && x.Key.Contains(ContextConfig.MSSQLPrefix));
             ContextProperty contextProperty = new() { ConnectionString = connectionString.Value };
             return CreateDbContext(contextProperty);
         }

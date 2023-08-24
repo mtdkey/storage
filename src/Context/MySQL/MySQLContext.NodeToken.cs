@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MtdKey.Storage.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MtdKey.Storage.Context.MySQL
 {
@@ -16,17 +11,17 @@ namespace MtdKey.Storage.Context.MySQL
         {
             modelBuilder.Entity<NodeToken>(entity =>
             {
-                entity.ToTable("node_token");                
+                entity.ToTable("node_token");
 
                 entity.Property(e => e.NodeId)
                     .HasColumnName("node_id")
-                    .HasColumnType("bigint");                
+                    .HasColumnType("bigint");
 
                 entity.HasIndex(e => e.ForRLS)
                     .HasDatabaseName("idx_rls_token");
 
                 entity.Property(e => e.ForRLS)
-                    .IsRequired()   
+                    .IsRequired()
                     .HasColumnName("for_rls")
                     .HasColumnType("nvarchar(128)");
 

@@ -8,7 +8,7 @@ namespace MtdKey.Storage.DataModels
     internal class BunchToken
     {
         [Key]
-        public long BunchId {get;set;}
+        public long BunchId { get; set; }
         public string TokenToCreate { get; set; }
         public string TokenToEdit { get; set; }
         public string TokenoDelete { get; set; }

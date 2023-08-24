@@ -1,11 +1,9 @@
-﻿using MtdKey.Storage.Context;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MtdKey.Storage.DataModels
 {
-    internal class Bunch 
+    internal class Bunch
     {
         public Bunch()
         {

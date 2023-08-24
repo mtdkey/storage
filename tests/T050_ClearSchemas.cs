@@ -32,10 +32,10 @@ namespace MtdKey.Storage.Tests
             var nodesRequest = await requestProvider.NodeQueryAsync(filter => filter.PageSize = int.MaxValue);
             Assert.True(nodesRequest.Success);
             Assert.True(nodesRequest.DataSet.Count > 0);
-            Assert.True(nodesRequest.DataSet.FirstOrDefault().Items.Where(x=> x.FieldType.Equals(FieldType.Text) && (string)x.Data == "test field").Any());
+            Assert.True(nodesRequest.DataSet.FirstOrDefault().Items.Where(x => x.FieldType.Equals(FieldType.Text) && (string)x.Data == "test field").Any());
             var fieldRequest = await requestProvider.FieldQueryAsync(filter => filter.SearchText = "Category");
             Assert.True(fieldRequest.Success);
-            Assert.True(fieldRequest.DataSet.Count>0);
+            Assert.True(fieldRequest.DataSet.Count > 0);
             var bunchRequest = await requestProvider.BunchQueryAsync(filter => filter.SearchText = "IssueReport");
             Assert.True(bunchRequest.Success);
             Assert.True(bunchRequest.DataSet.Count > 0);
@@ -54,9 +54,9 @@ namespace MtdKey.Storage.Tests
             var cleaningResult = await cleaningProvider.ClearSchemasAsync();
             Assert.True(cleaningResult.Success);
 
-            var categoryDeleted =  await cleaningProvider.FieldQueryAsync(filter => filter.SearchText = "Category");
+            var categoryDeleted = await cleaningProvider.FieldQueryAsync(filter => filter.SearchText = "Category");
             Assert.True(categoryDeleted.Success);
-            Assert.True(categoryDeleted.DataSet.Count==0);
+            Assert.True(categoryDeleted.DataSet.Count == 0);
 
             var reportDeleted = await cleaningProvider.BunchQueryAsync(filter => filter.SearchText = "IssueReport");
             Assert.True(reportDeleted.Success);
@@ -65,7 +65,7 @@ namespace MtdKey.Storage.Tests
         }
 
 
-        private async Task CreateData(RequestProvider requestProvider, string bunchName)
+        private static async Task CreateData(RequestProvider requestProvider, string bunchName)
         {
             var bunchFields = await requestProvider.BunchQueryAsync(filter => filter.BunchNames.Add(bunchName));
             var fieldPatterns = bunchFields.DataSet.FirstOrDefault().FieldPatterns;
@@ -83,12 +83,13 @@ namespace MtdKey.Storage.Tests
 
                 if (fieldPattern.FieldType == FieldType.LinkSingle)
                 {
-                   var category =  await requestProvider.NodeQueryAsync(filter => filter.BunchNames.Add("IssueCategory"));
+                    var category = await requestProvider.NodeQueryAsync(filter => filter.BunchNames.Add("IssueCategory"));
                     nodeItems.Add(new NodePatternItem(category.DataSet, fieldPattern.FieldId, "Tester", DateTime.UtcNow));
-                }                    
+                }
             }
 
-            await requestProvider.NodeSaveAsync(nodePattern => {
+            await requestProvider.NodeSaveAsync(nodePattern =>
+            {
                 nodePattern.BunchId = bunchFields.DataSet.First().BunchId;
                 nodePattern.DateCreated = DateTime.UtcNow;
                 nodePattern.CreatorInfo = "Tester";

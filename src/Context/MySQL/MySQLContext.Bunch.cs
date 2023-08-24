@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MtdKey.Storage.DataModels;
-using System;
 
 namespace MtdKey.Storage.Context.MySQL
 {
@@ -10,7 +9,7 @@ namespace MtdKey.Storage.Context.MySQL
 
         private static void BunchModelCreating(ModelBuilder modelBuilder)
         {
-  
+
             modelBuilder.Entity<Bunch>(entity =>
             {
                 entity.ToTable("bunch");
@@ -26,7 +25,7 @@ namespace MtdKey.Storage.Context.MySQL
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasColumnType("nvarchar(128)");                  
+                    .HasColumnType("nvarchar(128)");
 
                 entity.Property(e => e.DeletedFlag)
                     .IsRequired()

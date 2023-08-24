@@ -17,10 +17,10 @@ namespace MtdKey.Storage.Tests
             var tokenEdit = Guid.NewGuid().ToString();
             var tokenDelete = Guid.NewGuid().ToString();
 
-            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);            
+            ContextProperty contextProperty = ContextHandler.GetContextProperty(guidDatabase);
             using RequestProvider requestProvider = new(contextProperty);
             var bunch = await requestProvider.CreateBunchAsync();
-                        
+
             var createResult = await requestProvider.BunchSetTokensAsync(TokenAction.ToCreate, bunch.BunchId, tokenCreate);
             Assert.True(createResult.Success);
 
@@ -30,7 +30,7 @@ namespace MtdKey.Storage.Tests
             var deleteResult = await requestProvider.BunchSetTokensAsync(TokenAction.ToDelete, bunch.BunchId, tokenDelete);
             Assert.True(deleteResult.Success);
 
-            var createdNode = await NodeHelper.CreateAsync(requestProvider,bunch);
+            var createdNode = await NodeHelper.CreateAsync(requestProvider, bunch);
             Assert.False(createdNode.Success);
 
         }

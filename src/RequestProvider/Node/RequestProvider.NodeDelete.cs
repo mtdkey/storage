@@ -1,6 +1,5 @@
 ﻿using MtdKey.Storage.DataModels;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MtdKey.Storage
@@ -10,7 +9,7 @@ namespace MtdKey.Storage
         public async Task<IRequestResult> NodeDeleteAsync(long id)
         {
             var requestResult = new RequestResult<bool>(true);
-           
+
             try
             {
                 Node node = await context.FindAsync<Node>(id);

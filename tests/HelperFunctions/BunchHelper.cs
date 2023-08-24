@@ -15,8 +15,9 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         {
             string name = Common.GetRandomName();
 
-            return await requestProvider.BunchSaveAsync(bunch => {
-                bunch.Name = $"Bunch name is {name}";  
+            return await requestProvider.BunchSaveAsync(bunch =>
+            {
+                bunch.Name = $"Bunch name is {name}";
             });
         }
 
@@ -24,7 +25,8 @@ namespace MtdKey.Storage.Tests.HelperFunctions
         {
             string name = Common.GetRandomName();
 
-            return await requestProvider.BunchSaveAsync(bunch => {
+            return await requestProvider.BunchSaveAsync(bunch =>
+            {
                 bunch.Name = $"Bunch name is {name}";
             });
         }

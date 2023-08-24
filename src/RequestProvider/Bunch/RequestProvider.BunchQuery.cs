@@ -31,8 +31,8 @@ namespace MtdKey.Storage
                 var query = context.Set<Bunch>()
                     .Where(bunch => bunch.DeletedFlag == FlagSign.False);
 
-                if (filter.BunchNames.Count > 0)                
-                   query = query.Where(bunch => filter.BunchNames.Contains(bunch.Name));                
+                if (filter.BunchNames.Count > 0)
+                    query = query.Where(bunch => filter.BunchNames.Contains(bunch.Name));
 
                 if (filter.BunchIds?.Count > 0)
                     query = query.Where(bunch => filter.BunchIds.Contains(bunch.Id));

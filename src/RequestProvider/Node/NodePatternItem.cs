@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MtdKey.Storage
 {
@@ -18,7 +14,7 @@ namespace MtdKey.Storage
 
         public NodePatternItem(object value, long fieldId, FieldType fieldType, string creatorInfo, DateTime dateTime)
         {
-            Data = value;            
+            Data = value;
             FieldId = fieldId;
             FieldType = fieldType;
             CreatorInfo = creatorInfo;
@@ -64,7 +60,7 @@ namespace MtdKey.Storage
         public NodePatternItem(List<NodePattern> value, long fieldId, string creatorInfo, DateTime dateTime)
         {
             FieldId = fieldId;
-            Data = value;            
+            Data = value;
             FieldType = FieldType.LinkSingle;
             CreatorInfo = creatorInfo;
             DateCreated = dateTime;

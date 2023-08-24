@@ -26,7 +26,7 @@ namespace MtdKey.Storage.Tests
                 var schema = new XmlSchema<T020_XMLSchema>();
                 schema.LoadSchemaFromServer(schemaName);
                 schemas.Add(schema);
-            }                       
+            }
 
             var uploadResult = await requestProvider.UploadSchemaAsync(schemas);
 
@@ -38,9 +38,9 @@ namespace MtdKey.Storage.Tests
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.Name == "User").Any());
             Assert.True(bunchFieldsReturned.DataSet.Where(x => x.Name == "IssueCategory").Any());
 
-            var fieldExists = bunchFieldsReturned.DataSet.Where(x => x.Name == "Issue" 
+            var fieldExists = bunchFieldsReturned.DataSet.Where(x => x.Name == "Issue"
                     && x.FieldPatterns.Where(x => x.Name == "AssignedTo").Any()).Any();
-            
+
             Assert.True(fieldExists);
 
             bunchFieldsReturned = await requestProvider.BunchQueryAsync(filter => filter.BunchNames.Add("Issue"));
@@ -66,7 +66,8 @@ namespace MtdKey.Storage.Tests
             var field = userSchema.DataSet[0].FieldPatterns.FirstOrDefault(x => x.Name == "Name");
             field ??= new();
 
-            var nodeReturned = await requestProvider.NodeQueryAsync(filter => {
+            var nodeReturned = await requestProvider.NodeQueryAsync(filter =>
+            {
                 filter.SearchText = "UniqueData";
                 filter.BunchNames.Add("User");
                 filter.FieldIds.Add(field.FieldId);

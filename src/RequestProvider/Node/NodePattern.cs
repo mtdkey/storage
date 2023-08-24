@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 
 namespace MtdKey.Storage
-{    
+{
     public class NodePattern
     {
         public long NodeId { get; set; }

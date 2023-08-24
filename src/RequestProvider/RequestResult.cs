@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MtdKey.Storage
@@ -13,15 +12,16 @@ namespace MtdKey.Storage
         public List<T> DataSet { get; private set; }
         public long RowCount { get; private set; }
         public RequestResult() { }
-        
+
         public RequestResult(bool success, Exception exception = null)
         {
             Success = success;
-            Exception = exception;  
+            Exception = exception;
             DataSet = new List<T>();
         }
 
-        public void FillDataSet(List<T> dataSet) {
+        public void FillDataSet(List<T> dataSet)
+        {
             DataSet = dataSet;
         }
 

@@ -10,7 +10,7 @@ namespace MtdKey.Storage.Tests.TestFiles
         {
             var assembly = Assembly.GetExecutingAssembly();
             string resourceName = typeof(FileReader).Namespace + $".LongText.txt";
-            using Stream stream = assembly.GetManifestResourceStream(resourceName);        
+            using Stream stream = assembly.GetManifestResourceStream(resourceName);
             byte[] buffer = new byte[stream.Length];
             await stream.ReadAsync(buffer);
             return buffer;
@@ -22,7 +22,7 @@ namespace MtdKey.Storage.Tests.TestFiles
             string resourceName = typeof(FileReader).Namespace + $".{fileName}";
             using Stream stream = assembly.GetManifestResourceStream(resourceName);
             using StreamReader reader = new(stream);
-            
+
             string fileText = reader.ReadToEnd();
             return fileText;
         }

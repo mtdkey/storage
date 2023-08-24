@@ -9,7 +9,7 @@ namespace MtdKey.Storage
     ///  Data mapper for xml schema 
     /// </summary>
     /// <typeparam name="T">The class is the parent in which the DataMapper is run</typeparam>
-    public class XmlSchema<T>: IXmlSchema where T : class
+    public class XmlSchema<T> : IXmlSchema where T : class
     {
         public string ReadDataFromFile(string schemaName)
         {
@@ -23,7 +23,7 @@ namespace MtdKey.Storage
 
         private XmlDocument xmlDocument;
 
-        public XmlSchema(){}
+        public XmlSchema() { }
 
         public string GetName()
         {
@@ -47,7 +47,7 @@ namespace MtdKey.Storage
             var xmlData = ReadDataFromFile(schemaName);
             xmlDocument.LoadXml(xmlData);
         }
-        
+
         public void LoadSchemaFromXml(string xmlData)
         {
             xmlDocument = new XmlDocument();
@@ -72,7 +72,7 @@ namespace MtdKey.Storage
                 result.Add(new()
                 {
                     Name = bunch.Attributes["name"].Value
-                });                
+                });
             }
             return result;
         }
@@ -86,12 +86,12 @@ namespace MtdKey.Storage
             {
                 var bunchName = field.ParentNode.Attributes["name"].Value;
                 var fieldType = field.Attributes["type"].Value;
-                var bunchList = field.Attributes["list"]?.Value;                
+                var bunchList = field.Attributes["list"]?.Value;
 
                 var FieldPattern = new FieldPattern()
                 {
                     FieldType = FieldType.GetFromXmlType(fieldType),
-                    Name = field.Attributes["name"].Value,                     
+                    Name = field.Attributes["name"].Value,
                 };
 
                 result.Add(new()

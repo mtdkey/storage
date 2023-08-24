@@ -30,7 +30,7 @@ namespace MtdKey.Storage.Context.MSSQL
 
                 entity.Property(e => e.NodeId)
                     .HasColumnName("node_id")
-                    .HasColumnType("bigint");                
+                    .HasColumnType("bigint");
 
                 entity.HasOne(d => d.Stack)
                     .WithMany(p => p.StackLists)

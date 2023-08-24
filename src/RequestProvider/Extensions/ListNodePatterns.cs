@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MtdKey.Storage
 {
@@ -22,7 +20,7 @@ namespace MtdKey.Storage
                 var key = node.NodeId;
                 var query = node.Items.Where(item => item.FieldType == FieldType.Text);
 
-                if (fieldId.Count() > 0)
+                if (fieldId.Length > 0)
                     query = query.Where(item => fieldId.Contains(item.FieldId));
 
                 var values = query.Select(x => (string)x.Data).ToList() ?? new();

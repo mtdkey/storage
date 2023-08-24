@@ -7,7 +7,7 @@ namespace MtdKey.Storage
     public enum TokenAction { ToCreate, ToEdit, ToDelete }
 
     public partial class RequestProvider : IDisposable
-    {       
+    {
 
         public async Task<IRequestResult> BunchSetTokensAsync(TokenAction tokenAction, long bunchId, string token)
         {

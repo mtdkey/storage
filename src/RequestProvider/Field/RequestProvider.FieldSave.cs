@@ -25,7 +25,7 @@ namespace MtdKey.Storage
             var field = new Field
             {
                 BunchId = fieldPattern.BunchId,
-                Name = fieldPattern.Name ?? string.Empty,                
+                Name = fieldPattern.Name ?? string.Empty,
                 FieldType = fieldPattern.FieldType,
                 DeletedFlag = FlagSign.False,
             };
@@ -41,17 +41,17 @@ namespace MtdKey.Storage
 
             try
             {
-                await context.AddAsync(field);                
+                await context.AddAsync(field);
                 await context.SaveChangesAsync();
 
                 var newField = await context.Set<Field>().FindAsync(field.Id);
-                await context.Entry(newField).Reference(x=>x.FieldLink).LoadAsync();
+                await context.Entry(newField).Reference(x => x.FieldLink).LoadAsync();
 
                 fieldPattern.FieldId = newField.Id;
                 fieldPattern.FieldType = newField.FieldType;
                 fieldPattern.BunchId = newField.BunchId;
                 fieldPattern.Name = newField.Name;
-                                
+
                 requestResult.FillDataSet(new() { fieldPattern });
             }
             catch (Exception exception)

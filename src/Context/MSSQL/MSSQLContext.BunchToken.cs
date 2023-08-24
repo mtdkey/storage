@@ -10,7 +10,7 @@ namespace MtdKey.Storage.Context.MSSQL
 
         private static void BunchTokenModelCreating(ModelBuilder modelBuilder)
         {
-  
+
             modelBuilder.Entity<BunchToken>(entity =>
             {
                 entity.ToTable("bunch_token");

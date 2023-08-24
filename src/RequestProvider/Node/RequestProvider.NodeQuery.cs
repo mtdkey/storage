@@ -38,7 +38,7 @@ namespace MtdKey.Storage
                     query = query.Where(node => requestFilter.NodeIds.Contains(node.Id));
 
                 if (requestFilter.BunchIds?.Count > 0)
-                    query = query.Where(node => requestFilter.BunchIds.Contains(node.BunchId));                   
+                    query = query.Where(node => requestFilter.BunchIds.Contains(node.BunchId));
 
                 if (string.IsNullOrEmpty(requestFilter.SearchText) is not true)
                 {
@@ -51,13 +51,13 @@ namespace MtdKey.Storage
                     query = query.Where(x => ids.Contains(x.Id));
                 }
 
-                var scriptGetMaxIds = SqlScript.StackMaxIds(contextProperty.DatabaseType);                
+                var scriptGetMaxIds = SqlScript.StackMaxIds(contextProperty.DatabaseType);
                 var stackQuery = context.Set<Stack>().FromSqlRaw(scriptGetMaxIds);
-                
-                if (requestFilter.FieldIds?.Count > 0)
-                    stackQuery = stackQuery.Where(stack => requestFilter.FieldIds.Contains(stack.FieldId));                        
 
-                var data = query.Where(x => stackQuery.GroupBy(s=>s.NodeId).Select(s=>s.Key).Contains(x.Id))
+                if (requestFilter.FieldIds?.Count > 0)
+                    stackQuery = stackQuery.Where(stack => requestFilter.FieldIds.Contains(stack.FieldId));
+
+                var data = query.Where(x => stackQuery.GroupBy(s => s.NodeId).Select(s => s.Key).Contains(x.Id))
                    .Select(node => new NodePattern
                    {
                        NodeId = node.Id,
@@ -68,24 +68,24 @@ namespace MtdKey.Storage
                        Items = new List<NodePatternItem>()
                    });
 
-                long rowCount = await data.GroupBy(x=>x.NodeId).Select(x=>x.Key).CountAsync();
+                long rowCount = await data.GroupBy(x => x.NodeId).Select(x => x.Key).CountAsync();
                 patternResult.SetRowCount(rowCount);
 
                 IList<NodePattern> dataSet = await data
-                            .OrderByDescending(x=>x.DateCreated)
+                            .OrderByDescending(x => x.DateCreated)
                             .FilterPages(requestFilter.Page, requestFilter.PageSize)
                             .ToListAsync();
-                      
+
                 IList<Stack> stacks = await context.Set<Stack>()
-                    .Where(x=> dataSet.Select(x=>x.NodeId).Contains(x.NodeId)).ToListAsync();
+                    .Where(x => dataSet.Select(x => x.NodeId).Contains(x.NodeId)).ToListAsync();
                 List<NodePatternItem> nodeItems = await GetNodePatternItemsAsync(stacks);
 
                 dataSet.ToList().ForEach(node =>
                 {
                     node.Items = nodeItems.Where(x => x.NodeId == node.NodeId).ToList();
                 });
-                
-                patternResult.FillDataSet(dataSet as List<NodePattern>);                
+
+                patternResult.FillDataSet(dataSet as List<NodePattern>);
             }
             catch (Exception exception)
             {

@@ -8,11 +8,11 @@ namespace MtdKey.Storage
 {
     internal static class FuncExtensions
     {
-        public static IQueryable<T> FilterPages<T>(this IQueryable<T> query, int page=0, int pageSize=0)
+        public static IQueryable<T> FilterPages<T>(this IQueryable<T> query, int page = 0, int pageSize = 0)
         {
             int skipQty = (page <= 0 ? 1 : page) - 1;
-            int takeQty = pageSize <= 0 ? 100 : pageSize;            
-            return query.Skip(skipQty * takeQty).Take(takeQty); 
+            int takeQty = pageSize <= 0 ? 100 : pageSize;
+            return query.Skip(skipQty * takeQty).Take(takeQty);
         }
 
         public static IEnumerable<string> SplitByLength(this string str, int maxLength)

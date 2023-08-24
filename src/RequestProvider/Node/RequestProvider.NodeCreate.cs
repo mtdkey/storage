@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MtdKey.Storage.DataModels;
-using MtdKey.Storage.Scripts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +20,7 @@ namespace MtdKey.Storage
 
         public async Task<RequestResult<NodePattern>> NodeUpdateAsync(string bunchName, Dictionary<string, object> values, string creatorInfo)
         {
-           return await ConvertToNodePattern(bunchName,values, creatorInfo);
+            return await ConvertToNodePattern(bunchName, values, creatorInfo);
         }
 
         private async Task<RequestResult<NodePattern>> ConvertToNodePattern(string bunchName, Dictionary<string, object> values, string creatorInfo, bool createNew = false)
@@ -67,14 +64,14 @@ namespace MtdKey.Storage
             }
             else
             {
-                if(!long.TryParse((string)values["Id"], out long id))
+                if (!long.TryParse((string)values["Id"], out long id))
                 {
                     return new RequestResult<NodePattern>(false, new Exception("Node ID is wrong!"));
                 }
 
                 nodePattern.NodeId = id;
             }
-            
+
             return await NodeSaveAsync(nodePattern);
         }
 

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MtdKey.Storage
-{        
+﻿namespace MtdKey.Storage
+{
     internal static class FlagSign
     {
         public readonly static byte True = 1;

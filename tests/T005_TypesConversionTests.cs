@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace MtdKey.Storage.Tests
 {
@@ -16,7 +15,7 @@ namespace MtdKey.Storage.Tests
             Assert.True(fieldPattern.FieldType == 2);
             Assert.True(fieldPattern.FieldType.Equals(2));
 
-            
+
             fieldPattern.FieldType = FieldType.LinkMultiple;
             var xmlType = fieldPattern.FieldType.GetXmlType();
             Assert.True(fieldPattern.FieldType.IsLink);

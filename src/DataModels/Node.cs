@@ -1,5 +1,4 @@
-﻿using MtdKey.Storage.Context;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,7 +19,7 @@ namespace MtdKey.Storage.DataModels
         public string CreatorInfo { get; set; }
         public byte DeletedFlag { get; set; }
 
-        public virtual Bunch Bunch {get;set;}
+        public virtual Bunch Bunch { get; set; }
         public virtual NodeExt NodeExt { get; set; }
         public virtual NodeToken NodeToken { get; set; }
         public virtual ICollection<Stack> Stacks { get; set; }

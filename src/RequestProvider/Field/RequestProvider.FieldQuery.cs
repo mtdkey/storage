@@ -49,7 +49,7 @@ namespace MtdKey.Storage
                     query = query.Where(x => x.Name.ToUpper().Contains(text));
                 }
 
-                var dataSet = await query                    
+                var dataSet = await query
                     .Select(field => new FieldPattern
                     {
                         FieldId = field.Id,
@@ -72,6 +72,6 @@ namespace MtdKey.Storage
 
             return requestResult;
         }
-               
+
     }
 }

@@ -11,7 +11,7 @@ namespace MtdKey.Storage.Context.MySQL
         {
             modelBuilder.Entity<SchemaName>(entity =>
             {
-                entity.ToTable("schema_name");                
+                entity.ToTable("schema_name");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -24,7 +24,7 @@ namespace MtdKey.Storage.Context.MySQL
                 entity.Property(e => e.UniqueName)
                     .IsRequired()
                     .HasColumnName("unique_name")
-                    .HasColumnType("varchar(256)");                
+                    .HasColumnType("varchar(256)");
             });
 
         }

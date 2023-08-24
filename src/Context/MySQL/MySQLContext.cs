@@ -1,15 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MtdKey.Storage.Context.MySQL
 {
     internal partial class MySQLContext : DbContext
     {
         public MySQLContext(DbContextOptions<MySQLContext> options) : base(options) { }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             BunchModelCreating(modelBuilder);
@@ -26,8 +22,8 @@ namespace MtdKey.Storage.Context.MySQL
             StackModelCreating(modelBuilder);
             StackDigitalModelCreating(modelBuilder);
             StackTextModelCreating(modelBuilder);
-            StackLinkModelCreating(modelBuilder);            
-            
+            StackLinkModelCreating(modelBuilder);
+
             StackFileModelCreating(modelBuilder);
 
             SchemaNameModelCreating(modelBuilder);
